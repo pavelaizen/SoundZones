@@ -17,7 +17,7 @@ import kotlinx.coroutines.experimental.launch
 import kotlin.coroutines.experimental.Continuation
 import kotlin.coroutines.experimental.intrinsics.COROUTINE_SUSPENDED
 import kotlin.coroutines.experimental.intrinsics.suspendCoroutineOrReturn
-//created by Pavel Aizendorf
+//created by Pavel
 class InitializationActivity : AppCompatActivity(), OnClickNextListener {
     private var continuation: Continuation<Boolean>? = null
 
