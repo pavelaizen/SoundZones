@@ -36,7 +36,6 @@ class WelcomeMessageFragment : BaseFragment() {
             takeIf { it.containsKey(EXTRA_TITLE) }?.run {
                 tvTitle.setTextOrHide(getString(EXTRA_TITLE))
             }
-
             takeIf { it.containsKey(EXTRA_DESC1) }?.run {
                 tvDesc1.setTextOrHide(getString(EXTRA_DESC1))
             }
