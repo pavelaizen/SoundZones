@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import com.gm.soundzones.R
 import com.gm.soundzones.fragment.WelcomeMessageFragment
+import com.gm.soundzones.fragment.preassessment.SoundSelectFragment
 import com.gm.soundzones.listener.OnClickNextListener
 import com.gm.soundzones.model.SoundRun
 import com.gm.soundzones.model.SoundSet
@@ -42,6 +43,9 @@ class PreAssessmentActivity : AppCompatActivity(), OnClickNextListener {
     override fun onClickNext(fragment: Fragment, args: Bundle) {
         when (fragment) {
             is WelcomeMessageFragment -> {
+
+            }
+            is SoundSelectFragment->{
 
             }
         }
