@@ -18,7 +18,8 @@
         <activity
             android:name=".activity.SplashActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="landscape">
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

@@ -5,25 +5,25 @@
               android:background="@drawable/bg"
               android:gravity="center"
               android:orientation="vertical"
-    android:paddingStart="70dp"
-    android:paddingEnd="70dp">
+    android:paddingStart="@dimen/layout_padding"
+    android:paddingEnd="@dimen/layout_padding">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/intro_title"/>
     <TextView
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="@dimen/text_margin_top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/intro_desc1"/>
     <TextView
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="@dimen/text_margin_top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/intro_desc2"/>
     <TextView
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="@dimen/text_margin_top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/intro_ready"/>

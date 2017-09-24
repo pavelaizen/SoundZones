@@ -22,7 +22,7 @@ object DataProvider {
     private val SETS_IN_RUN = 9
     private val SOUND_SET_ROWS = 5
     private val CELLS_IN_RUN = SOUND_SET_ROWS * SETS_IN_RUN + 1 // +1 for run# column
-    var workbook: Workbook? = null
+    private var workbook: Workbook? = null
 
     fun setup(excelStream: InputStream) {
         workbook = XSSFWorkbook(excelStream).also {
@@ -37,7 +37,7 @@ object DataProvider {
     }
 
 
-    fun getUser(id: Int) =
+    fun getUser(id: Int): User =
             sheet.getRow(id).let {
                 User(getCellAsString(it, 1, formulaEvaluator).toInt(),
                         Array<SoundRun>(TOTAL_RUNS) { index ->

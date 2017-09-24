@@ -8,12 +8,12 @@
         android:id="@+id/splashView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#0867AB"
+        android:background="@color/splash_bg_color"
         pv:pv_host_text="Sound"
         pv:pv_host_text_anim_time="1000"
-        pv:pv_host_text_size="200sp"
+        pv:pv_host_text_size="@dimen/splash_text_size"
         pv:pv_particle_text="Zones"
-        pv:pv_particle_text_size="200sp"
+        pv:pv_particle_text_size="@dimen/splash_text_size"
         pv:pv_spread_anim_time="800"
         pv:pv_text_anim_time="1000"/>
 </FrameLayout>

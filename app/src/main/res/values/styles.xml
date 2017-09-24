@@ -10,4 +10,8 @@
         <item name="android:textSize">@dimen/text_size</item>
     </style>
 
+    <style name="AppTheme.Splash" parent="AppTheme">
+        <item name="colorPrimaryDark">@color/splash_bg_color</item>
+    </style>
+
 </resources>
