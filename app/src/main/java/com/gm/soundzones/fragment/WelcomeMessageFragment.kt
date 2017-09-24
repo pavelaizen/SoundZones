@@ -31,30 +31,29 @@ class WelcomeMessageFragment : BaseFragment() {
     }
 
 
-    private fun setupViews(args: Bundle){
+    private fun setupViews(args: Bundle) {
         args.apply {
-            takeIf { it.containsKey(EXTRA_TITLE) }?.let {
+            takeIf { it.containsKey(EXTRA_TITLE) }?.run {
                 tvTitle.setTextOrHide(getString(EXTRA_TITLE))
             }
-            takeIf { it.containsKey(EXTRA_DESC1) }?.let {
+
+            takeIf { it.containsKey(EXTRA_DESC1) }?.run {
                 tvDesc1.setTextOrHide(getString(EXTRA_DESC1))
             }
-            takeIf { it.containsKey(EXTRA_DESC2) }?.let {
+            takeIf { it.containsKey(EXTRA_DESC2) }?.run {
                 tvDesc2.setTextOrHide(getString(EXTRA_DESC2))
             }
-            takeIf { it.containsKey(EXTRA_DESC3) }?.let {
+            takeIf { it.containsKey(EXTRA_DESC3) }?.run {
                 tvDesc3.setTextOrHide(getString(EXTRA_DESC3))
             }
-            takeIf { it.containsKey(EXTRA_BTN_NAME) }?.let {
+            takeIf { it.containsKey(EXTRA_BTN_NAME) }?.run {
                 btnNext.text = getString(EXTRA_BTN_NAME)
             }
-            takeIf { it.containsKey(EXTRA_BTN_VISIBILITY) }?.let {
+            takeIf { it.containsKey(EXTRA_BTN_VISIBILITY) }?.run {
                 btnNext.visibility = getInt(EXTRA_BTN_VISIBILITY)
-
             }
         }
     }
-
 
     companion object {
         val EXTRA_TITLE = "extra_title"
