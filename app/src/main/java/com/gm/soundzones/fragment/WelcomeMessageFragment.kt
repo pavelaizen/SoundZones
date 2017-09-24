@@ -1,6 +1,7 @@
 package com.gm.soundzones.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,8 +32,8 @@ class WelcomeMessageFragment : BaseFragment() {
     }
 
 
-    private fun setupViews(args: Bundle) {
-        args.apply {
+    private fun setupViews(args: Bundle?) {
+        args?.apply {
             takeIf { it.containsKey(EXTRA_TITLE) }?.run {
                 tvTitle.setTextOrHide(getString(EXTRA_TITLE))
             }
