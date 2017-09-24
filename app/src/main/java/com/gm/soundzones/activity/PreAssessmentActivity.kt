@@ -12,6 +12,7 @@ import com.gm.soundzones.model.SoundTrack
 import com.gm.soundzones.model.User
 
 class PreAssessmentActivity : AppCompatActivity(), OnClickNextListener {
+    var stepCounter = 0
     val soundCheckUser: User by lazy {
         val mi = SoundSet("MI_Pre_0", SoundTrack("40-MI"), SoundTrack("40-MI"))
         val miNoise = SoundSet("MI_Pre_40", SoundTrack("40-MI"), SoundTrack("40-MI"))
@@ -20,12 +21,10 @@ class PreAssessmentActivity : AppCompatActivity(), OnClickNextListener {
         val tr = SoundSet("TR_Pre_0", SoundTrack("40-TR"), SoundTrack("40-TR"))
         val trNoise = SoundSet("TR_Pre_40", SoundTrack("40-TR"), SoundTrack("40-TR"))
         val run1 = SoundRun("1", arrayOf(mi, miNoise))
-        val run2 = SoundRun("1", arrayOf(ml, mlNoise))
-        val run3 = SoundRun("1", arrayOf(tr, trNoise))
+        val run2 = SoundRun("2", arrayOf(ml, mlNoise))
+        val run3 = SoundRun("3", arrayOf(tr, trNoise))
         User(0, arrayOf(run1, run2, run3))
     }
-
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
