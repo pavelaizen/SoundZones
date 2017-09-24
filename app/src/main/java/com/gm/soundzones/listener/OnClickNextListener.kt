@@ -1,4 +1,4 @@
-package com.earlyense.soundzones.listener
+package com.gm.soundzones.listener
 
 import android.view.View
 

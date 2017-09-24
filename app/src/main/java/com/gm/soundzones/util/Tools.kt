@@ -1,7 +1,7 @@
-package com.earlyense.soundzones.util
+package com.gm.soundzones.util
 
 import android.os.Environment
-import com.earlyense.soundzones.model.SoundTrack
+import com.gm.soundzones.model.SoundTrack
 import java.io.File
 
 /**

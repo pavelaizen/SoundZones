@@ -1,12 +1,10 @@
-package com.earlyense.soundzones.fragment
+package com.gm.soundzones.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.earlyense.soundzones.R
-import com.earlyense.soundzones.listener.OnClickNextListener
-import kotlinx.android.synthetic.main.welcome_layout.*
+import com.gm.soundzones.R
 
 /**
  * Created by Pavel Aizendorf on 19/09/2017.

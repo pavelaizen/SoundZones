@@ -1,10 +1,10 @@
-package com.earlyense.soundzones.manager
+package com.gm.soundzones.manager
 
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Handler
 import android.os.Looper
-import com.earlyense.soundzones.model.SoundSet
+import com.gm.soundzones.model.SoundSet
 
 /**
  * Created by Pavel Aizendorf on 18/09/2017.

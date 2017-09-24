@@ -1,4 +1,4 @@
-package com.earlyense.soundzones.activity
+package com.gm.soundzones.activity
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -7,9 +7,9 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import com.earlyense.soundzones.R
-import com.earlyense.soundzones.excel.DataProvider
-import com.earlyense.soundzones.listener.OnClickNextListener
+import com.gm.soundzones.R
+import com.gm.soundzones.excel.DataProvider
+import com.gm.soundzones.listener.OnClickNextListener
 import kotlinx.android.synthetic.main.initialization_layout.*
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.android.UI

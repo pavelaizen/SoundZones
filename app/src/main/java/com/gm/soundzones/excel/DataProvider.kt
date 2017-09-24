@@ -1,9 +1,9 @@
-package com.earlyense.soundzones.excel
+package com.gm.soundzones.excel
 
-import com.earlyense.soundzones.model.SoundRun
-import com.earlyense.soundzones.model.SoundSet
-import com.earlyense.soundzones.model.SoundTrack
-import com.earlyense.soundzones.model.User
+import com.gm.soundzones.model.SoundRun
+import com.gm.soundzones.model.SoundSet
+import com.gm.soundzones.model.SoundTrack
+import com.gm.soundzones.model.User
 import org.apache.poi.hssf.usermodel.HSSFDateUtil
 import org.apache.poi.ss.usermodel.*
 import org.apache.poi.xssf.usermodel.XSSFWorkbook

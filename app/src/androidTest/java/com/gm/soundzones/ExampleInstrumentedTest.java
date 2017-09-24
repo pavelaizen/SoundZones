@@ -1,4 +1,4 @@
-package com.earlyense.soundzones;
+package com.gm.soundzones;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

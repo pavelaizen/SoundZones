@@ -1,4 +1,4 @@
-package com.earlyense.soundzones.model
+package com.gm.soundzones.model
 
 /**
  * Created by Pavel Aizendorf on 15/09/2017.

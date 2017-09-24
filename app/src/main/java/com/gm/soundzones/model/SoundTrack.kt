@@ -1,4 +1,4 @@
-package com.earlyense.soundzones.model
+package com.gm.soundzones.model
 
 import android.os.Environment
 import java.io.File
