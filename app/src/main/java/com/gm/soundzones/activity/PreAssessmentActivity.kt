@@ -2,10 +2,12 @@ package com.gm.soundzones.activity
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import com.gm.soundzones.R
 import com.gm.soundzones.fragment.WelcomeMessageFragment
+import com.gm.soundzones.listener.OnClickNextListener
 
-class PreAssessmentActivity : AppCompatActivity() {
+class PreAssessmentActivity : AppCompatActivity(), OnClickNextListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,6 +19,9 @@ class PreAssessmentActivity : AppCompatActivity() {
             supportFragmentManager.beginTransaction().add(R.id.container, welcomeFragment)
                     .commit()
         }
+    }
+
+    override fun onClickNext(fragment: Fragment, args: Bundle) {
 
     }
 }

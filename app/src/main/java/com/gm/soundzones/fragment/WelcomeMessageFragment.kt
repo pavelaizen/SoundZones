@@ -17,22 +17,42 @@ class WelcomeMessageFragment : BaseFragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val title = arguments.getString(EXTRA_TITLE)
-        val desc1 = arguments.getString(EXTRA_DESC1)
-        val desc2 = arguments.getString(EXTRA_DESC2)
-        val desc3 = arguments.getString(EXTRA_DESC3)
-        val btnName = arguments.getString(EXTRA_BTN_NAME)
-        tvTitle.setTextOrHide(title)
-        tvDesc1.setTextOrHide(desc1)
-        tvDesc2.setTextOrHide(desc2)
-        tvDesc3.setTextOrHide(desc3)
-        btnNext.text = btnName
-        btnNext.visibility = arguments.getInt(EXTRA_BTN_VISIBILITY)
+        setupViews(arguments)
         btnNext.setOnClickListener({
             if (activity is OnClickNextListener) {
-                (activity as OnClickNextListener).onClickNext(it)
+                (activity as OnClickNextListener).onClickNext(this)
             }
         })
+    }
+
+    override fun update(args: Bundle) {
+        super.update(args)
+        setupViews(args)
+    }
+
+
+    private fun setupViews(args: Bundle){
+        args.apply {
+            takeIf { it.containsKey(EXTRA_TITLE) }?.let {
+                tvTitle.setTextOrHide(getString(EXTRA_TITLE))
+            }
+            takeIf { it.containsKey(EXTRA_DESC1) }?.let {
+                tvDesc1.setTextOrHide(getString(EXTRA_DESC1))
+            }
+            takeIf { it.containsKey(EXTRA_DESC2) }?.let {
+                tvDesc2.setTextOrHide(getString(EXTRA_DESC2))
+            }
+            takeIf { it.containsKey(EXTRA_DESC3) }?.let {
+                tvDesc3.setTextOrHide(getString(EXTRA_DESC3))
+            }
+            takeIf { it.containsKey(EXTRA_BTN_NAME) }?.let {
+                btnNext.text = getString(EXTRA_BTN_NAME)
+            }
+            takeIf { it.containsKey(EXTRA_BTN_VISIBILITY) }?.let {
+                btnNext.visibility = getInt(EXTRA_BTN_VISIBILITY)
+
+            }
+        }
     }
 
 

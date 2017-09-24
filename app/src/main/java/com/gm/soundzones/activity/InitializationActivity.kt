@@ -5,23 +5,20 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.os.SystemClock
+import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.View
 import com.gm.soundzones.R
 import com.gm.soundzones.excel.DataProvider
 import com.gm.soundzones.fragment.WelcomeMessageFragment
 import com.gm.soundzones.listener.OnClickNextListener
-import kotlinx.android.synthetic.main.welcome_layout.*
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import kotlin.coroutines.experimental.Continuation
 import kotlin.coroutines.experimental.intrinsics.COROUTINE_SUSPENDED
 import kotlin.coroutines.experimental.intrinsics.suspendCoroutineOrReturn
-import kotlin.system.measureTimeMillis
 
 //created by Pavel
 class InitializationActivity : AppCompatActivity(), OnClickNextListener {
@@ -38,7 +35,8 @@ class InitializationActivity : AppCompatActivity(), OnClickNextListener {
                     getString(R.string.intro_ready),
                     btnVisibility = View.INVISIBLE)
             supportFragmentManager.beginTransaction().add(R.id.container, welcomeFragment)
-                    .commit()
+                    .commitNow()
+
             launch(UI) {
                 val jobExcel = launch(CommonPool) {
                     DataProvider.setup(assets.open(DataProvider.EXCEL_NAME))
@@ -52,12 +50,14 @@ class InitializationActivity : AppCompatActivity(), OnClickNextListener {
                 } while (!isGranted)
 
                 jobExcel.join()
-                btnNext.visibility = View.VISIBLE
+                welcomeFragment.update(Bundle().also {
+                    it.putInt(WelcomeMessageFragment.EXTRA_BTN_VISIBILITY, View.VISIBLE)
+                })
             }
         }
     }
 
-    override fun onClickNext(view: View) {
+    override fun onClickNext(fragment: Fragment, args: Bundle) {
         startActivity(Intent(this, PreAssessmentActivity::class.java))
         finish()
     }
@@ -74,8 +74,6 @@ class InitializationActivity : AppCompatActivity(), OnClickNextListener {
                 continuation = null
             }
         }
-
-
     }
 
     private fun requestWritePermission(): Boolean {
