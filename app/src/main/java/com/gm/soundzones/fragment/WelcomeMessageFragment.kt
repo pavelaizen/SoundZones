@@ -5,30 +5,34 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.gm.soundzones.R
-import kotlinx.android.synthetic.main.welcome_msg_layout.*
+import com.gm.soundzones.listener.OnClickNextListener
+import kotlinx.android.synthetic.main.welcome_layout.*
 
 /**
  * Created by Pavel Aizendorf on 24/09/2017.
  */
 class WelcomeMessageFragment : BaseFragment() {
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? = inflater?.inflate(R.layout.welcome_msg_layout, container, false)
+    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? = inflater?.inflate(R.layout.welcome_layout, container, false)
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        arguments?.apply {
-            val title = getString(EXTRA_TITLE)
-            val desc1 = getString(EXTRA_DESC1)
-            val desc2 = getString(EXTRA_DESC2)
-            val desc3 = getString(EXTRA_DESC3)
-            val btnName = getString(EXTRA_BTN_NAME)
-            tvTitle.setTextOrHide(title)
-            tvDesc1.setTextOrHide(desc1)
-            tvDesc2.setTextOrHide(desc2)
-            tvDesc3.setTextOrHide(desc3)
-            btnNext.text = btnName
-            btnNext.visibility = getInt(EXTRA_BTN_VISIBILITY)
-        }
+        val title = arguments.getString(EXTRA_TITLE)
+        val desc1 = arguments.getString(EXTRA_DESC1)
+        val desc2 = arguments.getString(EXTRA_DESC2)
+        val desc3 = arguments.getString(EXTRA_DESC3)
+        val btnName = arguments.getString(EXTRA_BTN_NAME)
+        tvTitle.setTextOrHide(title)
+        tvDesc1.setTextOrHide(desc1)
+        tvDesc2.setTextOrHide(desc2)
+        tvDesc3.setTextOrHide(desc3)
+        btnNext.text = btnName
+        btnNext.visibility = arguments.getInt(EXTRA_BTN_VISIBILITY)
+        btnNext.setOnClickListener({
+            if (activity is OnClickNextListener) {
+                (activity as OnClickNextListener).onClickNext(it)
+            }
+        })
     }
 
 
