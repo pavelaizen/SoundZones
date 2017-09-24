@@ -1,4 +1,4 @@
-package com.earlyense.soundzones.fragment
+package com.gm.soundzones.fragment
 
 import android.os.Bundle
 import android.support.v4.app.Fragment

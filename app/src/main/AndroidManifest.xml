@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.earlyense.soundzones">
+          package="com.gm.soundzones">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
@@ -12,13 +12,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.MainActivity"
+            android:name="com.gm.soundzones.activity.MainActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="landscape"/>
         <activity
-            android:name=".activity.SplashActivity"
+            android:name="com.gm.soundzones.activity.SplashActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="landscape">
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -26,12 +27,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.PreAssessmentActivity"
+            android:name="com.gm.soundzones.activity.PreAssessmentActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="landscape">
         </activity>
         <activity
-            android:name=".activity.InitializationActivity"
+            android:name="com.gm.soundzones.activity.InitializationActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="landscape"/>
 

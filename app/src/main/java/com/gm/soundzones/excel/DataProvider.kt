@@ -1,9 +1,9 @@
-package com.earlyense.soundzones.excel
+package com.gm.soundzones.excel
 
-import com.earlyense.soundzones.model.SoundRun
-import com.earlyense.soundzones.model.SoundSet
-import com.earlyense.soundzones.model.SoundTrack
-import com.earlyense.soundzones.model.User
+import com.gm.soundzones.model.SoundRun
+import com.gm.soundzones.model.SoundSet
+import com.gm.soundzones.model.SoundTrack
+import com.gm.soundzones.model.User
 import org.apache.poi.hssf.usermodel.HSSFDateUtil
 import org.apache.poi.ss.usermodel.*
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
@@ -22,7 +22,7 @@ object DataProvider {
     private val SETS_IN_RUN = 9
     private val SOUND_SET_ROWS = 5
     private val CELLS_IN_RUN = SOUND_SET_ROWS * SETS_IN_RUN + 1 // +1 for run# column
-    var workbook: Workbook? = null
+    private var workbook: Workbook? = null
 
     fun setup(excelStream: InputStream) {
         workbook = XSSFWorkbook(excelStream).also {
@@ -37,7 +37,7 @@ object DataProvider {
     }
 
 
-    fun getUser(id: Int) =
+    fun getUser(id: Int): User =
             sheet.getRow(id).let {
                 User(getCellAsString(it, 1, formulaEvaluator).toInt(),
                         Array<SoundRun>(TOTAL_RUNS) { index ->

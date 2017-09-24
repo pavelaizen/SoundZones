@@ -1,4 +1,4 @@
-package com.earlyense.soundzones;
+package com.gm.soundzones;
 
 import org.junit.Test;
 

@@ -4,9 +4,9 @@
     <gradient
         android:angle="-90"
         android:centerColor="#000000"
-        android:endColor="#5c5c5c"
-        android:startColor="#5c5c5c"
-        android:gradientRadius="10000dp"
+        android:endColor="@color/colorPrimary"
+        android:startColor="@color/colorPrimary"
+        android:gradientRadius="@dimen/bg_gradient_radius"
         android:type="radial">
     </gradient>
 </shape>

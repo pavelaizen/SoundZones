@@ -1,9 +1,9 @@
-package com.earlyense.soundzones.activity
+package com.gm.soundzones.activity
 
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.earlyense.soundzones.R
+import com.gm.soundzones.R
 import kotlinx.android.synthetic.main.splash.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.delay
