@@ -1,36 +1,59 @@
 package com.gm.soundzones.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.gm.soundzones.R
-import kotlinx.android.synthetic.main.welcome_msg_layout.*
+import com.gm.soundzones.listener.OnClickNextListener
+import kotlinx.android.synthetic.main.welcome_layout.*
 
 /**
  * Created by Pavel Aizendorf on 24/09/2017.
  */
 class WelcomeMessageFragment : BaseFragment() {
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? = inflater?.inflate(R.layout.welcome_msg_layout, container, false)
+    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? = inflater?.inflate(R.layout.welcome_layout, container, false)
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        arguments?.apply {
-            val title = getString(EXTRA_TITLE)
-            val desc1 = getString(EXTRA_DESC1)
-            val desc2 = getString(EXTRA_DESC2)
-            val desc3 = getString(EXTRA_DESC3)
-            val btnName = getString(EXTRA_BTN_NAME)
-            tvTitle.setTextOrHide(title)
-            tvDesc1.setTextOrHide(desc1)
-            tvDesc2.setTextOrHide(desc2)
-            tvDesc3.setTextOrHide(desc3)
-            btnNext.text = btnName
-            btnNext.visibility = getInt(EXTRA_BTN_VISIBILITY)
-        }
+        setupViews(arguments)
+        btnNext.setOnClickListener({
+            if (activity is OnClickNextListener) {
+                (activity as OnClickNextListener).onClickNext(this)
+            }
+        })
     }
 
+    override fun update(args: Bundle) {
+        super.update(args)
+        setupViews(args)
+    }
+
+
+    private fun setupViews(args: Bundle?) {
+        args?.apply {
+            takeIf { it.containsKey(EXTRA_TITLE) }?.run {
+                tvTitle.setTextOrHide(getString(EXTRA_TITLE))
+            }
+            takeIf { it.containsKey(EXTRA_DESC1) }?.run {
+                tvDesc1.setTextOrHide(getString(EXTRA_DESC1))
+            }
+            takeIf { it.containsKey(EXTRA_DESC2) }?.run {
+                tvDesc2.setTextOrHide(getString(EXTRA_DESC2))
+            }
+            takeIf { it.containsKey(EXTRA_DESC3) }?.run {
+                tvDesc3.setTextOrHide(getString(EXTRA_DESC3))
+            }
+            takeIf { it.containsKey(EXTRA_BTN_NAME) }?.run {
+                btnNext.text = getString(EXTRA_BTN_NAME)
+            }
+            takeIf { it.containsKey(EXTRA_BTN_VISIBILITY) }?.run {
+                btnNext.visibility = getInt(EXTRA_BTN_VISIBILITY)
+            }
+        }
+    }
 
     companion object {
         val EXTRA_TITLE = "extra_title"
