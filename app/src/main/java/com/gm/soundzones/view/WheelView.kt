@@ -15,13 +15,13 @@ class WheelView @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr) {
 
     private val wheelBitmap by lazy {
-        BitmapFactory.decodeResource(resources, R.mipmap.sw)
+        BitmapFactory.decodeResource(resources, R.mipmap.whl)
     }
     private val triggerMessage:Message
         get(){
             val obtain:Message = Message.obtain(handler, {
                 onChange?.let { it(currentProcentage) }
-                log("percentage $currentProcentage")
+                log("precentage $currentProcentage")
             })
             obtain.what= WHAT
             return obtain;
@@ -35,6 +35,13 @@ class WheelView @JvmOverloads constructor(
     private var drawAngle =0.0
     private var currentProcentage=0.0
     private var startAngle =0.0
+    var text:String?=null
+        set(value) {
+            paint.getTextBounds(value?:"",0,value?.length?:0,textRect)
+            field=value
+            invalidate()
+        }
+    private var textRect:Rect=Rect()
 //    private var velocityTracker:VelocityTracker?=null
 //    private var animator:Animator?=null
 
@@ -43,16 +50,19 @@ class WheelView @JvmOverloads constructor(
         private const val TRIGGER_DELAY=100L
         private const val TAU = Math.PI*2
         private const val STOP_TIME=500
+        private const val MIN_PERCENTAGE=0
+        private const val MAX_PERCENTAGE=600
     }
 
     var onChange:((percent:Double)->Unit)?= null
 
     init {
         paint=Paint(Paint.ANTI_ALIAS_FLAG)
-        paint.color=Color.BLACK
-        paint.strokeWidth= 10F
+        paint.color=Color.rgb(170,255,255)
+        paint.textSize=100f
         imageRect=Rect(0,0,wheelBitmap.width,wheelBitmap.height)
     }
+
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val widthMode = View.MeasureSpec.getMode(widthMeasureSpec)
@@ -117,11 +127,11 @@ class WheelView @JvmOverloads constructor(
 //                velocityTracker=null
                 return true
             }
-            
+
         }
         return super.onTouchEvent(event)
     }
-//    val borderPosition=PointF()
+    //    val borderPosition=PointF()
 //    private fun calcBorderPosition(angle: Double){
 //        val dy = Math.sin(angle)*viewRect.height()/2
 //        val dx = Math.cos(angle)*viewRect.width()/2
@@ -136,12 +146,19 @@ class WheelView @JvmOverloads constructor(
             if(currentAngle> startAngle) startAngle += TAU else currentAngle+= TAU
         }
         currentProcentage+=((currentAngle- startAngle)/ TAU)*100
+        if(currentProcentage> MAX_PERCENTAGE){
+            currentProcentage= MAX_PERCENTAGE.toDouble()
+            drawAngle=currentProcentage/100* TAU
+        }else if(currentProcentage< MIN_PERCENTAGE){
+            currentProcentage= MIN_PERCENTAGE.toDouble()
+            drawAngle=currentProcentage/100* TAU
+        }
         startAngle =currentAngle
         handler?.takeUnless { it.hasMessages(WHAT) }?.sendMessageDelayed(triggerMessage, TRIGGER_DELAY)
         invalidate()
     }
 
-//    private fun createAccAnimator(toX:Float,toY:Float):Animator{
+    //    private fun createAccAnimator(toX:Float,toY:Float):Animator{
 //        val valueAnimator = ValueAnimator.ofInt(0, STOP_TIME)
 //        var div=0
 //        valueAnimator.duration= STOP_TIME.toLong()
@@ -163,7 +180,11 @@ class WheelView @JvmOverloads constructor(
         canvas?.apply {
             save()
             rotate(Math.toDegrees(drawAngle).toFloat(),viewRect.centerX(),viewRect.centerY())
-            drawBitmap(wheelBitmap,imageRect,viewRect,paint)
+            drawBitmap(wheelBitmap,imageRect,viewRect,null)
+            text?.let {
+                drawText(it,viewRect.centerX()-textRect.centerX(),viewRect.centerY()-textRect.centerY(),paint)
+            }
+
             restore()
 //            drawPoint(borderPosition.x,borderPosition.y,paint)
         }
