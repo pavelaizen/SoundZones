@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.gm.soundzones.R
 import com.gm.soundzones.fragment.BaseFragment
 
 /**
@@ -11,8 +12,8 @@ import com.gm.soundzones.fragment.BaseFragment
  */
 class SoundSelectFragment :BaseFragment(){
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }
+    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?) = inflater?.inflate(R.layout.preset_layout, container, false)
+
+
 
 }

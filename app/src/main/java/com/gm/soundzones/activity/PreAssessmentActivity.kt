@@ -16,8 +16,8 @@ import com.gm.soundzones.model.User
 import com.gm.soundzones.replaceFragment
 
 class PreAssessmentActivity : AppCompatActivity(), OnClickNextListener {
-    var stepIndex = 0
-    val lastStep = 5
+    private var stepIndex = 0
+    private val lastStep = 5
     private val soundCheckUser: User by lazy {
         val mi = SoundSet("MI_Pre_0", SoundTrack("40-MI"), SoundTrack("40-MI"))
         val miNoise = SoundSet("MI_Pre_40", SoundTrack("40-MI"), SoundTrack("40-MI"))
