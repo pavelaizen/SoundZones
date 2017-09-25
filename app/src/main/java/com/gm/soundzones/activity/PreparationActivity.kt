@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.gm.soundzones.R
-import com.gm.soundzones.fragment.WelcomeMessageFragment
+import com.gm.soundzones.fragment.InformationFragment
 import com.gm.soundzones.listener.OnClickNextListener
 
 //created by Pavel
@@ -15,7 +15,7 @@ class PreparationActivity : AppCompatActivity(), OnClickNextListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_container)
         if (savedInstanceState == null) {
-            val welcomeFragment = WelcomeMessageFragment.newInstance(
+            val welcomeFragment = InformationFragment.newInstance(
                     getString(R.string.intro_title),
                     getString(R.string.intro_desc1),
                     getString(R.string.intro_desc2),

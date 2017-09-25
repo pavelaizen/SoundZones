@@ -14,6 +14,7 @@ import com.gm.soundzones.listener.OnClickNextListener
 import com.gm.soundzones.manager.AudioPlayer
 import com.gm.soundzones.manager.MusicPlayerFactory
 import com.gm.soundzones.model.SoundSet
+import com.gm.soundzones.view.WheelView
 import kotlinx.android.synthetic.main.preset_layout.*
 
 /**
@@ -22,13 +23,14 @@ import kotlinx.android.synthetic.main.preset_layout.*
 class SoundSelectFragment : BaseFragment() {
     private lateinit var soundSet: SoundSet
     private lateinit var audioPlayer: AudioPlayer
-
+    private var selectedVolumeLevel=0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         soundSet = (activity as PreAssessmentActivity).getCurrentSoundSet
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?) = inflater?.inflate(R.layout.preset_layout, container, false)
+    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?)
+            = inflater?.inflate(R.layout.preset_layout, container, false)
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -44,19 +46,14 @@ class SoundSelectFragment : BaseFragment() {
             audioPlayer.playNoise(NOISE_FILE)
         }
         wheel.onChange = {
-            var value = when {
-                it < 0 -> 0.0
-                it > 600.0 -> 600.0
-                else -> it
-            };
-            value = value.div(6)
-            audioPlayer.setVolume(value.toInt())
+            selectedVolumeLevel = it.div(WheelView.MAX_PERCENTAGE/100).toInt()
+            audioPlayer.setVolume(selectedVolumeLevel)
         }
 
         btnNext.visibility= View.VISIBLE
         btnNext.setOnClickListener {
             audioPlayer.stop()
-            onVolumeLevelSelected(75)
+            onVolumeLevelSelected(selectedVolumeLevel)
         }
     }
 

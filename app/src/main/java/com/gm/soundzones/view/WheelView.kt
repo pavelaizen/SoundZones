@@ -51,7 +51,7 @@ class WheelView @JvmOverloads constructor(
         private const val TAU = Math.PI*2
         private const val STOP_TIME=500
         private const val MIN_PERCENTAGE=0
-        private const val MAX_PERCENTAGE=600
+        const val MAX_PERCENTAGE=600
     }
 
     var onChange:((percent:Double)->Unit)?= null

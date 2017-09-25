@@ -9,11 +9,10 @@ import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import android.widget.Toast
 import com.gm.soundzones.EXTRA_VOLUME_LEVEL
 import com.gm.soundzones.R
 import com.gm.soundzones.excel.DataProvider
-import com.gm.soundzones.fragment.WelcomeMessageFragment
+import com.gm.soundzones.fragment.InformationFragment
 import com.gm.soundzones.fragment.preassessment.SoundSelectFragment
 import com.gm.soundzones.hasWritePermission
 import com.gm.soundzones.listener.OnClickNextListener
@@ -49,7 +48,7 @@ class PreAssessmentActivity : AppCompatActivity(), OnClickNextListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_container)
         if (savedInstanceState == null) {
-            val welcomeFragment = WelcomeMessageFragment.newInstance(
+            val welcomeFragment = InformationFragment.newInstance(
                     getString(R.string.welcome_text_title),
                     getString(R.string.press_next_when_ready),
                     btnVisibility = View.INVISIBLE)
@@ -70,7 +69,7 @@ class PreAssessmentActivity : AppCompatActivity(), OnClickNextListener {
                 hasWritePermission =true
                 jobExcel.join()
                 welcomeFragment.update(Bundle().also {
-                    it.putInt(WelcomeMessageFragment.EXTRA_BTN_VISIBILITY, View.VISIBLE)
+                    it.putInt(InformationFragment.EXTRA_BTN_VISIBILITY, View.VISIBLE)
                 })
             }
         }

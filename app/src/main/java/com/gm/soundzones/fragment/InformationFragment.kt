@@ -1,18 +1,16 @@
 package com.gm.soundzones.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.gm.soundzones.R
-import com.gm.soundzones.listener.OnClickNextListener
 import kotlinx.android.synthetic.main.welcome_layout.*
 
 /**
  * Created by Pavel Aizendorf on 24/09/2017.
  */
-class WelcomeMessageFragment : BaseFragment() {
+class InformationFragment : BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? = inflater?.inflate(R.layout.welcome_layout, container, false)
 
@@ -61,8 +59,8 @@ class WelcomeMessageFragment : BaseFragment() {
         val EXTRA_BTN_NAME = "extra_btn_name"
         val EXTRA_BTN_VISIBILITY = "extra_btn_visibility"
 
-        fun newInstance(title: String, desc1: String? = null, desc2: String? = null, desc3: String? = null, btnName: String = "NEXT", btnVisibility: Int = View.VISIBLE): WelcomeMessageFragment =
-                WelcomeMessageFragment().also {
+        fun newInstance(title: String, desc1: String? = null, desc2: String? = null, desc3: String? = null, btnName: String = "NEXT", btnVisibility: Int = View.VISIBLE): InformationFragment =
+                InformationFragment().also {
                     val bundle = Bundle()
                     bundle.putString(EXTRA_TITLE, title)
                     bundle.putString(EXTRA_DESC1, desc1)

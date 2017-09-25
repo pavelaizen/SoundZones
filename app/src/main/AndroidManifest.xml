@@ -12,10 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.gm.soundzones.activity.MainActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="landscape"/>
-        <activity
             android:name="com.gm.soundzones.activity.SplashActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="landscape"
