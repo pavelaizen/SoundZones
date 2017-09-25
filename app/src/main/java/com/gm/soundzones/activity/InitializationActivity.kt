@@ -12,7 +12,9 @@ import android.view.View
 import com.gm.soundzones.R
 import com.gm.soundzones.excel.DataProvider
 import com.gm.soundzones.fragment.WelcomeMessageFragment
+import com.gm.soundzones.hasWritePermission
 import com.gm.soundzones.listener.OnClickNextListener
+import com.gm.soundzones.log
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
@@ -48,7 +50,7 @@ class InitializationActivity : AppCompatActivity(), OnClickNextListener {
                         COROUTINE_SUSPENDED
                     }
                 } while (!isGranted)
-
+                hasWritePermission=true
                 jobExcel.join()
                 welcomeFragment.update(Bundle().also {
                     it.putInt(WelcomeMessageFragment.EXTRA_BTN_VISIBILITY, View.VISIBLE)
