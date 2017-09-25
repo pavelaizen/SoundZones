@@ -9,7 +9,7 @@ import android.os.Parcelable
 data class SoundSet(val pair: String, val primaryTrack: SoundTrack, val secondaryTrack: SoundTrack) : Parcelable {
 
     val hasNoise: Boolean by lazy {
-        pair.substringAfterLast("_").toIntOrNull()?.takeIf { it>=0 }?.run { true }?:false
+        pair.substringAfterLast("_").toIntOrNull()?.takeIf { it==40 }?.run { true }?:false
 
     }
 

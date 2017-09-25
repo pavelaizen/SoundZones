@@ -1,6 +1,7 @@
 package com.gm.soundzones.manager
 
 import android.media.MediaPlayer
+import com.gm.soundzones.log
 
 /**
  * Created by Pavel Aizendorf on 25/09/2017.
@@ -29,8 +30,10 @@ class LocalMusicPlayer : AudioPlayer {
         }
     }
 
-    override fun setVolume(volume: Float) {
-        mp2?.setVolume(volume, volume)
+    override fun setVolume(volume: Int) {
+        val adaptedVolume = volume / 100.toFloat()
+        log("adaptedVolume $adaptedVolume")
+        mp2?.setVolume(adaptedVolume, adaptedVolume)
     }
 
     override fun stop() {
@@ -50,6 +53,7 @@ class LocalMusicPlayer : AudioPlayer {
     }
     private fun initAndPlay(player: MediaPlayer, filePath: String) {
         player.setDataSource(filePath)
+        player.setVolume(0.5f, 0.5f)
         player.setOnPreparedListener {
             player.start()
         }

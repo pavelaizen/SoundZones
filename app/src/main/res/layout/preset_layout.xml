@@ -17,6 +17,11 @@
         android:layout_marginStart="50dp"
         android:id="@+id/tvPairName"
         tools:text="MI_0 MPH"/>
+    <com.gm.soundzones.view.WheelView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_centerInParent="true"
+        android:id="@+id/wheel"/>
     <Button
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"

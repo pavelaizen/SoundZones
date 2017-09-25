@@ -10,6 +10,6 @@ interface AudioPlayer {
     fun playTrack1(audioFile: String)
     fun playTrack2(audioFile: String)
     fun playNoise(noiseFile: String)
-    fun setVolume(volume: Float)
+    fun setVolume(volume: Int)
     fun stop()
 }

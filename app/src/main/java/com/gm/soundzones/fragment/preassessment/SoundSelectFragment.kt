@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.preset_layout.*
  */
 class SoundSelectFragment : BaseFragment() {
     lateinit var soundSet: SoundSet
-    lateinit var audioPlayer:AudioPlayer
+    lateinit var audioPlayer: AudioPlayer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,10 +34,20 @@ class SoundSelectFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        wheel.setPosition(300.0)
         audioPlayer = MusicPlayerFactory.musicPlayer
         audioPlayer.playTrack2(soundSet.secondaryTrack.fullPath)
-        if (soundSet.hasNoise){
+        if (soundSet.hasNoise) {
             audioPlayer.playNoise(NOISE_FILE)
+        }
+        wheel.onChange = {
+            var value = when {
+                it < 0 -> 0.0
+                it > 600.0 -> 600.0
+                else -> it
+            };
+            value = value.div(6)
+            audioPlayer.setVolume(value.toInt())
         }
 
 
