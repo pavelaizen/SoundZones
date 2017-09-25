@@ -53,6 +53,7 @@ internal fun log(message:String){
 
 private data class LogInfo(val message: String,val timestamp:Long,val exception: Exception?)
 const val EXTRA_SOUND_SET = "extra_sound_set"
+const val EXTRA_VOLUME_LEVEL = "extra_volume_Level"
 const val SOUND_ZONES_DIR = "SoundZones"
 val APP_DIR = Environment.getExternalStorageDirectory().absolutePath + File.separator + SOUND_ZONES_DIR
 val NOISE_FILE = Environment.getExternalStorageDirectory().absolutePath + File.separator + SOUND_ZONES_DIR + File.separator + "noise.wav"

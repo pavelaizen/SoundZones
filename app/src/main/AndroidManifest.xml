@@ -20,6 +20,11 @@
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.Splash">
+        </activity>
+        <activity
+            android:name="com.gm.soundzones.activity.PreAssessmentActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -27,12 +32,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.gm.soundzones.activity.PreAssessmentActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="landscape">
-        </activity>
-        <activity
-            android:name="com.gm.soundzones.activity.InitializationActivity"
+            android:name="com.gm.soundzones.activity.PreparationActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="landscape"/>
 

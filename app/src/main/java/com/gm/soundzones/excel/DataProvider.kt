@@ -1,15 +1,13 @@
 package com.gm.soundzones.excel
 
-import com.gm.soundzones.model.SoundRun
-import com.gm.soundzones.model.SoundSet
-import com.gm.soundzones.model.SoundTrack
-import com.gm.soundzones.model.User
+import com.gm.soundzones.model.*
 import org.apache.poi.hssf.usermodel.HSSFDateUtil
 import org.apache.poi.ss.usermodel.*
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import java.io.InputStream
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.HashSet
 
 /**
  * Created by titan on 16-Sep-17.
@@ -23,6 +21,8 @@ object DataProvider {
     private val SOUND_SET_ROWS = 5
     private val CELLS_IN_RUN = SOUND_SET_ROWS * SETS_IN_RUN + 1 // +1 for run# column
     private var workbook: Workbook? = null
+
+    val defaultVolumeLevels = HashMap<UserDefaultVolume,Int>()
 
     fun setup(excelStream: InputStream) {
         workbook = XSSFWorkbook(excelStream).also {

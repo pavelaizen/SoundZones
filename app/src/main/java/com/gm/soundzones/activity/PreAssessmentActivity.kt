@@ -1,23 +1,36 @@
 package com.gm.soundzones.activity
 
+import android.Manifest
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import android.widget.Toast
-import com.gm.soundzones.EXTRA_SOUND_SET
+import com.gm.soundzones.EXTRA_VOLUME_LEVEL
 import com.gm.soundzones.R
+import com.gm.soundzones.excel.DataProvider
 import com.gm.soundzones.fragment.WelcomeMessageFragment
 import com.gm.soundzones.fragment.preassessment.SoundSelectFragment
+import com.gm.soundzones.hasWritePermission
 import com.gm.soundzones.listener.OnClickNextListener
-import com.gm.soundzones.model.SoundRun
-import com.gm.soundzones.model.SoundSet
-import com.gm.soundzones.model.SoundTrack
-import com.gm.soundzones.model.User
+import com.gm.soundzones.model.*
 import com.gm.soundzones.replaceFragment
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
+import kotlin.coroutines.experimental.Continuation
+import kotlin.coroutines.experimental.intrinsics.COROUTINE_SUSPENDED
+import kotlin.coroutines.experimental.intrinsics.suspendCoroutineOrReturn
 
 class PreAssessmentActivity : AppCompatActivity(), OnClickNextListener {
-    private var stepIndex = 0
-    private val lastStep = 5
+    private var continuation: Continuation<Boolean>? = null
+
+    private var stepIndex =0
+    private val lastStep = 6
     private val soundCheckUser: User by lazy {
         val mi = SoundSet("MI_Pre_0", SoundTrack("40-MI"), SoundTrack("40-MI"))
         val miNoise = SoundSet("MI_Pre_40", SoundTrack("40-MI"), SoundTrack("40-MI"))
@@ -38,13 +51,32 @@ class PreAssessmentActivity : AppCompatActivity(), OnClickNextListener {
         if (savedInstanceState == null) {
             val welcomeFragment = WelcomeMessageFragment.newInstance(
                     getString(R.string.welcome_text_title),
-                    getString(R.string.press_next_when_ready))
+                    getString(R.string.press_next_when_ready),
+                    btnVisibility = View.INVISIBLE)
             supportFragmentManager.beginTransaction().add(R.id.container, welcomeFragment)
-                    .commit()
+                    .commitNow()
+
+            launch(UI) {
+                val jobExcel = launch(CommonPool) {
+                    DataProvider.setup(assets.open(DataProvider.EXCEL_NAME))
+                }
+                do {
+                    val isGranted = suspendCoroutineOrReturn<Boolean> {
+                        continuation = it
+                        requestWritePermission()
+                        COROUTINE_SUSPENDED
+                    }
+                } while (!isGranted)
+                hasWritePermission =true
+                jobExcel.join()
+                welcomeFragment.update(Bundle().also {
+                    it.putInt(WelcomeMessageFragment.EXTRA_BTN_VISIBILITY, View.VISIBLE)
+                })
+            }
         }
     }
 
-    private val getCurrentSoundSet: SoundSet
+    val getCurrentSoundSet: SoundSet
         get() {
             val runNumber = stepIndex / 2
             val setNumber = stepIndex % 2
@@ -52,16 +84,51 @@ class PreAssessmentActivity : AppCompatActivity(), OnClickNextListener {
         }
 
     override fun onClickNext(fragment: Fragment, args: Bundle) {
-        if (stepIndex <= lastStep) {
-            val bundle = Bundle()
+        if (fragment is SoundSelectFragment) {
+            val volumeLevel = args.getInt(EXTRA_VOLUME_LEVEL)
             val currentSoundSet = getCurrentSoundSet
-            bundle.putParcelable(EXTRA_SOUND_SET, currentSoundSet)
-            val soundSelectFragment = SoundSelectFragment()
-            soundSelectFragment.arguments = bundle
-            replaceFragment(R.id.container, soundSelectFragment)
-            stepIndex++
-        } else {
-            Toast.makeText(this, "pre complete", Toast.LENGTH_LONG).show()
+            val dirName = currentSoundSet.secondaryTrack.dirName
+            val hasNoise = currentSoundSet.hasNoise
+            DataProvider.defaultVolumeLevels.put(UserDefaultVolume(dirName, hasNoise), volumeLevel)
+            if(stepIndex<lastStep){
+                stepIndex++
+            }
         }
+        if (stepIndex < lastStep) {
+            val soundSelectFragment = SoundSelectFragment()
+            replaceFragment(R.id.container, soundSelectFragment)
+        } else {
+            startActivity(Intent(this, PreparationActivity::class.java))
+            finish()
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            REQUEST_WRITE_PERMISSION -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    continuation?.resume(true)
+                } else {
+                    continuation?.resume(false)
+                }
+                continuation = null
+            }
+        }
+    }
+
+    private fun requestWritePermission(): Boolean {
+        val writePermission = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && writePermission != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), REQUEST_WRITE_PERMISSION)
+        } else {
+            continuation?.resume(true)
+            continuation = null
+        }
+        return false;
+    }
+
+    companion object {
+        val REQUEST_WRITE_PERMISSION = 1
     }
 }

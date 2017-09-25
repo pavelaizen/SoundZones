@@ -38,9 +38,9 @@ class LocalMusicPlayer : AudioPlayer {
     }
 
     override fun stop() {
-        releasePlayer(mp1)
-        releasePlayer(mp2)
-        releasePlayer(mpNoise)
+        releasePlayer(mp1).also { mp1 = null }
+        releasePlayer(mp2).also { mp2 = null }
+        releasePlayer(mpNoise).also { mpNoise = null }
     }
 
     private fun releasePlayer(player: MediaPlayer?) {
@@ -49,9 +49,9 @@ class LocalMusicPlayer : AudioPlayer {
                 it.stop()
             }
             it.release()
-
         }
     }
+
     private fun initAndPlay(player: MediaPlayer, filePath: String) {
         player.setDataSource(filePath)
         player.setVolume(0.5f, 0.5f)

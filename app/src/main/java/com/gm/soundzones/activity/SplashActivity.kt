@@ -22,7 +22,7 @@ class SplashActivity : AppCompatActivity() {
         splashView.setOnParticleAnimListener {
             launch(UI) {
                 delay(1, TimeUnit.SECONDS)
-                startActivity(Intent(this@SplashActivity, InitializationActivity::class.java))
+                startActivity(Intent(this@SplashActivity, PreparationActivity::class.java))
                 finish()
             }
         }
