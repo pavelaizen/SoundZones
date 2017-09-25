@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/title"
         android:layout_marginStart="50dp"
+        android:id="@+id/tvPairName"
         tools:text="MI_0 MPH"/>
     <Button
         android:layout_alignParentBottom="true"

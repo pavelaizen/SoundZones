@@ -15,12 +15,6 @@ class GetReadyFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-//        tvText.setText(arguments!!.getInt(ARG_TEXT, 0))
-//        btnNext.setOnClickListener({
-//            if (activity is OnClickNextListener) {
-//                (activity as OnClickNextListener).onClickNext(it)
-//            }
-//        })
     }
 
     companion object {

@@ -20,9 +20,7 @@ class WelcomeMessageFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupViews(arguments)
         btnNext.setOnClickListener({
-            if (activity is OnClickNextListener) {
-                (activity as OnClickNextListener).onClickNext(this)
-            }
+            onClickNext()
         })
     }
 
