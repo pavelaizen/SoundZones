@@ -32,8 +32,9 @@ class LocalMusicPlayer : AudioPlayer {
 
     override fun setVolume(volume: Int) {
         val adaptedVolume = volume / 100.toFloat()
-        log("adaptedVolume $adaptedVolume")
-        mp2?.setVolume(adaptedVolume, adaptedVolume)
+        mp2?.setVolume(adaptedVolume, adaptedVolume).also {
+            log("adaptedVolume $adaptedVolume")
+        }
     }
 
     override fun stop() {
