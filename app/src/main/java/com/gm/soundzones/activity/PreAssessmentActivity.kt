@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
-import com.gm.soundzones.Consts
+import com.gm.soundzones.EXTRA_SOUND_SET
 import com.gm.soundzones.R
 import com.gm.soundzones.fragment.WelcomeMessageFragment
 import com.gm.soundzones.fragment.preassessment.SoundSelectFragment
@@ -55,7 +55,7 @@ class PreAssessmentActivity : AppCompatActivity(), OnClickNextListener {
         if (stepIndex <= lastStep) {
             val bundle = Bundle()
             val currentSoundSet = getCurrentSoundSet
-            bundle.putParcelable(Consts.EXTRA_SOUND_SET, currentSoundSet)
+            bundle.putParcelable(EXTRA_SOUND_SET, currentSoundSet)
             val soundSelectFragment = SoundSelectFragment()
             soundSelectFragment.arguments = bundle
             replaceFragment(R.id.container, soundSelectFragment)
