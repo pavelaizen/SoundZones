@@ -2,6 +2,7 @@ package com.gm.soundzones
 
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 
 /**
  * Created by Pavel Aizendorf on 25/09/2017.
@@ -16,4 +17,7 @@ fun AppCompatActivity.replaceFragment(containerId: Int, fragment: Fragment, addT
     fragmentTransaction.commit()
 }
 
+internal fun log(message:String){
+    Log.d("dada",message)
+}
 const val EXTRA_SOUND_SET = "extra_sound_set"
