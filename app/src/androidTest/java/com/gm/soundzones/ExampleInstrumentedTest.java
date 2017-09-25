@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.earlyense.soundzones", appContext.getPackageName());
+        assertEquals("com.gm.soundzones", appContext.getPackageName());
     }
 }

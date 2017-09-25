@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Sound Zones</string>
-    <string name="welcome_text">Please adjust the next audio tracks to your optional volume.\n\n\nPress \'Next\' when you are ready</string>
+    <string name="welcome_text_title">Please adjust the next audio tracks to your optional volume.</string>
+    <string name="press_next_when_ready">Press \'Next\' when you are ready</string>
     <string name="next">NEXT</string>
     <string name="intro_title">You will begin part of I/II</string>
     <string name="intro_desc1">You will be required to adjust the volume of the second audio track you will hear. When you feel confident of the volume level you choose, please press \'Next\' to continue</string>

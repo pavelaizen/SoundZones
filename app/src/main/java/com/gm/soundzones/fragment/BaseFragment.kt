@@ -1,5 +1,6 @@
 package com.gm.soundzones.fragment
 
+import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.text.TextUtils
 import android.view.View
@@ -16,5 +17,9 @@ abstract class BaseFragment : Fragment() {
             setText(text)
             View.VISIBLE
         }
+    }
+
+    open fun update(args:Bundle) {
+
     }
 }
