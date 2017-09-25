@@ -3,6 +3,8 @@ package com.gm.soundzones.activity
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import android.widget.Toast
+import com.gm.soundzones.Consts
 import com.gm.soundzones.R
 import com.gm.soundzones.fragment.WelcomeMessageFragment
 import com.gm.soundzones.fragment.preassessment.SoundSelectFragment
@@ -11,10 +13,12 @@ import com.gm.soundzones.model.SoundRun
 import com.gm.soundzones.model.SoundSet
 import com.gm.soundzones.model.SoundTrack
 import com.gm.soundzones.model.User
+import com.gm.soundzones.replaceFragment
 
 class PreAssessmentActivity : AppCompatActivity(), OnClickNextListener {
-    var stepCounter = 0
-    val soundCheckUser: User by lazy {
+    var stepIndex = 0
+    val lastStep = 5
+    private val soundCheckUser: User by lazy {
         val mi = SoundSet("MI_Pre_0", SoundTrack("40-MI"), SoundTrack("40-MI"))
         val miNoise = SoundSet("MI_Pre_40", SoundTrack("40-MI"), SoundTrack("40-MI"))
         val ml = SoundSet("ML_Pre_0", SoundTrack("40-ML"), SoundTrack("40-ML"))
@@ -40,14 +44,24 @@ class PreAssessmentActivity : AppCompatActivity(), OnClickNextListener {
         }
     }
 
+    private val getCurrentSoundSet: SoundSet
+        get() {
+            val runNumber = stepIndex / 2
+            val setNumber = stepIndex % 2
+            return soundCheckUser.soundRuns[runNumber].soundSets[setNumber]
+        }
+
     override fun onClickNext(fragment: Fragment, args: Bundle) {
-        when (fragment) {
-            is WelcomeMessageFragment -> {
-
-            }
-            is SoundSelectFragment->{
-
-            }
+        if (stepIndex <= lastStep) {
+            val bundle = Bundle()
+            val currentSoundSet = getCurrentSoundSet
+            bundle.putParcelable(Consts.EXTRA_SOUND_SET, currentSoundSet)
+            val soundSelectFragment = SoundSelectFragment()
+            soundSelectFragment.arguments = bundle
+            replaceFragment(R.id.container, soundSelectFragment)
+            stepIndex++
+        } else {
+            Toast.makeText(this, "pre complete", Toast.LENGTH_LONG).show()
         }
     }
 }
