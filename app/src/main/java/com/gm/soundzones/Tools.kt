@@ -16,6 +16,4 @@ fun AppCompatActivity.replaceFragment(containerId: Int, fragment: Fragment, addT
     fragmentTransaction.commit()
 }
 
-object Consts {
-    val EXTRA_SOUND_SET = "extra_sound_set"
-}
+const val EXTRA_SOUND_SET = "extra_sound_set"
