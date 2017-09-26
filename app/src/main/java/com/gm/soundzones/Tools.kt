@@ -11,6 +11,8 @@ import java.io.File
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.launch
+import java.io.PrintWriter
+import java.io.StringWriter
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.coroutines.experimental.Continuation
@@ -44,14 +46,16 @@ private val logChannel:Channel<LogInfo> by lazy {
         }
         while (!logChannel.isClosedForReceive) {
             val (message, timestamp, exception) = logChannel.receive()
-            logFile.appendText("<${LOG_DATE_FORMAT.format(Date(timestamp))}> $message\n")
+            logFile.appendText("<${LOG_DATE_FORMAT.format(Date(timestamp))}> $message\n${StringWriter().also {
+                exception?.printStackTrace(PrintWriter(it))
+            }}")
         }
     }
     Channel<LogInfo>(Channel.UNLIMITED)
 }
-internal fun log(message:String){
-    Log.d("dada",message)
-    logChannel.offer(LogInfo(message,System.currentTimeMillis(),null))
+internal fun log(message:String,exception: Exception?=null){
+    Log.d("dada",message,exception)
+    logChannel.offer(LogInfo(message,System.currentTimeMillis(),exception))
 }
 
 fun TextView.setTextOrHide(text: CharSequence?) {

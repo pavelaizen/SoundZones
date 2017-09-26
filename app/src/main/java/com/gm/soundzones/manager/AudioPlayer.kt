@@ -7,9 +7,9 @@ import java.io.File
  */
 
 interface AudioPlayer {
-    fun playTrack1(audioFile: String)
-    fun playTrack2(audioFile: String)
-    fun playNoise(noiseFile: String)
-    fun setVolume(volume: Int)
+    suspend fun playTrack1(audioFile: String):Result
+    suspend fun playTrack2(audioFile: String):Result
+    suspend fun playNoise(noiseFile: String):Result
+    suspend fun setVolume(volume: Int):Result
     fun stop()
 }
