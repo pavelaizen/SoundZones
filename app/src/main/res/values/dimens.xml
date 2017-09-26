@@ -6,4 +6,5 @@
     <dimen name="splash_text_size">80sp</dimen>
     <dimen name="bg_gradient_radius">320dp</dimen>
     <dimen name="wheel_size">200dp</dimen>
+    <dimen name="round_button_size">40dp</dimen>
 </resources>

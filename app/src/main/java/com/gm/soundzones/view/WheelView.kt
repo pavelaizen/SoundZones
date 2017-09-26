@@ -36,13 +36,6 @@ class WheelView @JvmOverloads constructor(
     private var drawAngle =0.0
     private var currentProcentage=0.0
     private var startAngle =0.0
-    var text:String?=null
-        set(value) {
-            paint.getTextBounds(value?:"",0,value?.length?:0,textRect)
-            field=value
-            invalidate()
-        }
-    private var textRect:Rect=Rect()
 //    private var velocityTracker:VelocityTracker?=null
 //    private var animator:Animator?=null
 
@@ -64,6 +57,7 @@ class WheelView @JvmOverloads constructor(
         paint.color=Color.rgb(170,255,255)
         paint.textSize=100f
         imageRect=Rect(0,0,wheelBitmap.width,wheelBitmap.height)
+        isClickable = true
     }
 
 
@@ -189,10 +183,6 @@ class WheelView @JvmOverloads constructor(
             save()
             rotate(Math.toDegrees(drawAngle).toFloat(),viewRect.centerX(),viewRect.centerY())
             drawBitmap(wheelBitmap,imageRect,viewRect,imagePaint)
-            text?.let {
-                drawText(it,viewRect.centerX()-textRect.centerX(),viewRect.centerY()-textRect.centerY(),paint)
-            }
-
             restore()
 //            drawPoint(borderPosition.x,borderPosition.y,paint)
         }

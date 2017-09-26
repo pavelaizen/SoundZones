@@ -8,4 +8,5 @@
     <string name="intro_desc2"><u>Once you pressed \'Next\', you will not be able to return and correct your decision.</u></string>
     <string name="intro_ready">Press on \'Arrow\' when you ready to begin.</string>
     <string name="pre_assessment">Pre-Assessment</string>
+    <string name="set">SET</string>
 </resources>

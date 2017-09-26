@@ -4,13 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.gm.soundzones.EXTRA_SOUND_SET
 import com.gm.soundzones.EXTRA_VOLUME_LEVEL
 import com.gm.soundzones.NOISE_FILE
 import com.gm.soundzones.R
 import com.gm.soundzones.activity.PreAssessmentActivity
 import com.gm.soundzones.fragment.BaseFragment
-import com.gm.soundzones.listener.OnClickNextListener
 import com.gm.soundzones.manager.AudioPlayer
 import com.gm.soundzones.manager.MusicPlayerFactory
 import com.gm.soundzones.model.SoundSet
@@ -23,7 +21,7 @@ import kotlinx.android.synthetic.main.preset_layout.*
 class SoundSelectFragment : BaseFragment() {
     private lateinit var soundSet: SoundSet
     private lateinit var audioPlayer: AudioPlayer
-    private var selectedVolumeLevel=0
+    private var selectedVolumeLevel = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         soundSet = (activity as PreAssessmentActivity).getCurrentSoundSet
@@ -39,25 +37,31 @@ class SoundSelectFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        wheel.setPosition(WheelView.MAX_PERCENTAGE/2.0)
+        wheel.setPosition(WheelView.MAX_PERCENTAGE / 2.0)
         audioPlayer = MusicPlayerFactory.musicPlayer
         audioPlayer.playTrack2(soundSet.secondaryTrack.fullPath)
         if (soundSet.hasNoise) {
             audioPlayer.playNoise(NOISE_FILE)
         }
         wheel.onChange = {
-            selectedVolumeLevel = it.div(WheelView.MAX_PERCENTAGE/100).toInt()
+            wheel.setText(R.string.set)
+            selectedVolumeLevel = it.div(WheelView.MAX_PERCENTAGE / 100).toInt()
             audioPlayer.setVolume(selectedVolumeLevel)
+            btnNext.visibility = View.INVISIBLE
         }
-
-        btnNext.visibility= View.VISIBLE
+        wheel.setOnClickListener {
+            btnNext.visibility = View.VISIBLE
+            wheel.setText(null)
+        }
+        btnNext.visibility = View.INVISIBLE
         btnNext.setOnClickListener {
             audioPlayer.stop()
             onVolumeLevelSelected(selectedVolumeLevel)
         }
+
     }
 
-    fun onVolumeLevelSelected(volume:Int){
+    fun onVolumeLevelSelected(volume: Int) {
         val bundle = Bundle()
         bundle.putInt(EXTRA_VOLUME_LEVEL, volume)
         onClickNext(bundle)
