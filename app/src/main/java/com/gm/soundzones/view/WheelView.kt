@@ -28,6 +28,7 @@ class WheelView @JvmOverloads constructor(
         }
 
     private val paint:Paint
+    private val imagePaint=Paint(Paint.ANTI_ALIAS_FLAG)
     private val currentPosition:PointF = PointF()
 
     private val imageRect:Rect
@@ -52,6 +53,8 @@ class WheelView @JvmOverloads constructor(
         private const val STOP_TIME=500
         private const val MIN_PERCENTAGE=0
         const val MAX_PERCENTAGE=600
+        private const val DISABLE_ALPHA=155
+        private const val ENABLE_ALPHA=255
     }
 
     var onChange:((percent:Double)->Unit)?= null
@@ -88,9 +91,14 @@ class WheelView @JvmOverloads constructor(
         currentProcentage=percentage
         invalidate()
     }
+
+    override fun setEnabled(enabled: Boolean) {
+        imagePaint.alpha=if(enabled) ENABLE_ALPHA else DISABLE_ALPHA
+        super.setEnabled(enabled)
+    }
     override fun onTouchEvent(event: MotionEvent?): Boolean {
 //        animator?.cancel()
-        when(event?.actionMasked){
+        when(event?.takeIf { isEnabled }?.actionMasked){
             MotionEvent.ACTION_DOWN->{
 //                velocityTracker= VelocityTracker.obtain();
                 currentPosition.x=event.x
@@ -100,7 +108,7 @@ class WheelView @JvmOverloads constructor(
 //                val event1 = MotionEvent.obtain(event.downTime, event.eventTime, event.action, borderPosition.x, borderPosition.y, event.metaState)
 //                velocityTracker?.addMovement(event1)
 //                event1.recycle()
-                return true
+//                return true
             }
             MotionEvent.ACTION_MOVE->{
 
@@ -112,7 +120,7 @@ class WheelView @JvmOverloads constructor(
 //                event.offsetLocation(borderPosition.x-event.x,borderPosition.y-event.y)
 //                velocityTracker?.addMovement(event)
 //                event1.recycle()
-                return true
+//                return true
             }
             MotionEvent.ACTION_UP,MotionEvent.ACTION_CANCEL->{
                 startAngle=drawAngle
@@ -125,7 +133,7 @@ class WheelView @JvmOverloads constructor(
 //                    it.recycle()
 //                }
 //                velocityTracker=null
-                return true
+//                return true
             }
 
         }
@@ -180,7 +188,7 @@ class WheelView @JvmOverloads constructor(
         canvas?.apply {
             save()
             rotate(Math.toDegrees(drawAngle).toFloat(),viewRect.centerX(),viewRect.centerY())
-            drawBitmap(wheelBitmap,imageRect,viewRect,null)
+            drawBitmap(wheelBitmap,imageRect,viewRect,imagePaint)
             text?.let {
                 drawText(it,viewRect.centerX()-textRect.centerX(),viewRect.centerY()-textRect.centerY(),paint)
             }
