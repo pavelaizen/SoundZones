@@ -16,9 +16,9 @@ import com.gm.soundzones.fragment.InformationFragment
 import com.gm.soundzones.fragment.preassessment.SoundSelectFragment
 import com.gm.soundzones.hasWritePermission
 import com.gm.soundzones.listener.OnClickNextListener
+import com.gm.soundzones.manager.UserDataManager
 import com.gm.soundzones.model.*
 import com.gm.soundzones.replaceFragment
-import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import kotlin.coroutines.experimental.Continuation
@@ -51,14 +51,12 @@ class PreAssessmentActivity : AppCompatActivity(), OnClickNextListener {
             val welcomeFragment = InformationFragment.newInstance(
                     getString(R.string.welcome_text_title),
                     getString(R.string.press_next_when_ready),
+                    desc4 = UserDataManager.userID.toString(),
                     btnVisibility = View.INVISIBLE)
             supportFragmentManager.beginTransaction().add(R.id.container, welcomeFragment)
                     .commitNow()
 
             launch(UI) {
-                val jobExcel = launch(CommonPool) {
-                    DataProvider.setup(assets.open(DataProvider.EXCEL_NAME))
-                }
                 do {
                     val isGranted = suspendCoroutineOrReturn<Boolean> {
                         continuation = it
@@ -67,12 +65,13 @@ class PreAssessmentActivity : AppCompatActivity(), OnClickNextListener {
                     }
                 } while (!isGranted)
                 hasWritePermission =true
-                jobExcel.join()
                 welcomeFragment.update(Bundle().also {
                     it.putInt(InformationFragment.EXTRA_BTN_VISIBILITY, View.VISIBLE)
                 })
             }
         }
+
+
     }
 
     val getCurrentSoundSet: SoundSet

@@ -39,7 +39,7 @@ class SoundSelectFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        wheel.setPosition(300.0)
+        wheel.setPosition(WheelView.MAX_PERCENTAGE/2.0)
         audioPlayer = MusicPlayerFactory.musicPlayer
         audioPlayer.playTrack2(soundSet.secondaryTrack.fullPath)
         if (soundSet.hasNoise) {

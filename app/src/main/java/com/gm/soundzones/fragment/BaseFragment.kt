@@ -11,14 +11,6 @@ import com.gm.soundzones.listener.OnClickNextListener
  * Created by Pavel Aizendorf on 19/09/2017.
  */
 abstract class BaseFragment : Fragment() {
-    fun TextView.setTextOrHide(text: CharSequence?) {
-        visibility = if (TextUtils.isEmpty(text)) {
-            View.GONE
-        } else {
-            setText(text)
-            View.VISIBLE
-        }
-    }
 
     open fun update(args:Bundle) {
 

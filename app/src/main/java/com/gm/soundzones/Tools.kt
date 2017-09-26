@@ -3,7 +3,10 @@ package com.gm.soundzones
 import android.os.Environment
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import android.text.TextUtils
 import android.util.Log
+import android.view.View
+import android.widget.TextView
 import java.io.File
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.channels.Channel
@@ -51,7 +54,17 @@ internal fun log(message:String){
     logChannel.offer(LogInfo(message,System.currentTimeMillis(),null))
 }
 
+fun TextView.setTextOrHide(text: CharSequence?) {
+    visibility = if (TextUtils.isEmpty(text)) {
+        View.GONE
+    } else {
+        setText(text)
+        View.VISIBLE
+    }
+}
+
 private data class LogInfo(val message: String,val timestamp:Long,val exception: Exception?)
+const val EXTRA_USER_ID = "extra_user_id"
 const val EXTRA_SOUND_SET = "extra_sound_set"
 const val EXTRA_VOLUME_LEVEL = "extra_volume_Level"
 const val SOUND_ZONES_DIR = "SoundZones"

@@ -5,8 +5,12 @@ import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.gm.soundzones.R
+import com.gm.soundzones.excel.DataProvider
 import com.gm.soundzones.fragment.InformationFragment
 import com.gm.soundzones.listener.OnClickNextListener
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
 
 //created by Pavel
 class PreparationActivity : AppCompatActivity(), OnClickNextListener {
@@ -23,12 +27,22 @@ class PreparationActivity : AppCompatActivity(), OnClickNextListener {
                     btnVisibility = View.INVISIBLE)
             supportFragmentManager.beginTransaction().add(R.id.container, welcomeFragment)
                     .commitNow()
+
+            launch(UI){
+                val job = launch(CommonPool){
+                    DataProvider.setup(assets.open(DataProvider.EXCEL_NAME))
+                }
+
+                job.join()
+                welcomeFragment.update(Bundle().also {
+                    it.putInt(InformationFragment.EXTRA_BTN_VISIBILITY, View.VISIBLE)
+                })
+            }
         }
     }
 
     override fun onClickNext(fragment: Fragment, args: Bundle) {
-//        startActivity(Intent(this, PreAssessmentActivity::class.java))
-//        finish()
+
     }
 
 
