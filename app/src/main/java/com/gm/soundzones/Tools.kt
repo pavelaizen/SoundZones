@@ -72,6 +72,8 @@ const val EXTRA_USER_ID = "extra_user_id"
 const val EXTRA_SOUND_SET = "extra_sound_set"
 const val EXTRA_VOLUME_LEVEL = "extra_volume_Level"
 const val SOUND_ZONES_DIR = "SoundZones"
+const val MUSIC_WAIT_TIME = 15L
 internal val APP_DIR = Environment.getExternalStorageDirectory().absolutePath + File.separator + SOUND_ZONES_DIR
 internal val NOISE_FILE = Environment.getExternalStorageDirectory().absolutePath + File.separator + SOUND_ZONES_DIR + File.separator + "noise.wav"
+const val SECONDARY_VOLUME_DIFF_PERCENT = 20 //20%
 

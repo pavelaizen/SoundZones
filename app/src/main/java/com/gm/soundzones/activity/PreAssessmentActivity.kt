@@ -30,6 +30,7 @@ class PreAssessmentActivity : AppCompatActivity(), OnClickNextListener {
 
     private var stepIndex =0
     private val lastStep = 6
+    private var prevSelectedVolume = 0
     private val soundCheckUser: User by lazy {
         val mi = SoundSet("MI_Pre_0", SoundTrack("40-MI"), SoundTrack("40-MI"))
         val miNoise = SoundSet("MI_Pre_40", SoundTrack("40-MI"), SoundTrack("40-MI"))
@@ -86,8 +87,12 @@ class PreAssessmentActivity : AppCompatActivity(), OnClickNextListener {
             val volumeLevel = args.getInt(EXTRA_VOLUME_LEVEL)
             val currentSoundSet = getCurrentSoundSet
             val dirName = currentSoundSet.secondaryTrack.dirName
-            val hasNoise = currentSoundSet.hasNoise
-            DataProvider.defaultVolumeLevels.put(UserDefaultVolume(dirName, hasNoise), volumeLevel)
+            if (stepIndex%2==0){
+                prevSelectedVolume = volumeLevel
+            }else{
+                DataProvider.defaultVolumeLevels.put(dirName, Math.round((prevSelectedVolume+volumeLevel)/2.0).toInt())
+                prevSelectedVolume = 0
+            }
             if(stepIndex<lastStep){
                 stepIndex++
             }

@@ -31,11 +31,15 @@
         <activity
             android:name="com.gm.soundzones.activity.PreparationActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="landscape">
+
+        </activity>
         <activity
             android:name=".activity.UserMusicActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="landscape">
+
+        </activity>
 
     </application>
 

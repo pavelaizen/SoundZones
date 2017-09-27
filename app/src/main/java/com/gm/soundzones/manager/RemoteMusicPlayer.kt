@@ -2,7 +2,7 @@ package com.gm.soundzones.manager
 
 import java.io.File
 
-class RemoteMusicPlayer: AudioPlayer{
+class RemoteMusicPlayer(baselineVolume: Int) : AudioPlayer(baselineVolume) {
     companion object {
         private const val IP_ADDRESS ="1.2.3.4"
         private const val TRACK1_PORT=1234

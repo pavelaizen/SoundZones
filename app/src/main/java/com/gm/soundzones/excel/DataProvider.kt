@@ -22,7 +22,7 @@ object DataProvider {
     private val CELLS_IN_RUN = SOUND_SET_ROWS * SETS_IN_RUN + 1 // +1 for run# column
     private var workbook: Workbook? = null
 
-    val defaultVolumeLevels = HashMap<UserDefaultVolume,Int>()
+    val defaultVolumeLevels = HashMap<String,Int>()
 
     fun setup(excelStream: InputStream) {
         workbook = XSSFWorkbook(excelStream).also {

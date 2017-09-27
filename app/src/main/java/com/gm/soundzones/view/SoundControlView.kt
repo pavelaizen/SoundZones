@@ -48,5 +48,10 @@ class SoundControlView @JvmOverloads constructor(
         button.setOnClickListener(l)
     }
 
+    override fun setEnabled(enabled: Boolean) {
+        wheelView.isEnabled = enabled
+        button.isEnabled = enabled
+    }
+
 
 }

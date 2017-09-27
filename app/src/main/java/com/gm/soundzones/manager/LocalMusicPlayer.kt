@@ -8,27 +8,31 @@ import kotlinx.coroutines.experimental.async
 /**
  * Created by Pavel Aizendorf on 25/09/2017.
  */
-class LocalMusicPlayer : AudioPlayer {
+class LocalMusicPlayer(baselineVolume: Int) : AudioPlayer(baselineVolume) {
     private var mp1: MediaPlayer? = null
     private var mp2: MediaPlayer? = null
     private var mpNoise: MediaPlayer? = null
-
-
+    private val primaryVolume:Float = getMasterBaselineVolume()/100f
+    private val secondaryVolume:Float = getSlaveBaselineVolume(getMasterBaselineVolume())/100f
+    init {
+        log("primary volume ${getMasterBaselineVolume()}")
+        log("secondary volume ${getSlaveBaselineVolume(getMasterBaselineVolume())}")
+    }
     override suspend fun playTrack1(audioFile: String) = MediaPlayer().let {
         mp1 = it
-        initAndPlay(it, audioFile)
+        initAndPlay(it, audioFile, primaryVolume)
     }
 
 
     override suspend fun playTrack2(audioFile: String) = MediaPlayer().let {
         mp2 = it
-        initAndPlay(it, audioFile)
+        initAndPlay(it, audioFile, secondaryVolume)
     }
 
 
     override suspend fun playNoise(noiseFile: String) = MediaPlayer().let {
         mpNoise = it
-        initAndPlay(it, noiseFile)
+        initAndPlay(it, noiseFile, 1f)
     }
 
 
@@ -55,10 +59,11 @@ class LocalMusicPlayer : AudioPlayer {
         }
     }
 
-    private suspend fun initAndPlay(player: MediaPlayer, filePath: String) =
+    private suspend fun initAndPlay(player: MediaPlayer, filePath: String, volume:Float) =
             async(CommonPool) {
+                log("playing ${filePath.substringAfterLast("/")} with volume ${volume*100}")
                 player.setDataSource(filePath)
-                player.setVolume(0.5f, 0.5f)
+                player.setVolume(volume, volume)
                 player.setOnPreparedListener {
                     player.start()
                 }
