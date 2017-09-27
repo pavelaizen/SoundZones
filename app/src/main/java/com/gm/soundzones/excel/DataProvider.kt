@@ -39,7 +39,7 @@ object DataProvider {
 
     fun getUser(id: Int): User =
             sheet.getRow(id).let {
-                User(getCellAsString(it, 1, formulaEvaluator).toInt(),
+                User(getCellAsString(it, 1, formulaEvaluator).toDouble().toInt(),
                         Array<SoundRun>(TOTAL_RUNS) { index ->
                             val position = index * CELLS_IN_RUN + 2
                             collectSoundRun(it, formulaEvaluator, position)
