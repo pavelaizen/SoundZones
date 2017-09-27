@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:padding="30dp"
+                android:background="@drawable/bg">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvBlock"
+        android:textSize="@dimen/text_size_small"
+        android:text="@string/pre_assessment"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:textSize="@dimen/text_size_small"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/tvBlock"
+        android:layout_marginStart="50dp"
+        android:id="@+id/tvRunName"
+        tools:text="MI_0 MPH"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:textSize="@dimen/text_size_small"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/tvRunName"
+        android:layout_marginStart="50dp"
+        android:id="@+id/tvButtonName"
+        tools:text="MI_0 MPH"/>
+    <com.gm.soundzones.view.SoundControlView
+        android:layout_width="@dimen/wheel_size"
+        android:layout_height="@dimen/wheel_size"
+        android:id="@+id/wheel"
+        android:layout_centerInParent="true">
+
+    </com.gm.soundzones.view.SoundControlView>
+
+    <Button
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/btnNext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:background="@color/label_color"
+        android:paddingBottom="10dp"
+        android:paddingEnd="20dp"
+        android:paddingStart="20dp"
+        android:paddingTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/next"
+        android:textColor="@android:color/white"
+        android:visibility="invisible"
+        tools:visibility="visible"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_small"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/tvUserId"
+        tools:text="1"/>
+</RelativeLayout>

@@ -1,6 +1,7 @@
 package com.gm.soundzones.view
 
 import android.content.Context
+import android.support.annotation.StringRes
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.ViewGroup
@@ -35,7 +36,7 @@ class SoundControlView @JvmOverloads constructor(
 
     var onChange: ((percent: Double) -> Unit)? = null
     fun setPosition(percentage: Double) = wheelView.setPosition(percentage)
-    fun setText(resId: Int) {
+    fun setText(@StringRes resId: Int) {
         button.setText(resId)
     }
 

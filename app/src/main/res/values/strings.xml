@@ -9,4 +9,6 @@
     <string name="intro_ready">Press on \'Arrow\' when you ready to begin.</string>
     <string name="pre_assessment">Pre-Assessment</string>
     <string name="set">SET</string>
+    <string name="acceptable">Acceptable</string>
+    <string name="great">Great</string>
 </resources>

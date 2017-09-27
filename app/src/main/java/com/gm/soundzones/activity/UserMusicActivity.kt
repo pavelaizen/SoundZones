@@ -18,8 +18,9 @@ class UserMusicActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_container)
-
         if (savedInstanceState == null) {
+            runIndex = 0
+            setIndex = 0
             replaceFragment(R.id.container, SoundFragment())
         }
 
