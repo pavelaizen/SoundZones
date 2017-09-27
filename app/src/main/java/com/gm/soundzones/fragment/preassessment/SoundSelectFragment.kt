@@ -11,9 +11,12 @@ import com.gm.soundzones.activity.PreAssessmentActivity
 import com.gm.soundzones.fragment.BaseFragment
 import com.gm.soundzones.manager.AudioPlayer
 import com.gm.soundzones.manager.MusicPlayerFactory
+import com.gm.soundzones.manager.Result
 import com.gm.soundzones.model.SoundSet
 import com.gm.soundzones.view.WheelView
 import kotlinx.android.synthetic.main.preset_layout.*
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
 
 /**
  * Created by Pavel Aizendorf on 24/09/2017.
@@ -37,27 +40,32 @@ class SoundSelectFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        wheel.setPosition(WheelView.MAX_PERCENTAGE / 2.0)
-        audioPlayer = MusicPlayerFactory.musicPlayer
-        audioPlayer.playTrack2(soundSet.secondaryTrack.fullPath)
-        if (soundSet.hasNoise) {
-            audioPlayer.playNoise(NOISE_FILE)
-        }
-        wheel.onChange = {
-            wheel.setText(R.string.set)
-            selectedVolumeLevel = it.div(WheelView.MAX_PERCENTAGE / 100).toInt()
-            audioPlayer.setVolume(selectedVolumeLevel)
+        launch(UI){
+            wheel.setPosition(WheelView.MAX_PERCENTAGE / 2.0)
+            audioPlayer = MusicPlayerFactory.musicPlayer
+            audioPlayer.playTrack2(soundSet.secondaryTrack.fullPath)
+            if (soundSet.hasNoise) {
+                audioPlayer.playNoise(NOISE_FILE)
+            }
+            wheel.onChange = {
+                launch(UI) {
+                    wheel.setText(R.string.set)
+                    selectedVolumeLevel = it.div(WheelView.MAX_PERCENTAGE / 100).toInt()
+                    audioPlayer.setVolume(selectedVolumeLevel)
+                    btnNext.visibility = View.INVISIBLE
+                }
+            }
+            wheel.setOnClickListener {
+                btnNext.visibility = View.VISIBLE
+                wheel.setText(null)
+            }
             btnNext.visibility = View.INVISIBLE
+            btnNext.setOnClickListener {
+                audioPlayer.stop()
+                onVolumeLevelSelected(selectedVolumeLevel)
+            }
         }
-        wheel.setOnClickListener {
-            btnNext.visibility = View.VISIBLE
-            wheel.setText(null)
-        }
-        btnNext.visibility = View.INVISIBLE
-        btnNext.setOnClickListener {
-            audioPlayer.stop()
-            onVolumeLevelSelected(selectedVolumeLevel)
-        }
+
 
     }
 
@@ -65,6 +73,12 @@ class SoundSelectFragment : BaseFragment() {
         val bundle = Bundle()
         bundle.putInt(EXTRA_VOLUME_LEVEL, volume)
         onClickNext(bundle)
+    }
+    private fun errorHandler(errorResult: Result){
+        when(errorResult){
+            Result.IO_ERROR-> TODO("handle error reason for IO")
+            Result.UNKNOWN_HOST->TODO("handle error reason for unknown host")
+        }
     }
 
 
