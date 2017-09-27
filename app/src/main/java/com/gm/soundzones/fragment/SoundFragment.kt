@@ -34,7 +34,7 @@ class SoundFragment : Fragment() {
     lateinit var soundSet: SoundSet
     lateinit var player: AudioPlayer
     var selectedVolumeLevel: Int = 0
-
+    var slaveBaselineVolume:Int=0
     enum class Phase {
         ACCEPTABLE, GREAT
     }
@@ -60,12 +60,10 @@ class SoundFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val baselineVolume = DataProvider.defaultVolumeLevels[soundSet.primaryTrack.dirName]
-        baselineVolume?.let {
-            val slaveBaselineVolume = AudioPlayer.getSlaveBaselineVolume(it)
-            wheel.setPosition(slaveBaselineVolume*(WheelView.MAX_PERCENTAGE/100.0))
-            player = MusicPlayerFactory.getMusicPlayer(it);
-        }
+        val baselineVolume = DataProvider.defaultVolumeLevels.getOrElse(soundSet.primaryTrack.dirName, {0})
+        slaveBaselineVolume = AudioPlayer.getSlaveBaselineVolume(baselineVolume)
+        wheel.setPosition(slaveBaselineVolume*(WheelView.MAX_PERCENTAGE/100.0))
+        player = MusicPlayerFactory.getMusicPlayer(baselineVolume);
 
         wheel.setOnClickListener {
             btnNext.visibility = View.VISIBLE
@@ -76,6 +74,7 @@ class SoundFragment : Fragment() {
             if (phase == Phase.ACCEPTABLE) {
                 phase = Phase.GREAT
                 setUiControls()
+
                 playMusic()
                 soundSet.acceptableVolume = selectedVolumeLevel
             } else {
@@ -97,7 +96,7 @@ class SoundFragment : Fragment() {
         }
         tvButtonName.text = getString(phaseName)
         wheel.setText(getString(phaseName))
-
+        wheel.setPosition(slaveBaselineVolume*(WheelView.MAX_PERCENTAGE/100.0))
         wheel.isEnabled = false
         tvUserId.text = user.id.toString()
         tvBlock.text = soundRun.runId
@@ -138,7 +137,7 @@ class SoundFragment : Fragment() {
         val currentSetReadableIndex = setIndex + 1
         when (phase) {
             Phase.ACCEPTABLE -> return "$currentSetReadableIndex/${soundSetSize * 2}"
-            Phase.GREAT -> return "${currentSetReadableIndex + soundSetSize}/${soundSetSize * 2}"
+            Phase.GREAT -> return "${currentSetReadableIndex+1}/${soundSetSize * 2}"
         }
     }
 }
