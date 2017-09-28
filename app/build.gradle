@@ -41,6 +41,7 @@ dependencies {
     compile 'me.wangyuwei:ParticleView:1.0.4'
     compile 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.18'
     compile 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.18'
+//    compile project(':Configuration')
     testCompile 'junit:junit:4.12'
 }
 repositories {
