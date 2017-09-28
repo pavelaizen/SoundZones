@@ -85,7 +85,9 @@ object DataProvider {
         launch(CommonPool) {
             lock.withLock {
                 excelFile.takeUnless { it.exists() }?.createNewFile()
-                workbook?.write(excelFile.outputStream())
+                val os = excelFile.outputStream()
+                workbook?.write(os)
+                os.close()
             }
         }
     }
