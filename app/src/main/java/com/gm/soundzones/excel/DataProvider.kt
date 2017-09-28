@@ -56,23 +56,26 @@ object DataProvider {
                         })
             }
 
-    fun commitVolumeAccept(id: Int, runId: String, setIndex: Int, volume: Int) {
-        val row = sheet.getRow(id)
-        val cell = row.find { it.cellType == CELL_TYPE_STRING && it.stringCellValue == runId }
-        cell?.columnIndex?.let {
-            val volumeCellIndex = it + ((setIndex + 1) * SOUND_SET_ROWS) - 1
-            row.getCell(volumeCellIndex)?.setCellValue(volume.toString())
-            saveToFile()
+
+    fun applyVolumeAccept(id: Int, runId: String, setIndex: Int, volume: Int) {
+        sheet.getRow(id)?.let { row ->
+            row.find { it.cellType == CELL_TYPE_STRING && it.stringCellValue == runId }?.columnIndex?.let {
+                val volumeCellIndex = it + ((setIndex + 1) * SOUND_SET_ROWS) - 1
+                row.getCell(volumeCellIndex)?.setCellValue(volume.toString()).also {
+                    saveToFile()
+                }
+            }
         }
     }
 
-    fun commitVolumeGreat(id: Int, runId: String, setIndex: Int, volume: Int) {
-        val row = sheet.getRow(id)
-        val cell = row.find { it.cellType == CELL_TYPE_STRING && it.stringCellValue == runId }
-        cell?.columnIndex?.let {
-            val volumeCellIndex = it + ((setIndex + 1) * SOUND_SET_ROWS)
-            row.getCell(volumeCellIndex)?.setCellValue(volume.toString())
-            saveToFile()
+    fun applyVolumeGreat(id: Int, runId: String, setIndex: Int, volume: Int) {
+        sheet.getRow(id)?.let { row ->
+            row.find { it.cellType == CELL_TYPE_STRING && it.stringCellValue == runId }?.columnIndex?.let {
+                val volumeCellIndex = it + ((setIndex + 1) * SOUND_SET_ROWS)
+                row.getCell(volumeCellIndex)?.setCellValue(volume.toString()).also {
+                    saveToFile()
+                }
+            }
         }
     }
 

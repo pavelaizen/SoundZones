@@ -77,15 +77,15 @@ class SoundFragment : Fragment() {
 
                 playMusic()
                 soundSet.acceptableVolume = selectedVolumeLevel
-                soundRun.runId.takeUnless { it == TRAINING_RUN }?.let {
-                    DataProvider.commitVolumeAccept(user.id, soundRun.runId, setIndex, selectedVolumeLevel)
-                }
+//                soundRun.runId.takeUnless { it == TRAINING_RUN }?.let {
+                    DataProvider.applyVolumeAccept(user.id, soundRun.runId, setIndex, selectedVolumeLevel)
+//                }
 
             } else {
                 soundSet.greatVolume = selectedVolumeLevel
-                soundRun.runId.takeUnless { it == TRAINING_RUN }?.let {
-                    DataProvider.commitVolumeGreat(user.id, soundRun.runId, setIndex, selectedVolumeLevel)
-                }
+//                soundRun.runId.takeUnless { it == TRAINING_RUN }?.let {
+                    DataProvider.applyVolumeGreat(user.id, soundRun.runId, setIndex, selectedVolumeLevel)
+//                }
                 if (activity is OnClickNextListener) {
                     (activity as OnClickNextListener).onClickNext(this, Bundle())
                 }
