@@ -21,7 +21,7 @@ class WheelView @JvmOverloads constructor(
         get(){
             val obtain:Message = Message.obtain(handler, {
                 onChange?.let { it(currentProcentage) }
-                log("precentage $currentProcentage")
+//                log("precentage $currentProcentage")
             })
             obtain.what= WHAT
             return obtain;
@@ -80,6 +80,7 @@ class WheelView @JvmOverloads constructor(
     }
 
     fun setPosition(percentage:Double){
+        log("fafa setPosition $percentage")
         startAngle=0.0
         drawAngle=percentage/100* TAU
         currentProcentage=percentage

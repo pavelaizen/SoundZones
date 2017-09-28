@@ -41,8 +41,8 @@ class SoundSelectFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         launch(UI){
-            wheel.setPosition(WheelView.MAX_PERCENTAGE / 2.0)
-            val slaveVolume = AudioPlayer.getSlaveBaselineVolume(50)
+            wheel.setPosition(WheelView.MAX_PERCENTAGE / 3.0)
+            val slaveVolume = AudioPlayer.getSlaveBaselineVolume(33)
             audioPlayer = MusicPlayerFactory.getMusicPlayer(slaveVolume)
             audioPlayer.playTrack2(soundSet.secondaryTrack.fullPath)
             if (soundSet.hasNoise) {

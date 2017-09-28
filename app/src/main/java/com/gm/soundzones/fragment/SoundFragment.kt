@@ -11,6 +11,7 @@ import com.gm.soundzones.R
 import com.gm.soundzones.activity.UserMusicActivity
 import com.gm.soundzones.excel.DataProvider
 import com.gm.soundzones.listener.OnClickNextListener
+import com.gm.soundzones.log
 import com.gm.soundzones.manager.AudioPlayer
 import com.gm.soundzones.manager.MusicPlayerFactory
 import com.gm.soundzones.model.SoundRun
@@ -62,6 +63,7 @@ class SoundFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         val baselineVolume = DataProvider.defaultVolumeLevels.getOrElse(soundSet.primaryTrack.dirName, {0})
         slaveBaselineVolume = AudioPlayer.getSlaveBaselineVolume(baselineVolume)
+        log("fafa ${soundSet.pair} $baselineVolume/$slaveBaselineVolume")
         wheel.setPosition(slaveBaselineVolume*(WheelView.MAX_PERCENTAGE/100.0))
         player = MusicPlayerFactory.getMusicPlayer(baselineVolume);
 
@@ -77,6 +79,7 @@ class SoundFragment : Fragment() {
 
                 playMusic()
                 soundSet.acceptableVolume = selectedVolumeLevel
+
             } else {
 
                 soundSet.greatVolume = selectedVolumeLevel
@@ -95,12 +98,12 @@ class SoundFragment : Fragment() {
             Phase.GREAT -> R.string.great
         }
         tvButtonName.text = getString(phaseName)
-        wheel.setText(getString(phaseName))
+        wheel.setText(null)
         wheel.setPosition(slaveBaselineVolume*(WheelView.MAX_PERCENTAGE/100.0))
         wheel.isEnabled = false
         tvUserId.text = user.id.toString()
         tvBlock.text = soundRun.runId
-        tvRunName.text = getSetString()
+        tvRunName.text = getSetName()
         btnNext.visibility = View.INVISIBLE
     }
 
@@ -132,9 +135,9 @@ class SoundFragment : Fragment() {
         }
     }
 
-    fun getSetString(): String {
+    fun getSetName(): String {
         val soundSetSize = soundRun.soundSets.size
-        val currentSetReadableIndex = setIndex + 1
+        val currentSetReadableIndex = setIndex*2 + 1
         when (phase) {
             Phase.ACCEPTABLE -> return "$currentSetReadableIndex/${soundSetSize * 2}"
             Phase.GREAT -> return "${currentSetReadableIndex+1}/${soundSetSize * 2}"

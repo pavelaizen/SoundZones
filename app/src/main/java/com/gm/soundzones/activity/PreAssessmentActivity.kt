@@ -9,16 +9,13 @@ import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import com.gm.soundzones.EXTRA_VOLUME_LEVEL
-import com.gm.soundzones.R
+import com.gm.soundzones.*
 import com.gm.soundzones.excel.DataProvider
 import com.gm.soundzones.fragment.InformationFragment
 import com.gm.soundzones.fragment.preassessment.SoundSelectFragment
-import com.gm.soundzones.hasWritePermission
 import com.gm.soundzones.listener.OnClickNextListener
 import com.gm.soundzones.manager.UserDataManager
 import com.gm.soundzones.model.*
-import com.gm.soundzones.replaceFragment
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import kotlin.coroutines.experimental.Continuation
@@ -90,7 +87,9 @@ class PreAssessmentActivity : AppCompatActivity(), OnClickNextListener {
             if (stepIndex%2==0){
                 prevSelectedVolume = volumeLevel
             }else{
-                DataProvider.defaultVolumeLevels.put(dirName, Math.round((prevSelectedVolume+volumeLevel)/2.0).toInt())
+                val savedVolume = Math.round((prevSelectedVolume+volumeLevel)/2.0).toInt()
+                log("fafa saved volume $savedVolume for $dirName")
+                DataProvider.defaultVolumeLevels.put(dirName, savedVolume)
                 prevSelectedVolume = 0
             }
             if(stepIndex<lastStep){

@@ -16,6 +16,6 @@ abstract class AudioPlayer(val baselineVolume: Int) {
     fun getMasterBaselineVolume() = baselineVolume
 
     companion object {
-        fun getSlaveBaselineVolume(baselineVolume: Int) = (baselineVolume + ((SECONDARY_VOLUME_DIFF_PERCENT / 100.0) * baselineVolume)).toInt();
+        fun getSlaveBaselineVolume(baselineVolume: Int) = (baselineVolume + 100) * baselineVolume / 100
     }
 }
