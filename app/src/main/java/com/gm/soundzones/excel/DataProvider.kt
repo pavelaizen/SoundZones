@@ -1,9 +1,12 @@
 package com.gm.soundzones.excel
 
 import android.os.Environment
+import com.gm.soundzones.log
 import com.gm.soundzones.model.*
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.experimental.sync.Mutex
+import kotlinx.coroutines.experimental.sync.withLock
 import org.apache.poi.hssf.usermodel.HSSFDateUtil
 import org.apache.poi.ss.usermodel.*
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
@@ -53,17 +56,20 @@ object DataProvider {
 
 
     fun setVolumeAccept(id:Int,run:Int,volume:Int){
-        sheet.getRow(id).getCell(2+run* SOUND_SET_ROWS+3).setCellValue(volume.toString())
+        sheet.getRow(id).getCell(2+run* SOUND_SET_ROWS-1).setCellValue(volume.toString())
         saveToFile()
     }
     fun setVolumeGreat(id:Int,run:Int,volume:Int){
-        sheet.getRow(id).getCell(2+run* SOUND_SET_ROWS+4).setCellValue(volume.toString())
+        sheet.getRow(id).getCell(2+run* SOUND_SET_ROWS).setCellValue(volume.toString())
         saveToFile()
     }
+    private val lock=Mutex()
     private fun saveToFile(){
         launch(CommonPool){
-            excelFile.takeUnless { it.exists() }?.createNewFile()
-            workbook?.write(excelFile.outputStream())
+            lock.withLock {
+                excelFile.takeUnless { it.exists() }?.createNewFile()
+                workbook?.write(excelFile.outputStream())
+            }
         }
     }
     private fun collectSoundRun(row: Row, formulaEvaluator: FormulaEvaluator, cellNumber: Int): SoundRun {
