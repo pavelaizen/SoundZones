@@ -31,7 +31,7 @@ class PreparationActivity : AppCompatActivity(), OnClickNextListener {
 
             launch(UI){
                 val job = launch(CommonPool){
-                    DataProvider.setup(assets.open(DataProvider.EXCEL_NAME))
+                    DataProvider.setup(applicationContext)
                 }
 
                 job.join()

@@ -53,7 +53,9 @@ class UserMusicActivity : AppCompatActivity(), OnClickNextListener {
             }
         } else {
             if (user.id != UserDataManager.userID) {
-                startActivity(Intent(this, PreAssessmentActivity::class.java))
+                if (UserDataManager.userID != 1) {
+                    startActivity(Intent(this, PreAssessmentActivity::class.java))
+                }
                 finish()
             }else {
                 replaceFragment(R.id.container, SoundFragment())

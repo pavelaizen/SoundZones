@@ -1,26 +1,28 @@
 package com.gm.soundzones.excel
 
+import android.content.Context
 import android.os.Environment
-import com.gm.soundzones.log
-import com.gm.soundzones.model.*
+import com.gm.soundzones.model.SoundRun
+import com.gm.soundzones.model.SoundSet
+import com.gm.soundzones.model.SoundTrack
+import com.gm.soundzones.model.User
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.sync.Mutex
 import kotlinx.coroutines.experimental.sync.withLock
 import org.apache.poi.hssf.usermodel.HSSFDateUtil
 import org.apache.poi.ss.usermodel.*
+import org.apache.poi.ss.usermodel.Cell.CELL_TYPE_STRING
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import java.io.File
-import java.io.InputStream
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.HashSet
 
 /**
  * Created by titan on 16-Sep-17.
  */
 object DataProvider {
-    const val EXCEL_NAME = "tablet_input.xlsx"
+    private const val EXCEL_NAME = "tablet_input.xlsx"
     private lateinit var sheet: Sheet
     private lateinit var formulaEvaluator: FormulaEvaluator
     private val TOTAL_RUNS = 5
@@ -28,18 +30,18 @@ object DataProvider {
     private val SOUND_SET_ROWS = 5
     private val CELLS_IN_RUN = SOUND_SET_ROWS * SETS_IN_RUN + 1 // +1 for run# column
     private var workbook: Workbook? = null
-    private val excelFile= File(Environment.getExternalStorageDirectory(),"output.xlsx")
+    private val excelFile = File(Environment.getExternalStorageDirectory(), "output.xlsx")
 
-    val defaultVolumeLevels = HashMap<String,Int>()
+    val defaultVolumeLevels = HashMap<String, Int>()
 
-    fun setup(excelStream: InputStream) {
-        workbook = XSSFWorkbook(excelStream).also {
-            sheet = it.getSheetAt(0)
-            formulaEvaluator = it.creationHelper.createFormulaEvaluator()
-
+    fun setup(context: Context) {
+        (excelFile.takeIf { excelFile.exists() }?.inputStream() ?: context.assets.open(EXCEL_NAME)).also { stream ->
+            workbook = XSSFWorkbook(stream).also {
+                sheet = it.getSheetAt(0)
+                formulaEvaluator = it.creationHelper.createFormulaEvaluator()
+            }
+            stream.close()
         }
-        excelStream.close()
-
 //        workbook?.getSheetAt(0)?.getRow(0)?.getCell(15)?.setCellValue("123")
 
     }
@@ -54,24 +56,37 @@ object DataProvider {
                         })
             }
 
+    fun commitVolumeAccept(id: Int, runId: String, setIndex: Int, volume: Int) {
+        val row = sheet.getRow(id)
+        val cell = row.find { it.cellType == CELL_TYPE_STRING && it.stringCellValue == runId }
+        cell?.columnIndex?.let {
+            val volumeCellIndex = it + ((setIndex + 1) * SOUND_SET_ROWS) - 1
+            row.getCell(volumeCellIndex)?.setCellValue(volume.toString())
+            saveToFile()
+        }
+    }
 
-    fun setVolumeAccept(id:Int,run:Int,volume:Int){
-        sheet.getRow(id).getCell(2+run* SOUND_SET_ROWS-1).setCellValue(volume.toString())
-        saveToFile()
+    fun commitVolumeGreat(id: Int, runId: String, setIndex: Int, volume: Int) {
+        val row = sheet.getRow(id)
+        val cell = row.find { it.cellType == CELL_TYPE_STRING && it.stringCellValue == runId }
+        cell?.columnIndex?.let {
+            val volumeCellIndex = it + ((setIndex + 1) * SOUND_SET_ROWS)
+            row.getCell(volumeCellIndex)?.setCellValue(volume.toString())
+            saveToFile()
+        }
     }
-    fun setVolumeGreat(id:Int,run:Int,volume:Int){
-        sheet.getRow(id).getCell(2+run* SOUND_SET_ROWS).setCellValue(volume.toString())
-        saveToFile()
-    }
-    private val lock=Mutex()
-    private fun saveToFile(){
-        launch(CommonPool){
+
+
+    private val lock = Mutex()
+    private fun saveToFile() {
+        launch(CommonPool) {
             lock.withLock {
                 excelFile.takeUnless { it.exists() }?.createNewFile()
                 workbook?.write(excelFile.outputStream())
             }
         }
     }
+
     private fun collectSoundRun(row: Row, formulaEvaluator: FormulaEvaluator, cellNumber: Int): SoundRun {
         val soundSets = Array<SoundSet>(SETS_IN_RUN) {
             val position = cellNumber.inc() + (it * SOUND_SET_ROWS)

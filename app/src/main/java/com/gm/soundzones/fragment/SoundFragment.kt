@@ -5,13 +5,10 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.gm.soundzones.MUSIC_WAIT_TIME
-import com.gm.soundzones.NOISE_FILE
-import com.gm.soundzones.R
+import com.gm.soundzones.*
 import com.gm.soundzones.activity.UserMusicActivity
 import com.gm.soundzones.excel.DataProvider
 import com.gm.soundzones.listener.OnClickNextListener
-import com.gm.soundzones.log
 import com.gm.soundzones.manager.AudioPlayer
 import com.gm.soundzones.manager.MusicPlayerFactory
 import com.gm.soundzones.model.SoundRun
@@ -35,7 +32,8 @@ class SoundFragment : Fragment() {
     lateinit var soundSet: SoundSet
     lateinit var player: AudioPlayer
     var selectedVolumeLevel: Int = 0
-    var slaveBaselineVolume:Int=0
+    var slaveBaselineVolume: Int = 0
+
     enum class Phase {
         ACCEPTABLE, GREAT
     }
@@ -61,10 +59,10 @@ class SoundFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val baselineVolume = DataProvider.defaultVolumeLevels.getOrElse(soundSet.primaryTrack.dirName, {0})
+        val baselineVolume = DataProvider.defaultVolumeLevels.getOrElse(soundSet.primaryTrack.dirName, { 0 })
         slaveBaselineVolume = AudioPlayer.getSlaveBaselineVolume(baselineVolume)
         log("fafa ${soundSet.pair} $baselineVolume/$slaveBaselineVolume")
-        wheel.setPosition(slaveBaselineVolume*(WheelView.MAX_PERCENTAGE/100.0))
+        wheel.setPosition(slaveBaselineVolume * (WheelView.MAX_PERCENTAGE / 100.0))
         player = MusicPlayerFactory.getMusicPlayer(baselineVolume);
 
         wheel.setOnClickListener {
@@ -79,10 +77,15 @@ class SoundFragment : Fragment() {
 
                 playMusic()
                 soundSet.acceptableVolume = selectedVolumeLevel
+                soundRun.runId.takeUnless { it == TRAINING_RUN }?.let {
+                    DataProvider.commitVolumeAccept(user.id, soundRun.runId, setIndex, selectedVolumeLevel)
+                }
 
             } else {
-
                 soundSet.greatVolume = selectedVolumeLevel
+                soundRun.runId.takeUnless { it == TRAINING_RUN }?.let {
+                    DataProvider.commitVolumeGreat(user.id, soundRun.runId, setIndex, selectedVolumeLevel)
+                }
                 if (activity is OnClickNextListener) {
                     (activity as OnClickNextListener).onClickNext(this, Bundle())
                 }
@@ -99,7 +102,7 @@ class SoundFragment : Fragment() {
         }
         tvButtonName.text = getString(phaseName)
         wheel.setText(null)
-        wheel.setPosition(slaveBaselineVolume*(WheelView.MAX_PERCENTAGE/100.0))
+        wheel.setPosition(slaveBaselineVolume * (WheelView.MAX_PERCENTAGE / 100.0))
         wheel.isEnabled = false
         tvUserId.text = user.id.toString()
         tvBlock.text = soundRun.runId
@@ -137,10 +140,10 @@ class SoundFragment : Fragment() {
 
     fun getSetName(): String {
         val soundSetSize = soundRun.soundSets.size
-        val currentSetReadableIndex = setIndex*2 + 1
+        val currentSetReadableIndex = setIndex * 2 + 1
         when (phase) {
             Phase.ACCEPTABLE -> return "$currentSetReadableIndex/${soundSetSize * 2}"
-            Phase.GREAT -> return "${currentSetReadableIndex+1}/${soundSetSize * 2}"
+            Phase.GREAT -> return "${currentSetReadableIndex + 1}/${soundSetSize * 2}"
         }
     }
 }
