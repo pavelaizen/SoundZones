@@ -1,9 +1,13 @@
 package com.gm.soundzones.excel
 
+import android.os.Environment
 import com.gm.soundzones.model.*
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.launch
 import org.apache.poi.hssf.usermodel.HSSFDateUtil
 import org.apache.poi.ss.usermodel.*
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
+import java.io.File
 import java.io.InputStream
 import java.text.SimpleDateFormat
 import java.util.*
@@ -21,6 +25,7 @@ object DataProvider {
     private val SOUND_SET_ROWS = 5
     private val CELLS_IN_RUN = SOUND_SET_ROWS * SETS_IN_RUN + 1 // +1 for run# column
     private var workbook: Workbook? = null
+    private val excelFile= File(Environment.getExternalStorageDirectory(),"output.xlsx")
 
     val defaultVolumeLevels = HashMap<String,Int>()
 
@@ -47,6 +52,20 @@ object DataProvider {
             }
 
 
+    fun setVolumeAccept(id:Int,run:Int,volume:Int){
+        sheet.getRow(id).getCell(2+run* SOUND_SET_ROWS+3).setCellValue(volume.toString())
+        saveToFile()
+    }
+    fun setVolumeGreat(id:Int,run:Int,volume:Int){
+        sheet.getRow(id).getCell(2+run* SOUND_SET_ROWS+4).setCellValue(volume.toString())
+        saveToFile()
+    }
+    private fun saveToFile(){
+        launch(CommonPool){
+            excelFile.takeUnless { it.exists() }?.createNewFile()
+            workbook?.write(excelFile.outputStream())
+        }
+    }
     private fun collectSoundRun(row: Row, formulaEvaluator: FormulaEvaluator, cellNumber: Int): SoundRun {
         val soundSets = Array<SoundSet>(SETS_IN_RUN) {
             val position = cellNumber.inc() + (it * SOUND_SET_ROWS)
