@@ -11,4 +11,6 @@
     <string name="set">SET</string>
     <string name="acceptable">Acceptable</string>
     <string name="great">Great</string>
+    <string name="ip_address">IP Address</string>
+    <string name="settings">Settings</string>
 </resources>

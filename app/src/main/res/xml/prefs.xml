@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditTextPreference
+        android:dialogTitle="@string/ip_address"
+        android:inputType="text"
+        android:key="pref_key_ip_address"
+        android:summary="Server IP"
+        android:title="@string/ip_address" />
+    <EditTextPreference
+        android:dialogTitle="Master Music Port"
+        android:inputType="number"
+        android:key="pref_master_music_port"
+        android:summary="Master Music Port"
+        android:title="Master Music Port" />
+    <EditTextPreference
+        android:dialogTitle="Secondary Music Port"
+        android:inputType="number"
+        android:key="pref_secondary_music_port"
+        android:summary="Secondary Music Port"
+        android:title="Secondary Music Port" />
+    <EditTextPreference
+        android:dialogTitle="Volume Port"
+        android:inputType="number"
+        android:key="pref_volume_port"
+        android:summary="Volume Port"
+        android:title="Volume Port" />
+</PreferenceScreen>

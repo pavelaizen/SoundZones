@@ -77,4 +77,5 @@ internal val APP_DIR = Environment.getExternalStorageDirectory().absolutePath + 
 internal val NOISE_FILE = Environment.getExternalStorageDirectory().absolutePath + File.separator + SOUND_ZONES_DIR + File.separator + "noise.wav"
 const val SECONDARY_VOLUME_DIFF_PERCENT = 20 //20%
 const val TRAINING_RUN = "Training"
+const val KEY_IP_ADDRESS = "pref_key_ip_address"
 

@@ -106,7 +106,7 @@ class SoundFragment : Fragment() {
         wheel.isEnabled = false
         tvUserId.text = user.id.toString()
         tvBlock.text = soundRun.runId
-        tvRunName.text = getSetName()
+        tvRunName.text = getNameOfTheSet()
         btnNext.visibility = View.INVISIBLE
     }
 
@@ -138,7 +138,7 @@ class SoundFragment : Fragment() {
         }
     }
 
-    fun getSetName(): String {
+    fun getNameOfTheSet(): String {
         val soundSetSize = soundRun.soundSets.size
         val currentSetReadableIndex = setIndex * 2 + 1
         when (phase) {

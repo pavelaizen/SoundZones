@@ -7,7 +7,7 @@ import android.content.SharedPreferences
  * Created by Pavel Aizendorf on 26/09/2017.
  */
 object UserDataManager {
-    private const val SP_NAME = "SoundZonesSharedPrefs"
+    const val SP_NAME = "SoundZonesSharedPrefs"
     private const val KEY_USER_ID = "key_user_id"
     private lateinit var sp: SharedPreferences
     private val usersOrder = arrayOf(
@@ -35,4 +35,8 @@ object UserDataManager {
         val nextUserID = usersOrder[position]
         userID = nextUserID
     }
+
+    fun putString(key:String, value:String) = sp.edit().putString(key, value).apply()
+
+    fun getString(key:String) = sp.getString(key, null)
 }

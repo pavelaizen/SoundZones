@@ -8,6 +8,9 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
+import android.view.ContextMenu
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import com.gm.soundzones.*
 import com.gm.soundzones.excel.DataProvider
@@ -25,7 +28,7 @@ import kotlin.coroutines.experimental.intrinsics.suspendCoroutineOrReturn
 class PreAssessmentActivity : AppCompatActivity(), OnClickNextListener {
     private var continuation: Continuation<Boolean>? = null
 
-    private var stepIndex =0
+    private var stepIndex = 0
     private val lastStep = 6
     private var prevSelectedVolume = 0
     private val soundCheckUser: User by lazy {
@@ -62,14 +65,24 @@ class PreAssessmentActivity : AppCompatActivity(), OnClickNextListener {
                         COROUTINE_SUSPENDED
                     }
                 } while (!isGranted)
-                hasWritePermission =true
+                hasWritePermission = true
                 welcomeFragment.update(Bundle().also {
                     it.putInt(InformationFragment.EXTRA_BTN_VISIBILITY, View.VISIBLE)
                 })
             }
         }
+    }
 
-
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+    override fun onOptionsItemSelected(item: MenuItem?) = when (item?.itemId) {
+        R.id.settings_menu -> {
+            startActivity(Intent(this, SettingsActivity::class.java))
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
     }
 
     val getCurrentSoundSet: SoundSet
@@ -84,15 +97,15 @@ class PreAssessmentActivity : AppCompatActivity(), OnClickNextListener {
             val volumeLevel = args.getInt(EXTRA_VOLUME_LEVEL)
             val currentSoundSet = getCurrentSoundSet
             val dirName = currentSoundSet.secondaryTrack.dirName
-            if (stepIndex%2==0){
+            if (stepIndex % 2 == 0) {
                 prevSelectedVolume = volumeLevel
-            }else{
-                val savedVolume = Math.round((prevSelectedVolume+volumeLevel)/2.0).toInt()
+            } else {
+                val savedVolume = Math.round((prevSelectedVolume + volumeLevel) / 2.0).toInt()
                 log("fafa saved volume $savedVolume for $dirName")
                 DataProvider.defaultVolumeLevels.put(dirName, savedVolume)
                 prevSelectedVolume = 0
             }
-            if(stepIndex<lastStep){
+            if (stepIndex < lastStep) {
                 stepIndex++
             }
         }
