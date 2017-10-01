@@ -23,7 +23,7 @@ class UserMusicActivity : AppCompatActivity(), OnClickNextListener {
     var setIndex = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_container)
+        setContentView(R.layout.activity_toolbar_container)
         if (savedInstanceState == null) {
             runIndex = 0
             setIndex = 0

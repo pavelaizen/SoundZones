@@ -10,7 +10,8 @@ abstract class AudioPlayer(val baselineVolume: Int) {
     abstract suspend fun playTrack1(audioFile: String): Result
     abstract suspend fun playTrack2(audioFile: String): Result
     abstract suspend fun playNoise(noiseFile: String): Result
-    abstract suspend fun setVolume(volume: Int): Result
+    abstract suspend fun setVolumeMaster(volume: Int): Result
+    abstract suspend fun setVolumeSecondary(volume: Int): Result
     abstract fun stop()
 
     fun getMasterBaselineVolume() = baselineVolume

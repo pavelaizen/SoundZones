@@ -18,7 +18,7 @@ class PreparationActivity : AppCompatActivity(), OnClickNextListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_container)
+        setContentView(R.layout.activity_toolbar_container)
         if (savedInstanceState == null) {
             val welcomeFragment = InformationFragment.newInstance(
                     getString(R.string.intro_title),

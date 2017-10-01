@@ -12,15 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:name=".SoundZonesApp">
-        <activity
-            android:name="com.gm.soundzones.activity.SplashActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="landscape"
-            android:theme="@style/AppTheme.Splash">
-        </activity>
+
         <activity
             android:name="com.gm.soundzones.activity.PreAssessmentActivity"
-            android:theme="@style/LaunchTheme"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="landscape">
             <intent-filter>

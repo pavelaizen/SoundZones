@@ -1,6 +1,7 @@
 package com.gm.soundzones.fragment
 
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,10 +12,12 @@ import com.gm.soundzones.excel.DataProvider
 import com.gm.soundzones.listener.OnClickNextListener
 import com.gm.soundzones.manager.AudioPlayer
 import com.gm.soundzones.manager.MusicPlayerFactory
+import com.gm.soundzones.manager.Result
 import com.gm.soundzones.model.SoundRun
 import com.gm.soundzones.model.SoundSet
 import com.gm.soundzones.model.User
 import com.gm.soundzones.view.WheelView
+import kotlinx.android.synthetic.main.activity_toolbar_container.*
 import kotlinx.android.synthetic.main.user_music_layout.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.delay
@@ -33,6 +36,7 @@ class SoundFragment : Fragment() {
     lateinit var player: AudioPlayer
     var selectedVolumeLevel: Int = 0
     var slaveBaselineVolume: Int = 0
+    var snackBar:Snackbar?=null
 
     enum class Phase {
         ACCEPTABLE, GREAT
@@ -66,8 +70,10 @@ class SoundFragment : Fragment() {
         player = MusicPlayerFactory.getMusicPlayer(baselineVolume);
 
         wheel.setOnClickListener {
-            btnNext.visibility = View.VISIBLE
-            wheel.setText(null)
+            snackBar?.isShown ?: run{
+                btnNext.visibility = View.VISIBLE
+                wheel.setText(null)
+            }
         }
         btnNext.setOnClickListener {
             player.stop()
@@ -113,14 +119,14 @@ class SoundFragment : Fragment() {
     private fun playMusic() {
         launch(UI) {
             val hasNoise = soundSet.hasNoise
-            player.playTrack1(soundSet.primaryTrack.fullPath)
+            errorHandler(player.playTrack1(soundSet.primaryTrack.fullPath))
             if (hasNoise) {
-                player.playNoise(NOISE_FILE)
+                errorHandler(player.playNoise(NOISE_FILE))
             }
             takeIf { phase == Phase.ACCEPTABLE }.run { delay(MUSIC_WAIT_TIME, TimeUnit.SECONDS) }
-            player.playTrack2(soundSet.secondaryTrack.fullPath)
+            errorHandler(player.playTrack2(soundSet.secondaryTrack.fullPath))
             DataProvider.defaultVolumeLevels.get(soundSet.primaryTrack.dirName)?.let {
-                player.setVolume(it)
+                errorHandler(player.setVolumeMaster(it))
             }
             wheel.isEnabled = true
             wheel.onChange = {
@@ -131,7 +137,7 @@ class SoundFragment : Fragment() {
                         Phase.ACCEPTABLE -> R.string.acceptable
                         Phase.GREAT -> R.string.great
                     })
-                    player.setVolume(it.div(WheelView.MAX_PERCENTAGE / 100).toInt())
+                    errorHandler(player.setVolumeSecondary(it.div(WheelView.MAX_PERCENTAGE / 100).toInt()))
                 }
             }
 
@@ -145,5 +151,23 @@ class SoundFragment : Fragment() {
             Phase.ACCEPTABLE -> return "$currentSetReadableIndex/${soundSetSize * 2}"
             Phase.GREAT -> return "${currentSetReadableIndex + 1}/${soundSetSize * 2}"
         }
+    }
+
+    private fun errorHandler(errorResult: Result){
+        when(errorResult){
+            Result.IO_ERROR-> showError("CONNECTION_PROBLEM")
+            Result.UNKNOWN_HOST->showError("UNKNOWN HOST")
+        }
+    }
+
+    private fun showError(text:String){
+        snackBar = Snackbar.make(activity.findViewById(R.id.coordinateLayout), text, Snackbar.LENGTH_INDEFINITE).also {
+            it.show()
+        }
+    }
+
+    override fun onDestroy() {
+        player.stop()
+        super.onDestroy()
     }
 }

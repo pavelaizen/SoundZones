@@ -17,7 +17,11 @@ import com.gm.soundzones.fragment.InformationFragment
 import com.gm.soundzones.fragment.preassessment.SoundSelectFragment
 import com.gm.soundzones.listener.OnClickNextListener
 import com.gm.soundzones.manager.UserDataManager
-import com.gm.soundzones.model.*
+import com.gm.soundzones.model.SoundRun
+import com.gm.soundzones.model.SoundSet
+import com.gm.soundzones.model.SoundTrack
+import com.gm.soundzones.model.User
+import kotlinx.android.synthetic.main.activity_toolbar_container.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import kotlin.coroutines.experimental.Continuation
@@ -46,15 +50,16 @@ class PreAssessmentActivity : AppCompatActivity(), OnClickNextListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_container)
+        setContentView(R.layout.activity_toolbar_container)
+        setSupportActionBar(toolbar)
+        toolbar.visibility = View.VISIBLE
         if (savedInstanceState == null) {
             val welcomeFragment = InformationFragment.newInstance(
                     getString(R.string.welcome_text_title),
                     getString(R.string.press_next_when_ready),
                     desc4 = UserDataManager.userID.toString(),
                     btnVisibility = View.INVISIBLE)
-            supportFragmentManager.beginTransaction().add(R.id.container, welcomeFragment)
-                    .commitNow()
+            replaceFragment(R.id.container, welcomeFragment)
 
             launch(UI) {
                 do {
@@ -73,9 +78,10 @@ class PreAssessmentActivity : AppCompatActivity(), OnClickNextListener {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.main_menu, menu)
+        toolbar.inflateMenu(R.menu.main_menu)
         return true
     }
+
     override fun onOptionsItemSelected(item: MenuItem?) = when (item?.itemId) {
         R.id.settings_menu -> {
             startActivity(Intent(this, SettingsActivity::class.java))
@@ -92,6 +98,9 @@ class PreAssessmentActivity : AppCompatActivity(), OnClickNextListener {
         }
 
     override fun onClickNext(fragment: Fragment, args: Bundle) {
+        if (fragment is InformationFragment) {
+            supportActionBar?.hide()
+        }
         if (fragment is SoundSelectFragment) {
             val volumeLevel = args.getInt(EXTRA_VOLUME_LEVEL)
             val currentSoundSet = getCurrentSoundSet
