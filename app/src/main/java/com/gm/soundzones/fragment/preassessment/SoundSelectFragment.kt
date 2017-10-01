@@ -1,6 +1,7 @@
 package com.gm.soundzones.fragment.preassessment
 
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import com.gm.soundzones.manager.MusicPlayerFactory
 import com.gm.soundzones.manager.Result
 import com.gm.soundzones.model.SoundSet
 import com.gm.soundzones.view.WheelView
+import kotlinx.android.synthetic.main.activity_toolbar_container.*
 import kotlinx.android.synthetic.main.preset_layout.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
@@ -25,6 +27,7 @@ class SoundSelectFragment : BaseFragment() {
     private lateinit var soundSet: SoundSet
     private lateinit var audioPlayer: AudioPlayer
     private var selectedVolumeLevel = 0
+    private var snackBar:Snackbar?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         soundSet = (activity as PreAssessmentActivity).getCurrentSoundSet
@@ -44,21 +47,27 @@ class SoundSelectFragment : BaseFragment() {
             wheel.setPosition(WheelView.MAX_PERCENTAGE / 3.0)
             val slaveVolume = AudioPlayer.getSlaveBaselineVolume(33)
             audioPlayer = MusicPlayerFactory.getMusicPlayer(slaveVolume)
-            audioPlayer.playTrack2(soundSet.secondaryTrack.fullPath)
+            val result = audioPlayer.playTrack2(soundSet.secondaryTrack.fullPath)
+            errorHandler(result)
             if (soundSet.hasNoise) {
-                audioPlayer.playNoise(NOISE_FILE)
+                errorHandler(audioPlayer.playNoise(NOISE_FILE))
             }
             wheel.onChange = {
                 launch(UI) {
                     wheel.setText(R.string.set)
                     selectedVolumeLevel = it.div(WheelView.MAX_PERCENTAGE / 100).toInt()
-                    audioPlayer.setVolumeSecondary(selectedVolumeLevel)
+                    errorHandler(audioPlayer.setVolumeSecondary(selectedVolumeLevel))
                     btnNext.visibility = View.INVISIBLE
                 }
             }
+
+
             wheel.setOnClickListener {
-                btnNext.visibility = View.VISIBLE
-                wheel.setText(null)
+                snackBar?.isShown ?: run{
+                    btnNext.visibility = View.VISIBLE
+                    wheel.setText(null)
+                }
+
             }
             btnNext.visibility = View.INVISIBLE
             btnNext.setOnClickListener {
@@ -77,9 +86,18 @@ class SoundSelectFragment : BaseFragment() {
     }
     private fun errorHandler(errorResult: Result){
         when(errorResult){
-            Result.IO_ERROR-> TODO("handle error reason for IO")
-            Result.UNKNOWN_HOST->TODO("handle error reason for unknown host")
+            Result.IO_ERROR-> showError("CONNECTION_PROBLEM")
+            Result.UNKNOWN_HOST->showError("UNKNOWN HOST")
         }
+    }
+
+    private fun showError(text:String){
+        snackBar = Snackbar.make(activity.findViewById(R.id.coordinateLayout), text, Snackbar.LENGTH_INDEFINITE).also { it.show() }
+    }
+
+    override fun onDestroy() {
+        audioPlayer.stop()
+        super.onDestroy()
     }
 
 
