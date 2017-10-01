@@ -9,6 +9,22 @@ import kotlinx.coroutines.experimental.async
  * Created by Pavel Aizendorf on 25/09/2017.
  */
 class LocalMusicPlayer(baselineVolume: Int) : AudioPlayer(baselineVolume) {
+    suspend override fun setVolumeMaster(volume: Int): Result {
+        val adaptedVolume = volume / 100.toFloat()
+        mp1?.setVolume(adaptedVolume, adaptedVolume).also {
+            log("adaptedVolume $adaptedVolume")
+        }
+        return Result.SUCCESS
+    }
+
+    suspend override fun setVolumeSecondary(volume: Int): Result {
+        val adaptedVolume = volume / 100.toFloat()
+        mp2?.setVolume(adaptedVolume, adaptedVolume).also {
+            log("adaptedVolume $adaptedVolume")
+        }
+        return Result.SUCCESS
+    }
+
     private var mp1: MediaPlayer? = null
     private var mp2: MediaPlayer? = null
     private var mpNoise: MediaPlayer? = null
@@ -36,13 +52,7 @@ class LocalMusicPlayer(baselineVolume: Int) : AudioPlayer(baselineVolume) {
     }
 
 
-    override suspend fun setVolume(volume: Int): Result {
-        val adaptedVolume = volume / 100.toFloat()
-        mp2?.setVolume(adaptedVolume, adaptedVolume).also {
-            log("adaptedVolume $adaptedVolume")
-        }
-        return Result.SUCCESS
-    }
+
 
     override fun stop(){
         releasePlayer(mp1).also { mp1 = null }

@@ -19,9 +19,20 @@
         android:summary="Secondary Music Port"
         android:title="Secondary Music Port" />
     <EditTextPreference
+        android:dialogTitle="Noise Port"
+        android:inputType="number"
+        android:key="pref_secondary_noise_port"
+        android:summary="Noise Port"
+        android:title="Noise Port" />
+    <EditTextPreference
         android:dialogTitle="Volume Port"
         android:inputType="number"
-        android:key="pref_volume_port"
+        android:key="pref_noise_port"
         android:summary="Volume Port"
         android:title="Volume Port" />
+    <SwitchPreference
+        android:key="pref_player_type"
+        android:summary="Local or Car Player"
+        android:title="Player type"
+        android:defaultValue="false"/>
 </PreferenceScreen>

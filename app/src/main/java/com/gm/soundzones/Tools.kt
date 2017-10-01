@@ -2,6 +2,7 @@ package com.gm.soundzones
 
 import android.os.Environment
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
 import android.util.Log
@@ -28,6 +29,7 @@ fun AppCompatActivity.replaceFragment(containerId: Int, fragment: Fragment, addT
     if (addToBackStack) {
         fragmentTransaction.addToBackStack(fragment.javaClass.simpleName)
     }
+    fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
     fragmentTransaction.commit()
 }
 
@@ -78,4 +80,9 @@ internal val NOISE_FILE = Environment.getExternalStorageDirectory().absolutePath
 const val SECONDARY_VOLUME_DIFF_PERCENT = 20 //20%
 const val TRAINING_RUN = "Training"
 const val KEY_IP_ADDRESS = "pref_key_ip_address"
+const val KEY_MASTER_PORT = "pref_master_music_port"
+const val KEY_SECONDARY_PORT = "pref_secondary_music_port"
+const val KEY_VOLUME_PORT = "pref_volume_port"
+const val KEY_NOISE_PORT = "pref_noise_port"
+const val KEY_PLAYER_TYPE = "pref_player_type"
 

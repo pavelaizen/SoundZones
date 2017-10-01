@@ -52,7 +52,7 @@ class SoundSelectFragment : BaseFragment() {
                 launch(UI) {
                     wheel.setText(R.string.set)
                     selectedVolumeLevel = it.div(WheelView.MAX_PERCENTAGE / 100).toInt()
-                    audioPlayer.setVolume(selectedVolumeLevel)
+                    audioPlayer.setVolumeSecondary(selectedVolumeLevel)
                     btnNext.visibility = View.INVISIBLE
                 }
             }

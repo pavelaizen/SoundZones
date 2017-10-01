@@ -120,7 +120,7 @@ class SoundFragment : Fragment() {
             takeIf { phase == Phase.ACCEPTABLE }.run { delay(MUSIC_WAIT_TIME, TimeUnit.SECONDS) }
             player.playTrack2(soundSet.secondaryTrack.fullPath)
             DataProvider.defaultVolumeLevels.get(soundSet.primaryTrack.dirName)?.let {
-                player.setVolume(it)
+                player.setVolumeMaster(it)
             }
             wheel.isEnabled = true
             wheel.onChange = {
@@ -131,7 +131,7 @@ class SoundFragment : Fragment() {
                         Phase.ACCEPTABLE -> R.string.acceptable
                         Phase.GREAT -> R.string.great
                     })
-                    player.setVolume(it.div(WheelView.MAX_PERCENTAGE / 100).toInt())
+                    player.setVolumeSecondary(it.div(WheelView.MAX_PERCENTAGE / 100).toInt())
                 }
             }
 

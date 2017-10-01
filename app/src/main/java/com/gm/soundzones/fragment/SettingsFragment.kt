@@ -2,10 +2,7 @@ package com.gm.soundzones.fragment
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.preference.EditTextPreference
-import android.preference.Preference
-import android.preference.PreferenceFragment
-import android.preference.PreferenceGroup
+import android.preference.*
 import android.text.TextUtils
 import com.gm.soundzones.R
 import com.gm.soundzones.manager.UserDataManager
@@ -36,8 +33,16 @@ class SettingsFragment : PreferenceFragment(), SharedPreferences.OnSharedPrefere
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
         val pref = findPreference(key)
-        val value = sharedPreferences.getString(key, null)
-        pref.summary = value
+        if (pref is EditTextPreference) {
+            val value = sharedPreferences.getString(key, null)
+            pref.summary = value
+        }else if (pref is SwitchPreference){
+            if (pref.isChecked){
+                pref.summary = "Remote Player"
+            }else{
+                pref.summary = "Tablet Player"
+            }
+        }
 
     }
 
@@ -45,6 +50,12 @@ class SettingsFragment : PreferenceFragment(), SharedPreferences.OnSharedPrefere
         if (p is EditTextPreference) {
             if (!TextUtils.isEmpty(p.text)){
                 p.setSummary(p.text)
+            }
+        }else if (p is SwitchPreference){
+            if (p.isChecked){
+                p.summary = "Remote Player"
+            }else{
+                p.summary = "Tablet Player"
             }
         }
     }

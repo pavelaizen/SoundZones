@@ -2,6 +2,7 @@ package com.gm.soundzones.manager
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.gm.soundzones.*
 
 /**
  * Created by Pavel Aizendorf on 26/09/2017.
@@ -36,7 +37,14 @@ object UserDataManager {
         userID = nextUserID
     }
 
-    fun putString(key:String, value:String) = sp.edit().putString(key, value).apply()
+    fun putString(key: String, value: String) = sp.edit().putString(key, value).apply()
 
-    fun getString(key:String) = sp.getString(key, null)
+    fun getString(key: String) = sp.getString(key, null)
+
+    fun getIpAddress() = sp.getString(KEY_IP_ADDRESS, "127.0.0.1")
+    fun getMasterPort() = sp.getString(KEY_MASTER_PORT, "10000")
+    fun getSecondaryPort() = sp.getString(KEY_SECONDARY_PORT, "10001")
+    fun getVolumePort() = sp.getString(KEY_VOLUME_PORT, "10002")
+    fun getNoisePort() = sp.getString(KEY_NOISE_PORT, "10003")
+    fun isRemotePlayer() = sp.getBoolean(KEY_PLAYER_TYPE, false)
 }
