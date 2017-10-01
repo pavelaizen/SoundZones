@@ -10,7 +10,7 @@ import com.gm.soundzones.fragment.InformationFragment
 import com.gm.soundzones.fragment.SoundFragment
 import com.gm.soundzones.listener.OnClickNextListener
 import com.gm.soundzones.manager.UserDataManager
-import com.gm.soundzones.replaceFragment
+import com.gm.soundzones.loadFragment
 
 /**
  * Created by Pavel Aizendorf on 26/09/2017.
@@ -27,7 +27,7 @@ class UserMusicActivity : AppCompatActivity(), OnClickNextListener {
         if (savedInstanceState == null) {
             runIndex = 0
             setIndex = 0
-            replaceFragment(R.id.container, SoundFragment())
+            loadFragment { replace(R.id.container, SoundFragment()) }
         }
 
     }
@@ -39,15 +39,15 @@ class UserMusicActivity : AppCompatActivity(), OnClickNextListener {
             val soundSetLastIndex = soundSet.soundSets.lastIndex
             if (setIndex < soundSetLastIndex) {
                 setIndex++
-                replaceFragment(R.id.container, SoundFragment())
+                loadFragment {replace(R.id.container, SoundFragment())}
             } else {
                 setIndex = 0
                 if (runIndex < soundRunLastIndex) {
                     runIndex++
-                    replaceFragment(R.id.container, InformationFragment.newInstance("You can have 5 minutes break"))
+                    loadFragment {replace(R.id.container, InformationFragment.newInstance("You can have 5 minutes break"))}
                 } else {
                     UserDataManager.incrementUser()
-                    replaceFragment(R.id.container, InformationFragment.newInstance("Thank you for participating!", btnName = "Done"))
+                    loadFragment {replace(R.id.container, InformationFragment.newInstance("Thank you for participating!", btnName = "Done"))}
                     return
                 }
             }
@@ -58,7 +58,7 @@ class UserMusicActivity : AppCompatActivity(), OnClickNextListener {
                 }
                 finish()
             }else {
-                replaceFragment(R.id.container, SoundFragment())
+                loadFragment {replace(R.id.container, SoundFragment())}
             }
         }
 

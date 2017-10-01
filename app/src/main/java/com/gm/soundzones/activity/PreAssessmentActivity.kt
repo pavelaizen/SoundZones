@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import android.view.ContextMenu
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -111,7 +110,7 @@ class PreAssessmentActivity : AppCompatActivity(), OnClickNextListener {
         }
         if (stepIndex < lastStep) {
             val soundSelectFragment = SoundSelectFragment()
-            replaceFragment(R.id.container, soundSelectFragment)
+            loadFragment { replace(R.id.container, soundSelectFragment) }
         } else {
             startActivity(Intent(this, PreparationActivity::class.java))
             finish()
