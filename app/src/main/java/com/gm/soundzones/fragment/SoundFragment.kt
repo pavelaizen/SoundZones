@@ -19,6 +19,7 @@ import com.gm.soundzones.model.User
 import com.gm.soundzones.view.WheelView
 import kotlinx.android.synthetic.main.activity_toolbar_container.*
 import kotlinx.android.synthetic.main.user_music_layout.*
+import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
@@ -37,7 +38,7 @@ class SoundFragment : Fragment() {
     var selectedVolumeLevel: Int = 0
     var slaveBaselineVolume: Int = 0
     var snackBar:Snackbar?=null
-
+    var job:Job? = null
     enum class Phase {
         ACCEPTABLE, GREAT
     }
@@ -117,13 +118,14 @@ class SoundFragment : Fragment() {
     }
 
     private fun playMusic() {
-        launch(UI) {
+        job = launch(UI) {
             val hasNoise = soundSet.hasNoise
             errorHandler(player.playTrack1(soundSet.primaryTrack.fullPath))
             if (hasNoise) {
                 errorHandler(player.playNoise(NOISE_FILE))
             }
             takeIf { phase == Phase.ACCEPTABLE }.run { delay(MUSIC_WAIT_TIME, TimeUnit.SECONDS) }
+            log("playing second track after delay")
             errorHandler(player.playTrack2(soundSet.secondaryTrack.fullPath))
             DataProvider.defaultVolumeLevels.get(soundSet.primaryTrack.dirName)?.let {
                 errorHandler(player.setVolumeMaster(it))
@@ -167,6 +169,7 @@ class SoundFragment : Fragment() {
     }
 
     override fun onDestroy() {
+        job?.cancel()
         player.stop()
         super.onDestroy()
     }

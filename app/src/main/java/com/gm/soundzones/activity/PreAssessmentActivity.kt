@@ -59,7 +59,7 @@ class PreAssessmentActivity : AppCompatActivity(), OnClickNextListener {
                     getString(R.string.press_next_when_ready),
                     desc4 = UserDataManager.userID.toString(),
                     btnVisibility = View.INVISIBLE)
-            replaceFragment(R.id.container, welcomeFragment)
+            loadFragment { replace(R.id.container, welcomeFragment) }
 
             launch(UI) {
                 do {

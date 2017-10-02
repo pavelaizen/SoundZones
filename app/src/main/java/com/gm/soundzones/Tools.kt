@@ -22,12 +22,13 @@ import kotlin.coroutines.experimental.suspendCoroutine
 /**
  * Created by Pavel Aizendorf on 25/09/2017.
  */
-fun AppCompatActivity.replaceFragment(containerId: Int, fragment: Fragment, addToBackStack: Boolean = false) {
+fun AppCompatActivity.loadFragment(addToBackStack: Boolean = false, load: FragmentTransaction.() -> Any) {
     val fragmentTransaction = supportFragmentManager
-            .beginTransaction()
-            .replace(containerId, fragment, fragment.javaClass.simpleName);
+            .beginTransaction();
+
+    val fragmentName = fragmentTransaction.load()
     if (addToBackStack) {
-        fragmentTransaction.addToBackStack(fragment.javaClass.simpleName)
+        fragmentTransaction.addToBackStack(fragmentName.javaClass.simpleName)
     }
     fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
     fragmentTransaction.commit()
