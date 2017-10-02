@@ -34,7 +34,7 @@ fun AppCompatActivity.loadFragment(addToBackStack: Boolean = false, load: Fragme
     fragmentTransaction.commit()
 }
 
-private val LOG_DATE_FORMAT= SimpleDateFormat("dd-MM HH:mm:ss.SSS", Locale.getDefault())
+private val LOG_DATE_FORMAT= SimpleDateFormat("dd-MM HH:mm:ss.SSS", Locale.US)
 private val logFile= File(Environment.getExternalStorageDirectory(),"soundzones.log")
 private var startWriteLog:Continuation<Unit>?=null;
 internal var hasWritePermission =false
