@@ -56,7 +56,7 @@ class PreAssessmentActivity : AppCompatActivity(), OnClickNextListener {
         if (savedInstanceState == null) {
             val welcomeFragment = InformationFragment.newInstance(
                     getString(R.string.welcome_text_title),
-                    getString(R.string.press_next_when_ready),
+                    desc3 = getString(R.string.press_next_when_ready),
                     desc4 = UserDataManager.userID.toString(),
                     btnVisibility = View.INVISIBLE)
             loadFragment { replace(R.id.container, welcomeFragment) }

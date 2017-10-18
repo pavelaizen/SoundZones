@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import android.text.Html
 import android.view.View
 import com.gm.soundzones.R
 import com.gm.soundzones.excel.DataProvider
@@ -22,7 +23,7 @@ class PreparationActivity : AppCompatActivity(), OnClickNextListener {
         if (savedInstanceState == null) {
             val welcomeFragment = InformationFragment.newInstance(
                     getString(R.string.intro_title),
-                    getString(R.string.intro_desc1),
+                    Html.fromHtml(getString(R.string.intro_desc1)).toString(),
                     getString(R.string.intro_desc2),
                     getString(R.string.intro_ready),
                     btnVisibility = View.INVISIBLE)

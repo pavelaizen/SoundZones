@@ -21,27 +21,31 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:textSize="@dimen/text_size_medium"
             tools:text="@string/intro_title"/>
 
         <TextView
             android:id="@+id/tvDesc1"
-            android:layout_width="wrap_content"
+            android:lineSpacingExtra="10dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/text_margin_top"
-            android:gravity="center"
+            android:textSize="@dimen/text_size_medium"
             tools:text="@string/intro_desc1"/>
 
         <TextView
             android:id="@+id/tvDesc2"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/text_margin_top"
+            android:textSize="@dimen/text_size_medium"
             android:gravity="center"
             tools:text="@string/intro_desc2"/>
 
         <TextView
             android:id="@+id/tvDesc3"
-            android:layout_width="wrap_content"
+            android:textSize="@dimen/text_size_medium"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/text_margin_top"
             android:gravity="center"
@@ -56,6 +60,7 @@
 
         <TextView
             android:id="@+id/tvDesc4"
+            android:textSize="@dimen/text_size_medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
