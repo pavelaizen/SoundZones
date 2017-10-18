@@ -39,8 +39,8 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:design:25.3.1'
-    compile 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.18'
-    compile 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.18'
+    compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
+    compile "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
 //    compile project(':Configuration')
     testCompile 'junit:junit:4.12'
 }
