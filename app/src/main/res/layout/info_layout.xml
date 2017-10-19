@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textSize="@dimen/text_size_medium"
+            android:textSize="@dimen/text_size"
             tools:text="@string/intro_title"/>
 
         <TextView
@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/text_margin_top"
-            android:textSize="@dimen/text_size_medium"
+            android:textSize="@dimen/text_size"
             tools:text="@string/omg_html"/>
 
         <TextView
@@ -39,13 +39,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/text_margin_top"
-            android:textSize="@dimen/text_size_medium"
+            android:textSize="@dimen/text_size"
             android:gravity="center"
             tools:text="hello"/>
 
         <TextView
             android:id="@+id/tvDesc3"
-            android:textSize="@dimen/text_size_medium"
+            android:textSize="@dimen/text_size"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/text_margin_top"
@@ -61,7 +61,7 @@
 
         <TextView
             android:id="@+id/tvDesc4"
-            android:textSize="@dimen/text_size_medium"
+            android:textSize="@dimen/text_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -70,7 +70,7 @@
 
         <TextView
             android:id="@+id/tvDesc5"
-            android:textSize="@dimen/text_size_medium"
+            android:textSize="@dimen/text_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"

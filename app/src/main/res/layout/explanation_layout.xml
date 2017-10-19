@@ -1,39 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:orientation="vertical"
-              android:gravity="center"
-                android:padding="@dimen/layout_padding"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textSize="@dimen/text_size_medium"
-        tools:text="@string/intro_title"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:gravity="start"
-        android:id="@+id/mainText"
-        android:textSize="@dimen/text_size_medium"
-        tools:text="@string/omg_html"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_above="@+id/any_questions"
-        android:textSize="@dimen/text_size_medium"
-        tools:text="@string/intro_ready"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/any_questions"
-        android:gravity="center"
-        android:layout_alignParentBottom="true"
-        android:textSize="@dimen/text_size_medium"
-        tools:text="@string/any_questions"/>
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/layout_top_bottom_padding"
+                android:paddingBottom="@dimen/layout_top_bottom_padding"
+                android:paddingEnd="@dimen/layout_padding"
+                android:paddingStart="@dimen/layout_padding">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_alignParentTop="true"
+        android:textSize="@dimen/text_size_medium"
+        android:id="@+id/tvTitle"
+        android:text="@string/intro_title"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvTitle"
+        android:layout_above="@+id/any_questions"
+        android:orientation="vertical"
+        android:gravity="center">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/mainLayout"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/e1"
+                android:textSize="@dimen/text_size_medium"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/e2"
+                android:textSize="@dimen/text_size_medium"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/text_margin_top"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/e3"
+                    android:textSize="@dimen/text_size_medium"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/e4"
+                    android:textSize="@dimen/text_size_medium"/>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/e5"
+                android:textSize="@dimen/text_size_medium"/>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="@dimen/text_size_medium"
+            android:layout_marginTop="@dimen/layout_padding"
+            android:id="@+id/underline_tv"
+            android:text="@string/intro_ready"/>
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/any_questions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:textSize="@dimen/text_size_medium"
+        android:layout_marginBottom="@dimen/expl_margin_bottom"
+        android:text="@string/any_questions"/>
+
+    <Button
+        android:id="@+id/btnNext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="end"
+        android:layout_marginBottom="10dp"
+        android:background="@color/label_color"
+        android:paddingBottom="10dp"
+        android:paddingEnd="20dp"
+        android:paddingStart="20dp"
+        android:paddingTop="10dp"
+        android:text="@string/next"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/text_size"
+        android:visibility="invisible"
+        tools:visibility="visible"/>
 </RelativeLayout>

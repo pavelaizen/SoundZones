@@ -17,5 +17,10 @@
     <string name="thank_you_for_participating">Thank you for participating!</string>
     <string name="done">Done</string>
 
-    <string name="omg_html"><![CDATA[<ul><li>You will be listening to one audio track and after a few seconds, a second track will play, simultaneously with the first one.</li><li>Your task is to adjust the volume of the second track twice:</li><ul><li>In the 1st adjustment, please adjust the volume so that the interference of the 2nd track is reasonable or ACCEPTABLE.</li><li>In the 2nd adjustment, please adjust the volume of the 2nd track so that your listening experience of the 1st track is GREAT</li></ul><li>As long as you don\'t press the \"NEXT\" button, you may refine your selection.</li></ul>]]></string>
+    <string name="omg_html"><![CDATA[<ul><li>Your task is to adjust the volume of the second track twice:</li><ul><li></li><li></li></ul><li>As long as you don\'t press the \"NEXT\" button, you may refine your selection.</li></ul>]]></string>
+    <string name="e1">\u25CF You will be listening to one audio track and after a few seconds, a second track will play, simultaneously with the first one</string>
+    <string name="e2">\u25CF Your task is to adjust the volume of the second track twice:</string>
+    <string name="e3">\u25CF In the 1st adjustment, please adjust the volume so that the interference of the 2nd track is reasonable or ACCEPTABLE.</string>
+    <string name="e4">\u25CF In the 2nd adjustment, please adjust the volume of the 2nd track so that your listening experience of the 1st track is GREAT:</string>
+    <string name="e5">\u25CF As long as you don\'t press the \"NEXT\" button, you may refine your selection.</string>
 </resources>
