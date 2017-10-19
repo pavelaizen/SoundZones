@@ -42,6 +42,8 @@ class SettingsFragment : PreferenceFragment(), SharedPreferences.OnSharedPrefere
             }else{
                 pref.summary = "Tablet Player"
             }
+        }else if (pref is ListPreference){
+            pref.summary = UserDataManager.userID.toString()
         }
 
     }
@@ -57,6 +59,12 @@ class SettingsFragment : PreferenceFragment(), SharedPreferences.OnSharedPrefere
             }else{
                 p.summary = "Tablet Player"
             }
+        }else if (p is ListPreference){
+            val usersOrder = UserDataManager.usersOrder.copyOf()
+            val userIds = usersOrder.map { it.toString() }.toTypedArray()
+            p.entries = userIds
+            p.entryValues = userIds
+            p.summary = UserDataManager.userID.toString()
         }
     }
 

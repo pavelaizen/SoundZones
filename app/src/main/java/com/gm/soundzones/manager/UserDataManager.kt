@@ -11,20 +11,21 @@ object UserDataManager {
     const val SP_NAME = "SoundZonesSharedPrefs"
     private const val KEY_USER_ID = "key_user_id"
     private lateinit var sp: SharedPreferences
-    private val usersOrder = arrayOf(
+    val usersOrder = arrayOf(
             1, 6, 11, 16, 21, 26, 31, 36,
             2, 7, 12, 17, 22, 27, 32, 37,
             3, 8, 13, 18, 23, 28, 33, 38,
             4, 9, 14, 19, 24, 29, 34, 39,
             5, 10, 15, 20, 25, 30, 35, 40)
 
+
     fun setup(context: Context) {
         sp = context.getSharedPreferences(SP_NAME, Context.MODE_PRIVATE)
     }
 
     var userID: Int
-        get() = sp.getInt(KEY_USER_ID, 1)
-        private set(value) = sp.edit().putInt(KEY_USER_ID, value).apply()
+        get() = sp.getString(KEY_USER_ID, "1").toInt()
+        private set(value) = sp.edit().putString(KEY_USER_ID, value.toString()).apply()
 
     fun incrementUser() {
         var position = usersOrder.indexOf(userID)

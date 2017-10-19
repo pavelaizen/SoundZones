@@ -2,14 +2,15 @@ package com.gm.soundzones.fragment
 
 import android.os.Bundle
 import android.support.design.widget.Snackbar
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.gm.soundzones.*
+import com.gm.soundzones.MUSIC_WAIT_TIME
+import com.gm.soundzones.NOISE_FILE
+import com.gm.soundzones.R
 import com.gm.soundzones.activity.UserMusicActivity
 import com.gm.soundzones.excel.DataProvider
-import com.gm.soundzones.listener.OnClickNextListener
+import com.gm.soundzones.log
 import com.gm.soundzones.manager.AudioPlayer
 import com.gm.soundzones.manager.MusicPlayerFactory
 import com.gm.soundzones.manager.Result
@@ -17,7 +18,6 @@ import com.gm.soundzones.model.SoundRun
 import com.gm.soundzones.model.SoundSet
 import com.gm.soundzones.model.User
 import com.gm.soundzones.view.WheelView
-import kotlinx.android.synthetic.main.activity_toolbar_container.*
 import kotlinx.android.synthetic.main.user_music_layout.*
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.android.UI
@@ -28,17 +28,18 @@ import java.util.concurrent.TimeUnit
 /**
  * Created by Pavel Aizendorf on 19/09/2017.
  */
-class SoundFragment : Fragment() {
+class SoundFragment : BaseFragment() {
     lateinit var user: User
-    var runIndex: Int = 0
+    private var runIndex: Int = 0
     var setIndex: Int = 0
     lateinit var soundRun: SoundRun
     lateinit var soundSet: SoundSet
     lateinit var player: AudioPlayer
     var selectedVolumeLevel: Int = 0
     var slaveBaselineVolume: Int = 0
-    var snackBar:Snackbar?=null
-    var job:Job? = null
+    var snackBar: Snackbar? = null
+    var job: Job? = null
+
     enum class Phase {
         ACCEPTABLE, GREAT
     }
@@ -66,51 +67,50 @@ class SoundFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         val baselineVolume = DataProvider.defaultVolumeLevels.getOrElse(soundSet.primaryTrack.dirName, { 0 })
         slaveBaselineVolume = AudioPlayer.getSlaveBaselineVolume(baselineVolume)
-        log("fafa ${soundSet.pair} $baselineVolume/$slaveBaselineVolume")
+        log("playing ${soundSet.pair} $baselineVolume/$slaveBaselineVolume")
         wheel.setPosition(slaveBaselineVolume * (WheelView.MAX_PERCENTAGE / 100.0))
         player = MusicPlayerFactory.getMusicPlayer(baselineVolume);
 
         wheel.setOnClickListener {
-            snackBar?.isShown ?: run{
+            snackBar?.isShown ?: run {
                 btnNext.visibility = View.VISIBLE
                 wheel.setText(null)
             }
         }
         btnNext.setOnClickListener {
-            player.stop()
             if (phase == Phase.ACCEPTABLE) {
                 phase = Phase.GREAT
-                setUiControls()
+                setUiControls(true)
 
-                playMusic()
                 soundSet.acceptableVolume = selectedVolumeLevel
 //                soundRun.runId.takeUnless { it == TRAINING_RUN }?.let {
-                    DataProvider.applyVolumeAccept(user.id, soundRun.runId, setIndex, selectedVolumeLevel)
+                DataProvider.applyVolumeAccept(user.id, soundRun.runId, setIndex, selectedVolumeLevel)
 //                }
 
             } else {
+                player.stop()
                 soundSet.greatVolume = selectedVolumeLevel
 //                soundRun.runId.takeUnless { it == TRAINING_RUN }?.let {
-                    DataProvider.applyVolumeGreat(user.id, soundRun.runId, setIndex, selectedVolumeLevel)
+                DataProvider.applyVolumeGreat(user.id, soundRun.runId, setIndex, selectedVolumeLevel)
 //                }
-                if (activity is OnClickNextListener) {
-                    (activity as OnClickNextListener).onClickNext(this, Bundle())
-                }
+                onClickNext()
             }
         }
-        setUiControls()
+        setUiControls(false)
         playMusic()
     }
 
-    private fun setUiControls() {
+    private fun setUiControls(isSoftUpdate: Boolean) {
         val phaseName = when (phase) {
             Phase.ACCEPTABLE -> R.string.acceptable
             Phase.GREAT -> R.string.great
         }
         tvButtonName.text = getString(phaseName)
         wheel.setText(null)
-        wheel.setPosition(slaveBaselineVolume * (WheelView.MAX_PERCENTAGE / 100.0))
-        wheel.isEnabled = false
+        if (!isSoftUpdate) {
+            wheel.setPosition(slaveBaselineVolume * (WheelView.MAX_PERCENTAGE / 100.0))
+        }
+        wheel.isEnabled = isSoftUpdate
         tvUserId.text = user.id.toString()
         tvBlock.text = soundRun.runId
         tvRunName.text = getNameOfTheSet()
@@ -155,14 +155,14 @@ class SoundFragment : Fragment() {
         }
     }
 
-    private fun errorHandler(errorResult: Result){
-        when(errorResult){
-            Result.IO_ERROR-> showError("CONNECTION_PROBLEM")
-            Result.UNKNOWN_HOST->showError("UNKNOWN HOST")
+    private fun errorHandler(errorResult: Result) {
+        when (errorResult) {
+            Result.IO_ERROR -> showError("CONNECTION_PROBLEM")
+            Result.UNKNOWN_HOST -> showError("UNKNOWN HOST")
         }
     }
 
-    private fun showError(text:String){
+    private fun showError(text: String) {
         snackBar = Snackbar.make(activity.findViewById(R.id.coordinateLayout), text, Snackbar.LENGTH_INDEFINITE).also {
             it.show()
         }

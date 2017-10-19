@@ -17,8 +17,9 @@
         android:orientation="vertical">
 
         <TextView
+            android:layout_marginTop="@dimen/text_margin_top"
             android:id="@+id/tvTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textSize="@dimen/text_size_medium"
@@ -31,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/text_margin_top"
             android:textSize="@dimen/text_size_medium"
-            tools:text="@string/intro_desc1"/>
+            tools:text="@string/omg_html"/>
 
         <TextView
             android:id="@+id/tvDesc2"
@@ -40,7 +41,7 @@
             android:layout_marginTop="@dimen/text_margin_top"
             android:textSize="@dimen/text_size_medium"
             android:gravity="center"
-            tools:text="@string/intro_desc2"/>
+            tools:text="hello"/>
 
         <TextView
             android:id="@+id/tvDesc3"
@@ -49,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/text_margin_top"
             android:gravity="center"
-            tools:text="@string/intro_ready"/>
+            android:text="@string/intro_ready"/>
     </LinearLayout>
 
     <RelativeLayout
@@ -65,6 +66,15 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_centerInParent="true"
+            />
+
+        <TextView
+            android:id="@+id/tvDesc5"
+            android:textSize="@dimen/text_size_medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            tools:text="@string/any_questions"
             />
 
         <Button

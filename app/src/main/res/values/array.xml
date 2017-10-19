@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="users">
+        <item>1</item>
+        <item>6</item>
+        <item>11</item>
+        <item>16</item>
+        <item>21</item>
+        <item>26</item>
+        <item>31</item>
+        <item>36</item>
+        <item>2</item>
+        <item>7</item>
+        <item>12</item>
+        <item>17</item>
+        <item>22</item>
+        <item>27</item>
+        <item>32</item>
+        <item>37</item>
+        <item>3</item>
+        <item>8</item>
+        <item>13</item>
+        <item>18</item>
+        <item>23</item>
+        <item>28</item>
+        <item>33</item>
+        <item>38</item>
+        <item>4</item>
+        <item>9</item>
+        <item>14</item>
+        <item>19</item>
+        <item>24</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+    </string-array>
+</resources>
+
+    <!--1, 6, 11, 16, 21, 26, 31, 36,-->
+    <!--2, 7, 12, 17, 22, 27, 32, 37,-->
+    <!--3, 8, 13, 18, 23, 28, 33, 38,-->
+    <!--4, 9, 14, 19, 24, 29, 34, 39,-->
+    <!--5, 10, 15, 20, 25, 30, 35, 40-->

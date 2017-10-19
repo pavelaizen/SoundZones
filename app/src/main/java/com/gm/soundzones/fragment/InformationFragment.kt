@@ -1,6 +1,7 @@
 package com.gm.soundzones.fragment
 
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,25 +33,29 @@ class InformationFragment : BaseFragment() {
     private fun setupViews(args: Bundle?) {
         args?.apply {
             takeIf { it.containsKey(EXTRA_TITLE) }?.run {
-                tvTitle.setTextOrHide(getString(EXTRA_TITLE))
+                tvTitle.setTextOrHide(getCharSequence(EXTRA_TITLE))
             }
             takeIf { it.containsKey(EXTRA_DESC1) }?.run {
-                tvDesc1.setTextOrHide(getString(EXTRA_DESC1))
+                tvDesc1.setTextOrHide(getCharSequence(EXTRA_DESC1))
             }
             takeIf { it.containsKey(EXTRA_DESC2) }?.run {
-                tvDesc2.setTextOrHide(getString(EXTRA_DESC2))
+                tvDesc2.setTextOrHide(getCharSequence(EXTRA_DESC2))
+//                tvDesc2.gravity = getInt(EXTRA_GRAVITY)
             }
             takeIf { it.containsKey(EXTRA_DESC3) }?.run {
-                tvDesc3.setTextOrHide(getString(EXTRA_DESC3))
+                tvDesc3.setTextOrHide(getCharSequence(EXTRA_DESC3))
             }
             takeIf { it.containsKey(EXTRA_DESC3) }?.run {
-                tvDesc3.setTextOrHide(getString(EXTRA_DESC3))
+                tvDesc3.setTextOrHide(getCharSequence(EXTRA_DESC3))
             }
             takeIf { it.containsKey(EXTRA_DESC4) }?.run {
-                tvDesc4.setTextOrHide(getString(EXTRA_DESC4))
+                tvDesc4.setTextOrHide(getCharSequence(EXTRA_DESC4))
+            }
+            takeIf { it.containsKey(EXTRA_DESC5) }?.run {
+                tvDesc5.setTextOrHide(getCharSequence(EXTRA_DESC5))
             }
             takeIf { it.containsKey(EXTRA_BTN_NAME) }?.run {
-                btnNext.text = getString(EXTRA_BTN_NAME)
+                btnNext.text = getCharSequence(EXTRA_BTN_NAME)
             }
             takeIf { it.containsKey(EXTRA_BTN_VISIBILITY) }?.run {
                 btnNext.visibility = getInt(EXTRA_BTN_VISIBILITY)
@@ -64,18 +69,32 @@ class InformationFragment : BaseFragment() {
         val EXTRA_DESC2 = "extra_desc2"
         val EXTRA_DESC3 = "extra_desc3"
         val EXTRA_DESC4 = "extra_desc4"
+        val EXTRA_DESC5 = "extra_desc5"
+        val EXTRA_GRAVITY = "extra_gravity"
         val EXTRA_BTN_NAME = "extra_btn_name"
         val EXTRA_BTN_VISIBILITY = "extra_btn_visibility"
 
-        fun newInstance(title: String, desc1: String? = null, desc2: String? = null, desc3: String? = null, desc4: String? = null, btnName: String = "NEXT", btnVisibility: Int = View.VISIBLE): InformationFragment =
+        fun newInstance(title: String, desc1: CharSequence? = null, desc2: CharSequence? = null, desc3: CharSequence? = null, desc4: CharSequence? = null, desc5: CharSequence? = null, btnName: CharSequence = "NEXT", btnVisibility: Int = View.VISIBLE, infoGravity:Int = Gravity.CENTER): InformationFragment =
                 InformationFragment().also {
                     it.arguments = Bundle().apply {
                         putString(EXTRA_TITLE, title)
-                        putString(EXTRA_DESC1, desc1)
-                        putString(EXTRA_DESC2, desc2)
-                        putString(EXTRA_DESC3, desc3)
-                        putString(EXTRA_DESC4, desc4)
-                        putString(EXTRA_BTN_NAME, btnName)
+                        desc1?.let {
+                            putCharSequence(EXTRA_DESC1, it)
+                        }
+                        desc2?.let {
+                            putCharSequence(EXTRA_DESC2, it)
+                        }
+                        desc3?.let {
+                            putCharSequence(EXTRA_DESC3, it)
+                        }
+                        desc4?.let {
+                            putCharSequence(EXTRA_DESC4, it)
+                        }
+                        desc5?.let {
+                            putCharSequence(EXTRA_DESC5, it)
+                        }
+                        putInt(EXTRA_GRAVITY, infoGravity)
+                        putCharSequence(EXTRA_BTN_NAME, btnName)
                         putInt(EXTRA_BTN_VISIBILITY, btnVisibility)
                     }
                 }
