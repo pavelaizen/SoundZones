@@ -33,7 +33,7 @@
     <SwitchPreference
         android:key="pref_player_type"
         android:summary="Local or Car Player"
-        android:title="Player type"
+        android:title="Music Player Type"
         android:defaultValue="false"/>
     <ListPreference
         android:key="key_user_id"
