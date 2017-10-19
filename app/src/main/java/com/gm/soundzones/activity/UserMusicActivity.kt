@@ -9,13 +9,13 @@ import com.gm.soundzones.excel.DataProvider
 import com.gm.soundzones.fragment.InformationFragment
 import com.gm.soundzones.fragment.SoundFragment
 import com.gm.soundzones.listener.OnClickNextListener
-import com.gm.soundzones.manager.UserDataManager
 import com.gm.soundzones.loadFragment
+import com.gm.soundzones.manager.UserDataManager
 
 /**
  * Created by Pavel Aizendorf on 26/09/2017.
  */
-class UserMusicActivity : AppCompatActivity(), OnClickNextListener {
+class UserMusicActivity : BaseActivity(), OnClickNextListener {
 
 
     val user = DataProvider.getUser(UserDataManager.userID)
@@ -39,15 +39,24 @@ class UserMusicActivity : AppCompatActivity(), OnClickNextListener {
             val soundSetLastIndex = soundSet.soundSets.lastIndex
             if (setIndex < soundSetLastIndex) {
                 setIndex++
-                loadFragment {replace(R.id.container, SoundFragment())}
+                loadFragment { replace(R.id.container, SoundFragment()) }
             } else {
                 setIndex = 0
                 if (runIndex < soundRunLastIndex) {
                     runIndex++
-                    loadFragment {replace(R.id.container, InformationFragment.newInstance("You can have 5 minutes break"))}
+                    if (runIndex == 3) {
+                        loadFragment {
+                            replace(R.id.container, InformationFragment.newInstance(
+                                    "", getString(R.string.thank_you_for_p1_a), getString(R.string.you_can_have_break, 10),
+                                    getString(R.string.press_next_when_ready_p2)
+                            ))
+                        }
+                    } else {
+                        loadFragment { replace(R.id.container, InformationFragment.newInstance(getString(R.string.you_can_have_break, 5))) }
+                    }
                 } else {
                     UserDataManager.incrementUser()
-                    loadFragment {replace(R.id.container, InformationFragment.newInstance("Thank you for participating!", btnName = "Done"))}
+                    loadFragment { replace(R.id.container, InformationFragment.newInstance(getString(R.string.thank_you_for_participating), btnName = getString(R.string.done))) }
                     return
                 }
             }
@@ -57,8 +66,8 @@ class UserMusicActivity : AppCompatActivity(), OnClickNextListener {
                     startActivity(Intent(this, PreAssessmentActivity::class.java))
                 }
                 finish()
-            }else {
-                loadFragment {replace(R.id.container, SoundFragment())}
+            } else {
+                loadFragment { replace(R.id.container, SoundFragment()) }
             }
         }
 

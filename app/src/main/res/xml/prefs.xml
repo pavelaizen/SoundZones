@@ -39,4 +39,10 @@
         android:key="key_user_id"
         android:summary="-1"
         android:title="Selected user"/>
+    <ListPreference
+        android:key="key_wait_sec"
+        android:summary="15"
+        android:title="Accept/Great Delay in seconds"
+        android:entries="@array/wait_delay"
+        android:entryValues="@array/wait_delay"/>
 </PreferenceScreen>

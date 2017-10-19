@@ -9,7 +9,6 @@ import com.gm.soundzones.*
  */
 object UserDataManager {
     const val SP_NAME = "SoundZonesSharedPrefs"
-    private const val KEY_USER_ID = "key_user_id"
     private lateinit var sp: SharedPreferences
     val usersOrder = arrayOf(
             1, 6, 11, 16, 21, 26, 31, 36,
@@ -40,7 +39,8 @@ object UserDataManager {
 
     fun putString(key: String, value: String) = sp.edit().putString(key, value).apply()
 
-    fun getString(key: String) = sp.getString(key, null)
+    fun getString(key: String) = getString(key, null)
+    fun getString(key: String, defValue:String?) = sp.getString(key, defValue)
 
     fun getIpAddress() = sp.getString(KEY_IP_ADDRESS, "127.0.0.1")
     fun getMasterPort() = sp.getString(KEY_MASTER_PORT, "10000")

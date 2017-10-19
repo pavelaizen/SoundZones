@@ -31,7 +31,7 @@ import kotlin.coroutines.experimental.Continuation
 import kotlin.coroutines.experimental.intrinsics.COROUTINE_SUSPENDED
 import kotlin.coroutines.experimental.intrinsics.suspendCoroutineOrReturn
 
-class PreAssessmentActivity : AppCompatActivity(), OnClickNextListener {
+class PreAssessmentActivity : BaseActivity(), OnClickNextListener {
     private var continuation: Continuation<Boolean>? = null
 
     private var stepIndex = 0

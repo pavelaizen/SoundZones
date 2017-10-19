@@ -4,6 +4,8 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.preference.*
 import android.text.TextUtils
+import com.gm.soundzones.KEY_USER_ID
+import com.gm.soundzones.KEY_WAIT_DELAY
 import com.gm.soundzones.R
 import com.gm.soundzones.manager.UserDataManager
 
@@ -36,35 +38,43 @@ class SettingsFragment : PreferenceFragment(), SharedPreferences.OnSharedPrefere
         if (pref is EditTextPreference) {
             val value = sharedPreferences.getString(key, null)
             pref.summary = value
-        }else if (pref is SwitchPreference){
-            if (pref.isChecked){
+        } else if (pref is SwitchPreference) {
+            if (pref.isChecked) {
                 pref.summary = "Remote Player"
-            }else{
+            } else {
                 pref.summary = "Tablet Player"
             }
-        }else if (pref is ListPreference){
-            pref.summary = UserDataManager.userID.toString()
+        } else if (pref is ListPreference) {
+            pref.summary = sharedPreferences.getString(key, null)
         }
 
     }
 
     private fun updatePrefSummary(p: Preference) {
         if (p is EditTextPreference) {
-            if (!TextUtils.isEmpty(p.text)){
+            if (!TextUtils.isEmpty(p.text)) {
                 p.setSummary(p.text)
             }
-        }else if (p is SwitchPreference){
-            if (p.isChecked){
+        } else if (p is SwitchPreference) {
+            if (p.isChecked) {
                 p.summary = "Remote Player"
-            }else{
+            } else {
                 p.summary = "Tablet Player"
             }
-        }else if (p is ListPreference){
-            val usersOrder = UserDataManager.usersOrder.copyOf()
-            val userIds = usersOrder.map { it.toString() }.toTypedArray()
-            p.entries = userIds
-            p.entryValues = userIds
-            p.summary = UserDataManager.userID.toString()
+        } else if (p is ListPreference) {
+            when (p.key) {
+                KEY_USER_ID -> {
+                    val usersOrder = UserDataManager.usersOrder.copyOf()
+                    val userIds = usersOrder.map { it.toString() }.toTypedArray()
+                    p.entries = userIds
+                    p.entryValues = userIds
+                    p.summary = UserDataManager.userID.toString()
+                }
+                KEY_WAIT_DELAY -> {
+
+                }
+            }
+
         }
     }
 

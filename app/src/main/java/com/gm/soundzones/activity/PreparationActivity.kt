@@ -19,7 +19,7 @@ import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 
 //created by Pavel
-class PreparationActivity : AppCompatActivity(), OnClickNextListener {
+class PreparationActivity : BaseActivity(), OnClickNextListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

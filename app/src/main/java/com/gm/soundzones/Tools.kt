@@ -75,7 +75,6 @@ const val EXTRA_USER_ID = "extra_user_id"
 const val EXTRA_SOUND_SET = "extra_sound_set"
 const val EXTRA_VOLUME_LEVEL = "extra_volume_Level"
 const val SOUND_ZONES_DIR = "SoundZones"
-const val MUSIC_WAIT_TIME = 15L
 internal val APP_DIR = Environment.getExternalStorageDirectory().absolutePath + File.separator + SOUND_ZONES_DIR
 internal val NOISE_FILE = Environment.getExternalStorageDirectory().absolutePath + File.separator + SOUND_ZONES_DIR + File.separator + "noise.wav"
 const val SECONDARY_VOLUME_DIFF_PERCENT = 20 //20%
@@ -86,4 +85,7 @@ const val KEY_SECONDARY_PORT = "pref_secondary_music_port"
 const val KEY_VOLUME_PORT = "pref_volume_port"
 const val KEY_NOISE_PORT = "pref_noise_port"
 const val KEY_PLAYER_TYPE = "pref_player_type"
+const val KEY_WAIT_DELAY = "key_wait_sec"
+const val KEY_USER_ID = "key_user_id"
+
 

@@ -5,15 +5,13 @@ import android.support.design.widget.Snackbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.gm.soundzones.MUSIC_WAIT_TIME
-import com.gm.soundzones.NOISE_FILE
-import com.gm.soundzones.R
+import com.gm.soundzones.*
 import com.gm.soundzones.activity.UserMusicActivity
 import com.gm.soundzones.excel.DataProvider
-import com.gm.soundzones.log
 import com.gm.soundzones.manager.AudioPlayer
 import com.gm.soundzones.manager.MusicPlayerFactory
 import com.gm.soundzones.manager.Result
+import com.gm.soundzones.manager.UserDataManager
 import com.gm.soundzones.model.SoundRun
 import com.gm.soundzones.model.SoundSet
 import com.gm.soundzones.model.User
@@ -124,7 +122,7 @@ class SoundFragment : BaseFragment() {
             if (hasNoise) {
                 errorHandler(player.playNoise(NOISE_FILE))
             }
-            takeIf { phase == Phase.ACCEPTABLE }.run { delay(MUSIC_WAIT_TIME, TimeUnit.SECONDS) }
+            takeIf { phase == Phase.ACCEPTABLE }.run { delay(UserDataManager.getString(KEY_WAIT_DELAY, "15").toLong(), TimeUnit.SECONDS) }
             log("playing second track after delay")
             errorHandler(player.playTrack2(soundSet.secondaryTrack.fullPath))
             DataProvider.defaultVolumeLevels.get(soundSet.primaryTrack.dirName)?.let {

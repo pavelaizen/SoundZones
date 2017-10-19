@@ -31,8 +31,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/text_margin_top"
+            android:gravity="center"
             android:textSize="@dimen/text_size"
-            tools:text="@string/omg_html"/>
+            tools:text="@string/thank_you_for_p1_a"/>
 
         <TextView
             android:id="@+id/tvDesc2"
