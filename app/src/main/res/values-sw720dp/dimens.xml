@@ -10,5 +10,5 @@
     <dimen name="splash_text_size">200sp</dimen>
     <dimen name="bg_gradient_radius">10000dp</dimen>
     <dimen name="wheel_size">400dp</dimen>
-
+    <dimen name="round_button_size">40dp</dimen>
 </resources>

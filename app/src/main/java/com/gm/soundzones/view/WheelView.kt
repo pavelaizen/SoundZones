@@ -80,7 +80,7 @@ class WheelView @JvmOverloads constructor(
     }
 
     fun setPosition(percentage:Double){
-        log("fafa setPosition $percentage")
+        log("wheel Position $percentage")
         startAngle=0.0
         drawAngle=percentage/100* TAU
         currentProcentage=percentage

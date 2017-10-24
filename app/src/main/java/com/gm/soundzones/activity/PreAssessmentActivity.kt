@@ -123,7 +123,7 @@ class PreAssessmentActivity : BaseActivity(), OnClickNextListener {
                 prevSelectedVolume = volumeLevel
             } else {
                 val savedVolume = Math.round((prevSelectedVolume + volumeLevel) / 2.0).toInt()
-                log("fafa saved volume $savedVolume for $dirName")
+                log("PreAssessment volume $savedVolume for $dirName userID ${UserDataManager.userID} average between $prevSelectedVolume and $volumeLevel")
                 DataProvider.defaultVolumeLevels.put(dirName, savedVolume)
                 prevSelectedVolume = 0
             }
