@@ -22,6 +22,7 @@ class CommunicationWorker(val job:CommunicationJob){
             var outputStream:OutputStream?=null
             var inputStream:InputStream?=null
             try {
+                log("connecting to ${job.ipAddress} : ${job.port}")
                 clientSocket=Socket(job.ipAddress, job.port)
                 outputStream = clientSocket.getOutputStream()
                 inputStream = job.getInputStream()
@@ -35,8 +36,11 @@ class CommunicationWorker(val job:CommunicationJob){
             }catch (e: UnknownHostException) {
                 log("Worker Unknown Host IP ${job.ipAddress} port ${job.port}",e)
                 Result.UNKNOWN_HOST
-            }catch (e:IOException){
-                log("Worker IO Exception",e)
+            }catch (e:IOException) {
+                log("Worker IO Exception", e)
+                Result.IO_ERROR
+            }catch (e:Exception){
+                log("Worker Unknown Exception", e)
                 Result.IO_ERROR
             }finally {
                 inputStream?.close()

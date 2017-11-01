@@ -67,7 +67,7 @@ class SoundFragment : BaseFragment() {
         slaveBaselineVolume = AudioPlayer.getSlaveBaselineVolume(baselineVolume)
         log("playing ${soundSet.pair} $baselineVolume/$slaveBaselineVolume")
         wheel.setPosition(slaveBaselineVolume * (WheelView.MAX_PERCENTAGE / 100.0))
-        player = MusicPlayerFactory.getMusicPlayer(baselineVolume);
+        player = MusicPlayerFactory().getMusicPlayer(baselineVolume);
 
         wheel.setOnClickListener {
             snackBar?.isShown ?: run {

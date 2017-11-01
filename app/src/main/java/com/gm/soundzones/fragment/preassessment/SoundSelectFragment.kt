@@ -43,25 +43,9 @@ class SoundSelectFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        btnNext.visibility = View.INVISIBLE
+
         launch(UI){
-            wheel.setPosition(WheelView.MAX_PERCENTAGE / 3.0)
-            val slaveVolume = AudioPlayer.getSlaveBaselineVolume(33)
-            audioPlayer = MusicPlayerFactory.getMusicPlayer(slaveVolume)
-            val result = audioPlayer.playTrack2(soundSet.secondaryTrack.fullPath)
-            errorHandler(result)
-            if (soundSet.hasNoise) {
-                errorHandler(audioPlayer.playNoise(NOISE_FILE))
-            }
-            wheel.onChange = {
-                launch(UI) {
-                    wheel.setText(R.string.set)
-                    selectedVolumeLevel = it.div(WheelView.MAX_PERCENTAGE / 100).toInt()
-                    errorHandler(audioPlayer.setVolumeSecondary(selectedVolumeLevel))
-                    btnNext.visibility = View.INVISIBLE
-                }
-            }
-
-
             wheel.setOnClickListener {
                 snackBar?.isShown ?: run{
                     btnNext.visibility = View.VISIBLE
@@ -69,13 +53,29 @@ class SoundSelectFragment : BaseFragment() {
                 }
 
             }
-            btnNext.visibility = View.INVISIBLE
-            btnNext.setOnClickListener {
-                audioPlayer.stop()
-                onVolumeLevelSelected(selectedVolumeLevel)
+            wheel.onChange = {
+                launch(UI) {
+                    wheel.setText(R.string.set)
+                    btnNext.visibility = View.INVISIBLE
+                    selectedVolumeLevel = it.div(WheelView.MAX_PERCENTAGE / 100).toInt()
+                    errorHandler(audioPlayer.setVolumeSecondary(selectedVolumeLevel))
+                }
             }
-        }
+            wheel.setPosition(WheelView.MAX_PERCENTAGE / 3.0)
+            val slaveVolume = AudioPlayer.getSlaveBaselineVolume(33)
+            audioPlayer = MusicPlayerFactory().getMusicPlayer(slaveVolume)
+            val result = audioPlayer.playTrack2(soundSet.secondaryTrack.fullPath)
+            errorHandler(result)
+            if (soundSet.hasNoise) {
+                errorHandler(audioPlayer.playNoise(NOISE_FILE))
+            }
 
+
+        }
+        btnNext.setOnClickListener {
+            audioPlayer.stop()
+            onVolumeLevelSelected(selectedVolumeLevel)
+        }
 
     }
 
