@@ -60,6 +60,7 @@ class CommunicationWorker(val job: CommunicationJob) {
 
 
     fun stop() {
+        log("stopping job $job")
         isStopped.set(true)
     }
 
