@@ -17,6 +17,7 @@ import com.gm.soundzones.model.SoundSet
 import com.gm.soundzones.view.WheelView
 import kotlinx.android.synthetic.main.activity_toolbar_container.*
 import kotlinx.android.synthetic.main.preset_layout.*
+import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 
@@ -28,6 +29,7 @@ class SoundSelectFragment : BaseFragment() {
     private lateinit var audioPlayer: AudioPlayer
     private var selectedVolumeLevel = 0
     private var snackBar:Snackbar?=null
+    private val jobs:MutableList<Job> = mutableListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         soundSet = (activity as PreAssessmentActivity).getCurrentSoundSet
@@ -44,8 +46,7 @@ class SoundSelectFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         btnNext.visibility = View.INVISIBLE
-
-        launch(UI){
+        val job = launch(UI){
             wheel.setOnClickListener {
                 snackBar?.isShown ?: run{
                     btnNext.visibility = View.VISIBLE
@@ -54,12 +55,12 @@ class SoundSelectFragment : BaseFragment() {
 
             }
             wheel.onChange = {
-                launch(UI) {
+                jobs.add(launch(UI) {
                     wheel.setText(R.string.set)
                     btnNext.visibility = View.INVISIBLE
                     selectedVolumeLevel = it.div(WheelView.MAX_PERCENTAGE / 100).toInt()
                     errorHandler(audioPlayer.setVolumeSecondary(selectedVolumeLevel))
-                }
+                })
             }
             wheel.setPosition(WheelView.MAX_PERCENTAGE / 3.0)
             val slaveVolume = AudioPlayer.getSlaveBaselineVolume(33)
@@ -76,6 +77,7 @@ class SoundSelectFragment : BaseFragment() {
             audioPlayer.stop()
             onVolumeLevelSelected(selectedVolumeLevel)
         }
+        jobs.add(job)
 
     }
 
@@ -97,6 +99,9 @@ class SoundSelectFragment : BaseFragment() {
 
     override fun onDestroy() {
         audioPlayer.stop()
+        for (job in jobs) {
+            job.cancel()
+        }
         super.onDestroy()
     }
 
