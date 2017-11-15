@@ -5,6 +5,9 @@ buildscript {
     ext.coroutines_version = '0.19.3'
     repositories {
         jcenter()
+        maven {
+            url 'https://maven.google.com'
+        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.0'
