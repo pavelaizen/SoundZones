@@ -58,16 +58,15 @@ class SoundSelectFragment : BaseFragment() {
                     wheel.setText(R.string.set)
                     btnNext.visibility = View.INVISIBLE
                     selectedVolumeLevel = it.div(WheelView.MAX_PERCENTAGE / 100).toInt()
-                    errorHandler(audioPlayer.setVolumeSecondary(selectedVolumeLevel))
+                    errorHandler{audioPlayer.setVolumeSecondary(selectedVolumeLevel)}
                 }
             }
             wheel.setPosition(WheelView.MAX_PERCENTAGE / 3.0)
             val slaveVolume = AudioPlayer.getSlaveBaselineVolume(33)
             audioPlayer = MusicPlayerFactory().getMusicPlayer(slaveVolume)
-            val result = audioPlayer.playTrack2(soundSet.secondaryTrack.fullPath)
-            errorHandler(result)
+            errorHandler{audioPlayer.playTrack2(soundSet.secondaryTrack.fullPath)}
             if (soundSet.hasNoise) {
-                errorHandler(audioPlayer.playNoise(NOISE_FILE))
+                errorHandler{audioPlayer.playNoise(NOISE_FILE)}
             }
 
 
@@ -84,10 +83,12 @@ class SoundSelectFragment : BaseFragment() {
         bundle.putInt(EXTRA_VOLUME_LEVEL, volume)
         onClickNext(bundle)
     }
-    private fun errorHandler(errorResult: Result){
-        when(errorResult){
-            Result.IO_ERROR-> showError("CONNECTION_PROBLEM")
-            Result.UNKNOWN_HOST->showError("UNKNOWN HOST")
+    private fun errorHandler(result: suspend ()->Result) {
+        launch(UI) {
+            when (result()) {
+                Result.IO_ERROR -> showError("CONNECTION_PROBLEM")
+                Result.UNKNOWN_HOST -> showError("UNKNOWN HOST")
+            }
         }
     }
 

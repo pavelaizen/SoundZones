@@ -118,15 +118,15 @@ class SoundFragment : BaseFragment() {
     private fun playMusic() {
         job = launch(UI) {
             val hasNoise = soundSet.hasNoise
-            errorHandler(player.playTrack1(soundSet.primaryTrack.fullPath))
+            errorHandler{player.playTrack1(soundSet.primaryTrack.fullPath)}
             if (hasNoise) {
-                errorHandler(player.playNoise(NOISE_FILE))
+                errorHandler{player.playNoise(NOISE_FILE)}
             }
             takeIf { phase == Phase.ACCEPTABLE }.run { delay(UserDataManager.getString(KEY_WAIT_DELAY, "15").toLong(), TimeUnit.SECONDS) }
             log("playing second track after delay")
-            errorHandler(player.playTrack2(soundSet.secondaryTrack.fullPath))
+            errorHandler{player.playTrack2(soundSet.secondaryTrack.fullPath)}
             DataProvider.defaultVolumeLevels.get(soundSet.primaryTrack.dirName)?.let {
-                errorHandler(player.setVolumeMaster(it))
+                errorHandler{player.setVolumeMaster(it)}
             }
             wheel.isEnabled = true
             wheel.onChange = {
@@ -137,7 +137,7 @@ class SoundFragment : BaseFragment() {
                         Phase.ACCEPTABLE -> R.string.acceptable
                         Phase.GREAT -> R.string.great
                     })
-                    errorHandler(player.setVolumeSecondary(it.div(WheelView.MAX_PERCENTAGE / 100).toInt()))
+                    errorHandler{player.setVolumeSecondary(it.div(WheelView.MAX_PERCENTAGE / 100).toInt())}
                 }
             }
 
@@ -153,10 +153,12 @@ class SoundFragment : BaseFragment() {
         }
     }
 
-    private fun errorHandler(errorResult: Result) {
-        when (errorResult) {
-            Result.IO_ERROR -> showError("CONNECTION_PROBLEM")
-            Result.UNKNOWN_HOST -> showError("UNKNOWN HOST")
+    private fun errorHandler(result: suspend ()->Result) {
+        launch(UI) {
+            when (result()) {
+                Result.IO_ERROR -> showError("CONNECTION_PROBLEM")
+                Result.UNKNOWN_HOST -> showError("UNKNOWN HOST")
+            }
         }
     }
 
