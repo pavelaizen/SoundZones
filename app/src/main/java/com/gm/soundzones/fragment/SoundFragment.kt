@@ -135,8 +135,14 @@ class SoundFragment : BaseFragment() {
             takeIf { phase == Phase.ACCEPTABLE }.run { delay(UserDataManager.getString(KEY_WAIT_DELAY, "15").toLong(), TimeUnit.SECONDS) }
             log("playing second track after delay")
             log("SF playing second track")
+            DataProvider.defaultVolumeLevels.get(soundSet.secondaryTrack.dirName)?.let {
+                log("Setting slave volume to $it")
+                errorHandler{player.setVolumeSecondary(it)}
+            }
             errorHandler{player.playTrack2(soundSet.secondaryTrack.fullPath)}
+
             DataProvider.defaultVolumeLevels.get(soundSet.primaryTrack.dirName)?.let {
+                log("Setting master volume to $it")
                 errorHandler{player.setVolumeMaster(it)}
             }
             log("SF wheel enabled after delay")
