@@ -1,5 +1,6 @@
 package com.gm.soundzones.fragment
 
+import android.os.Build
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.view.LayoutInflater
@@ -22,6 +23,11 @@ import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
 import java.util.concurrent.TimeUnit
+import android.content.pm.PackageManager
+import android.R.attr.versionName
+import android.content.pm.PackageInfo
+
+
 
 /**
  * Created by Pavel Aizendorf on 19/09/2017.
@@ -63,6 +69,8 @@ class SoundFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+
         val baselineVolume = DataProvider.defaultVolumeLevels.getOrElse(soundSet.primaryTrack.dirName, { 0 })
         slaveBaselineVolume = AudioPlayer.getSlaveBaselineVolume(baselineVolume)
         log("playing ${soundSet.pair} $baselineVolume/$slaveBaselineVolume")
@@ -108,6 +116,7 @@ class SoundFragment : BaseFragment() {
         if (!isSoftUpdate) {
             wheel.setPosition(slaveBaselineVolume * (WheelView.MAX_PERCENTAGE / 100.0))
         }
+        log("wheel enabled = $isSoftUpdate")
         wheel.isEnabled = isSoftUpdate
         tvUserId.text = user.id.toString()
         tvBlock.text = soundRun.runId
@@ -118,22 +127,25 @@ class SoundFragment : BaseFragment() {
     private fun playMusic() {
         job = launch(UI) {
             val hasNoise = soundSet.hasNoise
+            log("SF playing first track")
             errorHandler{player.playTrack1(soundSet.primaryTrack.fullPath)}
             if (hasNoise) {
                 errorHandler{player.playNoise(NOISE_FILE)}
             }
             takeIf { phase == Phase.ACCEPTABLE }.run { delay(UserDataManager.getString(KEY_WAIT_DELAY, "15").toLong(), TimeUnit.SECONDS) }
             log("playing second track after delay")
-            errorHandler{player.setVolumeSecondary(slaveBaselineVolume)}
+            log("SF playing second track")
             errorHandler{player.playTrack2(soundSet.secondaryTrack.fullPath)}
             DataProvider.defaultVolumeLevels.get(soundSet.primaryTrack.dirName)?.let {
                 errorHandler{player.setVolumeMaster(it)}
             }
+            log("SF wheel enabled after delay")
             wheel.isEnabled = true
             wheel.onChange = {
                 launch(UI) {
                     selectedVolumeLevel = it.div(WheelView.MAX_PERCENTAGE / 100).toInt()
                     btnNext.visibility = View.INVISIBLE
+                    log("SF btnNext invisible")
                     wheel.setText(when (phase) {
                         Phase.ACCEPTABLE -> R.string.acceptable
                         Phase.GREAT -> R.string.great
