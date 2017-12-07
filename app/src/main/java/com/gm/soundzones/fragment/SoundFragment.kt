@@ -124,6 +124,7 @@ class SoundFragment : BaseFragment() {
             }
             takeIf { phase == Phase.ACCEPTABLE }.run { delay(UserDataManager.getString(KEY_WAIT_DELAY, "15").toLong(), TimeUnit.SECONDS) }
             log("playing second track after delay")
+            errorHandler{player.setVolumeSecondary(slaveBaselineVolume)}
             errorHandler{player.playTrack2(soundSet.secondaryTrack.fullPath)}
             DataProvider.defaultVolumeLevels.get(soundSet.primaryTrack.dirName)?.let {
                 errorHandler{player.setVolumeMaster(it)}
