@@ -39,12 +39,12 @@ class PreAssessmentActivity : BaseActivity(), OnClickNextListener {
     private val lastStep = 6
     private var prevSelectedVolume = 0
     private val soundCheckUser: User by lazy {
-        val mi = SoundSet("MI_Pre_0", SoundTrack("40-MI"), SoundTrack("40-MI"))
-        val miNoise = SoundSet("MI_Pre_40", SoundTrack("40-MI"), SoundTrack("40-MI"))
-        val ml = SoundSet("ML_Pre_0", SoundTrack("40-ML"), SoundTrack("40-ML"))
-        val mlNoise = SoundSet("ML_Pre_40", SoundTrack("40-ML"), SoundTrack("40-ML"))
-        val tr = SoundSet("TR_Pre_0", SoundTrack("40-TR"), SoundTrack("40-TR"))
-        val trNoise = SoundSet("TR_Pre_40", SoundTrack("40-TR"), SoundTrack("40-TR"))
+        val mi = SoundSet("MI_Pre_0", SoundTrack("40-MI"), SoundTrack("39-MI"))
+        val miNoise = SoundSet("MI_Pre_40", SoundTrack("40-MI"), SoundTrack("39-MI"))
+        val ml = SoundSet("ML_Pre_0", SoundTrack("40-ML"), SoundTrack("39-ML"))
+        val mlNoise = SoundSet("ML_Pre_40", SoundTrack("40-ML"), SoundTrack("39-ML"))
+        val tr = SoundSet("TR_Pre_0", SoundTrack("40-TR"), SoundTrack("39-TR"))
+        val trNoise = SoundSet("TR_Pre_40", SoundTrack("40-TR"), SoundTrack("39-TR"))
         val run1 = SoundRun("1", arrayOf(mi, miNoise))
         val run2 = SoundRun("2", arrayOf(ml, mlNoise))
         val run3 = SoundRun("3", arrayOf(tr, trNoise))
