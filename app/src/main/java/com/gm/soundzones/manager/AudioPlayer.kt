@@ -2,6 +2,7 @@ package com.gm.soundzones.manager
 
 import com.gm.soundzones.SECONDARY_VOLUME_DIFF_PERCENT
 
+
 /**
  * Created by Pavel Aizendorf on 25/09/2017.
  */
@@ -17,6 +18,6 @@ abstract class AudioPlayer(val baselineVolume: Int) {
     fun getMasterBaselineVolume() = baselineVolume
 
     companion object {
-        fun getSlaveBaselineVolume(baselineVolume: Int) = (baselineVolume + 100) * baselineVolume / 100
+        fun getSlaveBaselineVolume(baselineVolume: Int) = baselineVolume * (100 + SECONDARY_VOLUME_DIFF_PERCENT) / 100
     }
 }

@@ -63,7 +63,7 @@ class SoundSelectFragment : BaseFragment() {
                 })
             }
             wheel.setPosition(WheelView.MAX_PERCENTAGE / 3.0)
-            val slaveVolume = AudioPlayer.getSlaveBaselineVolume(33)
+            val slaveVolume = 33
             audioPlayer = MusicPlayerFactory().getMusicPlayer(slaveVolume)
             errorHandler{audioPlayer.playTrack2(soundSet.secondaryTrack.fullPath)}
             if (soundSet.hasNoise) {
