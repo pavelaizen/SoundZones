@@ -69,8 +69,6 @@ class SoundFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-
         val baselineVolume = DataProvider.defaultVolumeLevels.getOrElse(soundSet.primaryTrack.dirName, { 0 })
         slaveBaselineVolume = AudioPlayer.getSlaveBaselineVolume(baselineVolume)
         log("playing ${soundSet.pair} $baselineVolume/$slaveBaselineVolume")
