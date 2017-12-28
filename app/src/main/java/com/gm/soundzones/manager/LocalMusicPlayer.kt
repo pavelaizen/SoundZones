@@ -71,7 +71,7 @@ class LocalMusicPlayer(baselineVolume: Int) : AudioPlayer(baselineVolume) {
 
     private suspend fun initAndPlay(player: MediaPlayer, filePath: String, volume:Float) =
             async(CommonPool) {
-                log("playing ${filePath.substringAfterLast("/")} with volume ${volume*100}")
+                log("playing ${filePath} with volume ${volume*100}")
                 player.setDataSource(filePath)
                 player.setVolume(volume, volume)
                 player.setOnPreparedListener {

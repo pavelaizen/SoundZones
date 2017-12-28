@@ -22,6 +22,7 @@ import java.util.*
  * Created by titan on 16-Sep-17.
  */
 object DataProvider {
+    private const val NOISE_SUFFIX = "_noise"
     private const val EXCEL_NAME = "tablet_input.xlsx"
     private lateinit var sheet: Sheet
     private lateinit var formulaEvaluator: FormulaEvaluator
@@ -32,7 +33,13 @@ object DataProvider {
     private var workbook: Workbook? = null
     private val excelFile = File(Environment.getExternalStorageDirectory(), "output.xlsx")
 
-    val defaultVolumeLevels = HashMap<String, Int>()
+    private val defaultVolumeLevels = HashMap<String, Int>()
+    fun setDefaultVolume(dirName: String, hasNoise: Boolean, volume: Int) =
+            defaultVolumeLevels.put(if (hasNoise) dirName.plus(NOISE_SUFFIX) else dirName, volume)
+
+    fun getDefaultVolume(dirName: String, hasNoise: Boolean): Int? =
+            defaultVolumeLevels[if (hasNoise) dirName.plus(NOISE_SUFFIX) else dirName]
+
 
     fun setup(context: Context) {
         (excelFile.takeIf { excelFile.exists() }?.inputStream() ?: context.assets.open(EXCEL_NAME)).also { stream ->

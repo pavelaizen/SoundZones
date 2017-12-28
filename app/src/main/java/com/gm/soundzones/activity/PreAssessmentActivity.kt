@@ -5,12 +5,8 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
-import android.text.Html
-import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -19,7 +15,6 @@ import com.gm.soundzones.excel.DataProvider
 import com.gm.soundzones.fragment.InformationFragment
 import com.gm.soundzones.fragment.preassessment.SoundSelectFragment
 import com.gm.soundzones.listener.OnClickNextListener
-import com.gm.soundzones.loader.HtmlTagHandler
 import com.gm.soundzones.manager.UserDataManager
 import com.gm.soundzones.model.SoundRun
 import com.gm.soundzones.model.SoundSet
@@ -119,12 +114,13 @@ class PreAssessmentActivity : BaseActivity(), OnClickNextListener {
             val volumeLevel = args.getInt(EXTRA_VOLUME_LEVEL)
             val currentSoundSet = getCurrentSoundSet
             val dirName = currentSoundSet.secondaryTrack.dirName
+
             if (stepIndex % 2 == 0) {
                 prevSelectedVolume = volumeLevel
             } else {
                 val savedVolume = Math.round((prevSelectedVolume + volumeLevel) / 2.0).toInt()
-                log("PreAssessment volume $savedVolume for $dirName userID ${UserDataManager.userID} average between $prevSelectedVolume and $volumeLevel")
-                DataProvider.defaultVolumeLevels.put(dirName, savedVolume)
+                log("PreAssessment volume $savedVolume for $dirName userID ${UserDataManager.userID} average between $prevSelectedVolume and $volumeLevel and noise = " + currentSoundSet.hasNoise)
+                DataProvider.setDefaultVolume(dirName, currentSoundSet.hasNoise, savedVolume)
                 prevSelectedVolume = 0
             }
             if (stepIndex < lastStep) {

@@ -1,14 +1,16 @@
 package com.gm.soundzones.fragment
 
-import android.os.Build
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.gm.soundzones.*
+import com.gm.soundzones.KEY_WAIT_DELAY
+import com.gm.soundzones.NOISE_FILE
+import com.gm.soundzones.R
 import com.gm.soundzones.activity.UserMusicActivity
 import com.gm.soundzones.excel.DataProvider
+import com.gm.soundzones.log
 import com.gm.soundzones.manager.AudioPlayer
 import com.gm.soundzones.manager.MusicPlayerFactory
 import com.gm.soundzones.manager.Result
@@ -23,10 +25,6 @@ import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
 import java.util.concurrent.TimeUnit
-import android.content.pm.PackageManager
-import android.R.attr.versionName
-import android.content.pm.PackageInfo
-
 
 
 /**
@@ -69,7 +67,7 @@ class SoundFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val baselineVolume = DataProvider.defaultVolumeLevels.getOrElse(soundSet.primaryTrack.dirName, { 0 })
+        val baselineVolume = DataProvider.getDefaultVolume(soundSet.primaryTrack.dirName, soundSet.hasNoise) ?: 0
         slaveBaselineVolume = AudioPlayer.getSlaveBaselineVolume(baselineVolume)
         log("playing ${soundSet.pair} $baselineVolume/$slaveBaselineVolume")
         wheel.setPosition(slaveBaselineVolume * (WheelView.MAX_PERCENTAGE / 100.0))
@@ -133,13 +131,13 @@ class SoundFragment : BaseFragment() {
             takeIf { phase == Phase.ACCEPTABLE }.run { delay(UserDataManager.getString(KEY_WAIT_DELAY, "15").toLong(), TimeUnit.SECONDS) }
             log("playing second track after delay")
             log("SF playing second track")
-            DataProvider.defaultVolumeLevels.get(soundSet.secondaryTrack.dirName)?.let {
+            DataProvider.getDefaultVolume(soundSet.secondaryTrack.dirName, soundSet.hasNoise)?.let {
                 log("Setting slave volume to $it")
                 errorHandler{player.setVolumeSecondary(it)}
             }
             errorHandler{player.playTrack2(soundSet.secondaryTrack.fullPath)}
 
-            DataProvider.defaultVolumeLevels.get(soundSet.primaryTrack.dirName)?.let {
+            DataProvider.getDefaultVolume(soundSet.primaryTrack.dirName, soundSet.hasNoise)?.let {
                 log("Setting master volume to $it")
                 errorHandler{player.setVolumeMaster(it)}
             }
