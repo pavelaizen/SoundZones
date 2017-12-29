@@ -31,7 +31,7 @@ class PreAssessmentActivity : BaseActivity(), OnClickNextListener {
     private var continuation: Continuation<Boolean>? = null
 
     private var stepIndex = 0
-    private val lastStep = 6
+    private val lastStep = 12
     private var prevSelectedVolume = 0
     private val soundCheckUser: User by lazy {
         val mi = SoundSet("MI_Pre_0", SoundTrack("40-MI"), SoundTrack("39-MI"))
@@ -40,12 +40,43 @@ class PreAssessmentActivity : BaseActivity(), OnClickNextListener {
         val mlNoise = SoundSet("ML_Pre_40", SoundTrack("40-ML"), SoundTrack("39-ML"))
         val tr = SoundSet("TR_Pre_0", SoundTrack("40-TR"), SoundTrack("39-TR"))
         val trNoise = SoundSet("TR_Pre_40", SoundTrack("40-TR"), SoundTrack("39-TR"))
-        val run1 = SoundRun("1", arrayOf(mi, miNoise))
-        val run2 = SoundRun("2", arrayOf(ml, mlNoise))
-        val run3 = SoundRun("3", arrayOf(tr, trNoise))
-        User(0, arrayOf(run1, run2, run3))
+        val run1 = SoundRun("1", arrayOf(mi))
+        val run2 = SoundRun("2", arrayOf(miNoise))
+        val run3 = SoundRun("3", arrayOf(ml))
+        val run4 = SoundRun("4", arrayOf(mlNoise))
+        val run5 = SoundRun("5", arrayOf(tr))
+        val run6 = SoundRun("6", arrayOf(trNoise))
+        User(0, arrayOf(run1, run2, run3, run4, run5, run6))
     }
 
+    fun getTrack(): SoundTrack {
+        val track = stepIndex % 2
+        val soundRun = soundCheckUser.soundRuns[stepIndex / 2]
+        val (_, primaryTrack, secondaryTrack) = soundRun.soundSets[0]
+        return if (track == 0) {
+            primaryTrack
+        } else {
+            secondaryTrack;
+        }
+    }
+
+    private fun saveAndPlayNext(args: Bundle) {
+        val volumeLevel = args.getInt(EXTRA_VOLUME_LEVEL)
+        val currentSoundSet = getCurrentSoundSet
+        val dirName = currentSoundSet.secondaryTrack.dirName
+
+        if (stepIndex % 2 == 0) {
+            prevSelectedVolume = volumeLevel
+        } else {
+            val savedVolume = Math.round((prevSelectedVolume + volumeLevel) / 2.0).toInt()
+            log("PreAssessment volume $savedVolume for $dirName userID ${UserDataManager.userID} average between $prevSelectedVolume and $volumeLevel and noise = " + currentSoundSet.hasNoise)
+            DataProvider.setDefaultVolume(dirName, currentSoundSet.hasNoise, savedVolume)
+            prevSelectedVolume = 0
+        }
+        if (stepIndex < lastStep) {
+            stepIndex++
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,7 +110,7 @@ class PreAssessmentActivity : BaseActivity(), OnClickNextListener {
     override fun onResumeFragments() {
         super.onResumeFragments()
         val frag = supportFragmentManager.findFragmentById(R.id.container)
-        if (frag is InformationFragment){
+        if (frag is InformationFragment) {
             frag.update(Bundle().apply {
                 putString(InformationFragment.EXTRA_DESC4, UserDataManager.userID.toString())
             })
@@ -102,8 +133,7 @@ class PreAssessmentActivity : BaseActivity(), OnClickNextListener {
     val getCurrentSoundSet: SoundSet
         get() {
             val runNumber = stepIndex / 2
-            val setNumber = stepIndex % 2
-            return soundCheckUser.soundRuns[runNumber].soundSets[setNumber]
+            return soundCheckUser.soundRuns[runNumber].soundSets[0]
         }
 
     override fun onClickNext(fragment: Fragment, args: Bundle) {
@@ -111,21 +141,7 @@ class PreAssessmentActivity : BaseActivity(), OnClickNextListener {
             supportActionBar?.hide()
         }
         if (fragment is SoundSelectFragment) {
-            val volumeLevel = args.getInt(EXTRA_VOLUME_LEVEL)
-            val currentSoundSet = getCurrentSoundSet
-            val dirName = currentSoundSet.secondaryTrack.dirName
-
-            if (stepIndex % 2 == 0) {
-                prevSelectedVolume = volumeLevel
-            } else {
-                val savedVolume = Math.round((prevSelectedVolume + volumeLevel) / 2.0).toInt()
-                log("PreAssessment volume $savedVolume for $dirName userID ${UserDataManager.userID} average between $prevSelectedVolume and $volumeLevel and noise = " + currentSoundSet.hasNoise)
-                DataProvider.setDefaultVolume(dirName, currentSoundSet.hasNoise, savedVolume)
-                prevSelectedVolume = 0
-            }
-            if (stepIndex < lastStep) {
-                stepIndex++
-            }
+            saveAndPlayNext(args)
         }
         if (stepIndex < lastStep) {
             val soundSelectFragment = SoundSelectFragment()

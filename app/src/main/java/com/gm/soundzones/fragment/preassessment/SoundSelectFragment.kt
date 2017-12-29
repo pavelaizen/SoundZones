@@ -24,6 +24,8 @@ import kotlinx.coroutines.experimental.launch
 /**
  * Created by Pavel Aizendorf on 24/09/2017.
  */
+const val TRACK_NUMBER = "track_number"
+
 class SoundSelectFragment : BaseFragment() {
     private lateinit var soundSet: SoundSet
     private lateinit var audioPlayer: AudioPlayer
@@ -33,6 +35,7 @@ class SoundSelectFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         soundSet = (activity as PreAssessmentActivity).getCurrentSoundSet
+
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?)
@@ -65,7 +68,7 @@ class SoundSelectFragment : BaseFragment() {
             wheel.setPosition(WheelView.MAX_PERCENTAGE / 3.0)
             val slaveVolume = 33
             audioPlayer = MusicPlayerFactory().getMusicPlayer(slaveVolume)
-            errorHandler{audioPlayer.playTrack2(soundSet.secondaryTrack.fullPath)}
+            errorHandler{audioPlayer.playTrack2((activity as PreAssessmentActivity).getTrack().fullPath)}
             if (soundSet.hasNoise) {
                 errorHandler{audioPlayer.playNoise(NOISE_FILE)}
             }
