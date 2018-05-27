@@ -4,9 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.gm.soundzones.*
 
-/**
- * Created by Pavel Aizendorf on 26/09/2017.
- */
+
 object UserDataManager {
     const val SP_NAME = "SoundZonesSharedPrefs"
     private lateinit var sp: SharedPreferences

@@ -18,9 +18,7 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
-/**
- * Created by titan on 16-Sep-17.
- */
+
 object DataProvider {
     private const val NOISE_SUFFIX = "_noise"
     private const val EXCEL_NAME = "tablet_input.xlsx"
@@ -31,7 +29,7 @@ object DataProvider {
     private val SOUND_SET_ROWS = 5
     private val CELLS_IN_RUN = SOUND_SET_ROWS * SETS_IN_RUN + 1 // +1 for run# column
     private var workbook: Workbook? = null
-    private val excelFile = File(Environment.getExternalStorageDirectory(), "output.xlsx")
+    val excelFile = File(Environment.getExternalStorageDirectory(), "output.xlsx")
 
     private val defaultVolumeLevels = HashMap<String, Int>()
     fun setDefaultVolume(dirName: String, hasNoise: Boolean, volume: Int) =
@@ -85,7 +83,6 @@ object DataProvider {
             }
         }
     }
-
 
     private val lock = Mutex()
     private fun saveToFile() {

@@ -4,9 +4,11 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.preference.*
 import android.text.TextUtils
+import android.widget.Toast
 import com.gm.soundzones.KEY_USER_ID
 import com.gm.soundzones.KEY_WAIT_DELAY
 import com.gm.soundzones.R
+import com.gm.soundzones.excel.DataProvider
 import com.gm.soundzones.manager.UserDataManager
 
 
@@ -19,6 +21,15 @@ class SettingsFragment : PreferenceFragment(), SharedPreferences.OnSharedPrefere
         preferenceManager.sharedPreferencesName = UserDataManager.SP_NAME
         addPreferencesFromResource(R.xml.prefs)
         initSummary(preferenceScreen)
+        findPreference("delete_output").setOnPreferenceClickListener {
+            val deleted = DataProvider.excelFile.delete()
+            if (deleted){
+                Toast.makeText(it.context, "OUTPUT file deleted successfully", Toast.LENGTH_LONG).show()
+            }else{
+                Toast.makeText(it.context, "Failed to delete OUTPUT file", Toast.LENGTH_LONG).show()
+            }
+            true
+        }
     }
 
     override fun onPause() {

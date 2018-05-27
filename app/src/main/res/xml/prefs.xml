@@ -47,4 +47,7 @@
         android:key="key_wait_sec"
         android:summary="15"
         android:title="Accept/Great Delay in seconds"/>
+    <Preference android:title="Delete output.xlsx"
+        android:key="delete_output"
+        android:summary="Changing original excel file requires to delete the output file"/>
 </PreferenceScreen>
